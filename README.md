@@ -25,3 +25,8 @@ import (
 ```
 
 ## Thanks
+
+`GoEasyUtils` had been being developed with GoLand under the free JetBrains Open Source license, I would like to express my
+thanks here.
+
+<a href="https://www.jetbrains.com"><img src="https://raw.githubusercontent.com/panjf2000/illustrations/master/jetbrains/jetbrains-variant-4.png" height="100" alt="JetBrains"/></a>
