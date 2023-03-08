@@ -1,19 +1,8 @@
-// 提供了一个名为Chunk的函数，用于将一个切片按指定大小分成多个切片。
+// Chunk
+// 用于将一个切片按指定大小分成多个切片
 //
-// 函数签名如下：
-//
-// 	func Chunk(slice []interface{}, size int) [][]interface{}
-//
-// 参数slice是要分割的切片，参数size是每个小切片的大小。
-//
-// 返回值是一个包含多个小切片的二维切片。如果切片长度不是size的整数倍，
-// 则最后一个小切片可能会比指定的大小小。
-//
-// 示例：
-//
-// 	arr := []interface{}{1, 2, 3, 4, 5, 6, 7, 8}
-// 	chunks := Chunk(arr, 3)
-// 	fmt.Println(chunks) // [[1 2 3] [4 5 6] [7 8]]
+// Rand
+// 用于从给定的切片中返回指定数量的随机键
 //
 package sliceUtil
 
