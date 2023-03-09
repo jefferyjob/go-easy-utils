@@ -3,6 +3,7 @@ package strUtil
 import (
 	"log"
 	"strconv"
+	"unsafe"
 )
 
 func StrToInt(str string) int {
@@ -48,4 +49,9 @@ func StrToInt64(str string) int64 {
 		return 0
 	}
 	return i
+}
+
+// StrToBytes 字符串转字节数组
+func StrToBytes(data string) []byte {
+	return *(*[]byte)(unsafe.Pointer(&data))
 }

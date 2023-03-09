@@ -1,11 +1,11 @@
-package intUtil
+package anyUtil
 
 import (
 	"fmt"
 	"strconv"
 )
 
-// AnyToInt converts any input value to int
+// AnyToInt 将给定的值转换为 int
 func AnyToInt(input interface{}) (int, error) {
 	switch input.(type) {
 	case int:
@@ -35,7 +35,7 @@ func AnyToInt(input interface{}) (int, error) {
 	}
 }
 
-// AnyToInt8 converts any input value to int8
+// AnyToInt8 将给定的值转换为 int8
 func AnyToInt8(input interface{}) (int8, error) {
 	value, err := AnyToInt(input)
 	if err != nil {
@@ -47,7 +47,7 @@ func AnyToInt8(input interface{}) (int8, error) {
 	return int8(value), nil
 }
 
-// AnyToInt16 converts any input value to int16
+// AnyToInt16 将给定的值转换为 int16
 func AnyToInt16(input interface{}) (int16, error) {
 	value, err := AnyToInt(input)
 	if err != nil {
@@ -59,7 +59,7 @@ func AnyToInt16(input interface{}) (int16, error) {
 	return int16(value), nil
 }
 
-// AnyToInt32 converts any input value to int32
+// AnyToInt32 将给定的值转换为 int32
 func AnyToInt32(input interface{}) (int32, error) {
 	value, err := AnyToInt(input)
 	if err != nil {
@@ -71,68 +71,11 @@ func AnyToInt32(input interface{}) (int32, error) {
 	return int32(value), nil
 }
 
-// AnyToInt64 converts any input value to int64
+// AnyToInt64 将给定的值转换为 int64
 func AnyToInt64(input interface{}) (int64, error) {
 	value, err := AnyToInt(input)
 	if err != nil {
 		return 0, err
 	}
 	return int64(value), nil
-}
-
-// AnyToUint converts any input value to uint
-func AnyToUint(input interface{}) (uint, error) {
-	value, err := AnyToInt(input)
-	if err != nil {
-		return 0, err
-	}
-	if value < 0 {
-		return 0, fmt.Errorf("%d is negative", value)
-	}
-	return uint(value), nil
-}
-
-// AnyToUint8 converts any input value to uint8
-func AnyToUint8(input interface{}) (uint8, error) {
-	value, err := AnyToUint(input)
-	if err != nil {
-		return 0, err
-	}
-	if value > 255 {
-		return 0, fmt.Errorf("%d out of uint8 range", value)
-	}
-	return uint8(value), nil
-}
-
-// AnyToUint16 converts any input value to uint16
-func AnyToUint16(input interface{}) (uint16, error) {
-	value, err := AnyToUint(input)
-	if err != nil {
-		return 0, err
-	}
-	if value > 65535 {
-		return 0, fmt.Errorf("%d out of uint16 range", value)
-	}
-	return uint16(value), nil
-}
-
-// AnyToUint32 converts any input value to uint32
-func AnyToUint32(input interface{}) (uint32, error) {
-	value, err := AnyToUint(input)
-	if err != nil {
-		return 0, err
-	}
-	if value > 4294967295 {
-		return 0, fmt.Errorf("%d out of uint32 range", value)
-	}
-	return uint32(value), nil
-}
-
-// AnyToUint64 converts any input value to uint64
-func AnyToUint64(input interface{}) (uint64, error) {
-	value, err := AnyToUint(input)
-	if err != nil {
-		return 0, err
-	}
-	return uint64(value), nil
 }

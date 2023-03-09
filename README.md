@@ -10,7 +10,7 @@ English | [简体中文](README.cn.md)
 
 ## Introduction
 
-Quick toolbox for common data processing developed by Go language
+This is a general data type processing tool class based on Go language, which helps developers process common data types and data operations in business code implementation. It allows you to focus on the implementation of your business code without processing the basic data type conversion and validation functions. The non-intrusive design of the tool library can make your business code easier to read and elegant.
 
 ### Installation
 
@@ -24,9 +24,8 @@ import (
 )
 ```
 
-## Thanks
+## Sponsorship and support
 
-`GoEasyUtils` had been being developed with GoLand under the free JetBrains Open Source license, I would like to express my
-thanks here.
+`GoEasyUtils ` Thank JetBrains for their support
 
 <a href="https://www.jetbrains.com"><img src="https://raw.githubusercontent.com/panjf2000/illustrations/master/jetbrains/jetbrains-variant-4.png" height="100" alt="JetBrains"/></a>
