@@ -1,6 +1,9 @@
 package validUtil
 
-import "regexp"
+import (
+	"regexp"
+	"strconv"
+)
 
 // IsMobile 验证是否为手机号码
 func IsMobile(mobileNum string) bool {
@@ -33,4 +36,27 @@ func IsDecimal(input string) bool {
 func IsNumber(input string) bool {
 	reg := regexp.MustCompile("^[0-9]+$")
 	return reg.MatchString(input)
+}
+
+// IsBankCardNo 验证是否为银行卡号
+func IsBankCardNo(str string) bool {
+	if len(str) < 15 || len(str) > 19 {
+		return false
+	}
+	reg := regexp.MustCompile(`^\d{15,19}$`)
+	if !reg.MatchString(str) {
+		return false
+	}
+	sum := 0
+	for i := len(str) - 1; i >= 0; i-- {
+		num, _ := strconv.Atoi(str[i : i+1])
+		if (len(str)-i)%2 == 0 {
+			num *= 2
+			if num > 9 {
+				num -= 9
+			}
+		}
+		sum += num
+	}
+	return sum%10 == 0
 }

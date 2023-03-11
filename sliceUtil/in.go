@@ -1,6 +1,7 @@
 package sliceUtil
 
-func In(value interface{}, slices []interface{}) bool {
+// InSlices 判断指定值value是否在指定的slice中存在
+func InSlices(value interface{}, slices []interface{}) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -9,7 +10,8 @@ func In(value interface{}, slices []interface{}) bool {
 	return false
 }
 
-func InStr(value string, slices []string) bool {
+// InStrSlices 判断指定值value是否在指定的slice中存在
+func InStrSlices(value string, slices []string) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -18,7 +20,8 @@ func InStr(value string, slices []string) bool {
 	return false
 }
 
-func InInt(value int, slices []int) bool {
+// InIntSlices 判断指定值value是否在指定的slice中存在
+func InIntSlices(value int, slices []int) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -27,7 +30,8 @@ func InInt(value int, slices []int) bool {
 	return false
 }
 
-func InInt8(value int8, slices []int8) bool {
+// InInt8Slices 判断指定值value是否在指定的slice中存在
+func InInt8Slices(value int8, slices []int8) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -36,7 +40,8 @@ func InInt8(value int8, slices []int8) bool {
 	return false
 }
 
-func InInt16(value int16, slices []int16) bool {
+// InInt16Slices 判断指定值value是否在指定的slice中存在
+func InInt16Slices(value int16, slices []int16) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -45,7 +50,8 @@ func InInt16(value int16, slices []int16) bool {
 	return false
 }
 
-func InInt32(value int32, slices []int32) bool {
+// InInt32Slices 判断指定值value是否在指定的slice中存在
+func InInt32Slices(value int32, slices []int32) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -54,7 +60,8 @@ func InInt32(value int32, slices []int32) bool {
 	return false
 }
 
-func InInt64(value int64, slices []int64) bool {
+// InInt64Slices 判断指定值value是否在指定的slice中存在
+func InInt64Slices(value int64, slices []int64) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -63,7 +70,8 @@ func InInt64(value int64, slices []int64) bool {
 	return false
 }
 
-func InUint(value uint, slices []uint) bool {
+// InUintSlices 判断指定值value是否在指定的slice中存在
+func InUintSlices(value uint, slices []uint) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -72,7 +80,8 @@ func InUint(value uint, slices []uint) bool {
 	return false
 }
 
-func InUint8(value uint8, slices []uint8) bool {
+// InUint8Slices 判断指定值value是否在指定的slice中存在
+func InUint8Slices(value uint8, slices []uint8) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -81,7 +90,8 @@ func InUint8(value uint8, slices []uint8) bool {
 	return false
 }
 
-func InUint16(value uint16, slices []uint16) bool {
+// InUint16Slices 判断指定值value是否在指定的slice中存在
+func InUint16Slices(value uint16, slices []uint16) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -90,7 +100,8 @@ func InUint16(value uint16, slices []uint16) bool {
 	return false
 }
 
-func InUint32(value uint32, slices []uint32) bool {
+// InUint32Slices 判断指定值value是否在指定的slice中存在
+func InUint32Slices(value uint32, slices []uint32) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
@@ -99,7 +110,8 @@ func InUint32(value uint32, slices []uint32) bool {
 	return false
 }
 
-func InUint64(value uint64, slices []uint64) bool {
+// InUint64Slices 判断指定值value是否在指定的slice中存在
+func InUint64Slices(value uint64, slices []uint64) bool {
 	for _, v := range slices {
 		if value == v {
 			return true
