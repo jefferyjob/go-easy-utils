@@ -1,3 +1,7 @@
+# Edit Dir
+.idea
+.project
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
