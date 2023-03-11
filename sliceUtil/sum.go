@@ -1,6 +1,7 @@
 package sliceUtil
 
-func SumInt(slice []int) int {
+// SumIntSlice 对slice中的元素求和
+func SumIntSlice(slice []int) int {
 	var sum int
 	for _, v := range slice {
 		sum += v
@@ -8,7 +9,8 @@ func SumInt(slice []int) int {
 	return sum
 }
 
-func SumInt8(slice []int8) int8 {
+// SumInt8Slice 对slice中的元素求和
+func SumInt8Slice(slice []int8) int8 {
 	var sum int8
 	for _, v := range slice {
 		sum += v
@@ -16,7 +18,8 @@ func SumInt8(slice []int8) int8 {
 	return sum
 }
 
-func SumInt16(slice []int16) int16 {
+// SumInt16Slice 对slice中的元素求和
+func SumInt16Slice(slice []int16) int16 {
 	var sum int16
 	for _, v := range slice {
 		sum += v
@@ -24,7 +27,8 @@ func SumInt16(slice []int16) int16 {
 	return sum
 }
 
-func SumInt32(slice []int32) int32 {
+// SumInt32Slice 对slice中的元素求和
+func SumInt32Slice(slice []int32) int32 {
 	var sum int32
 	for _, v := range slice {
 		sum += v
@@ -32,8 +36,27 @@ func SumInt32(slice []int32) int32 {
 	return sum
 }
 
-func SumInt64(slice []int64) int64 {
+// SumInt64Slice 对slice中的元素求和
+func SumInt64Slice(slice []int64) int64 {
 	var sum int64
+	for _, v := range slice {
+		sum += v
+	}
+	return sum
+}
+
+// SumFloat32Slice 对slice中的元素求和
+func SumFloat32Slice(slice []float32) float32 {
+	var sum float32
+	for _, v := range slice {
+		sum += v
+	}
+	return sum
+}
+
+// SumFloat64Slice 对slice中的元素求和
+func SumFloat64Slice(slice []float64) float64 {
+	var sum float64
 	for _, v := range slice {
 		sum += v
 	}

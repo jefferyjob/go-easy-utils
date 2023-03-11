@@ -5,7 +5,6 @@ import (
 	"net"
 	"net/url"
 	"regexp"
-	"strconv"
 	"unicode"
 )
 
@@ -59,29 +58,6 @@ func IsURL(input string) bool {
 func IsJSON(input string) bool {
 	var js json.RawMessage
 	return json.Unmarshal([]byte(input), &js) == nil
-}
-
-// IsBankCardNo 验证是否为银行卡号
-func IsBankCardNo(str string) bool {
-	if len(str) < 15 || len(str) > 19 {
-		return false
-	}
-	reg := regexp.MustCompile(`^\d{15,19}$`)
-	if !reg.MatchString(str) {
-		return false
-	}
-	sum := 0
-	for i := len(str) - 1; i >= 0; i-- {
-		num, _ := strconv.Atoi(str[i : i+1])
-		if (len(str)-i)%2 == 0 {
-			num *= 2
-			if num > 9 {
-				num -= 9
-			}
-		}
-		sum += num
-	}
-	return sum%10 == 0
 }
 
 // IsChineseName 验证是否为中文名
