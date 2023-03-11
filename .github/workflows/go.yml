@@ -2,15 +2,15 @@ name: Go
 
 on:
   push:
-    branches: [master]
+    branches: [master,main]
   pull_request:
-    branches: [master]
+    branches: [master,main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Go
         uses: actions/setup-go@v2
@@ -22,3 +22,8 @@ jobs:
 
       - name: Test
         run: make test
+
+      - name: Upload coverage file to codecov
+          uses: codecov/codecov-action@v3
+          with:
+            token: ${{secrets.CODECOV_TOKEN}}
