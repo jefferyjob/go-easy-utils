@@ -25,7 +25,7 @@ jobs:
         run: make test
 
       # 生成 codecov 覆盖报告
-      - name: Test
+      - name: Test and create coverage file
         run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
       # 上传测试覆盖率报告到 codecov
