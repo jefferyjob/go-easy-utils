@@ -1,14 +1,31 @@
 package sliceUtil
 
 import (
-	"fmt"
 	"testing"
 )
 
-func TestInStr(t *testing.T) {
-	var slices1 = []string{"a", "b", "c"}
-	var val1 = "a"
-	res1 := InStrSlices(val1, slices1)
-	res2 := InStrSlices("abc", slices1)
-	fmt.Println("结果判定", res1, res2)
+func TestInSlices(t *testing.T) {
+	slices := []interface{}{1, "hello", 3.14}
+	if !InSlices(1, slices) {
+		t.Errorf("1 should be in slices %v", slices)
+	}
+	if !InSlices("hello", slices) {
+		t.Errorf("hello should be in slices %v", slices)
+	}
+	if InSlices(2, slices) {
+		t.Errorf("2 should not be in slices %v", slices)
+	}
+}
+
+func TestInStrSlices(t *testing.T) {
+	slices := []string{"apple", "banana", "cherry"}
+	if !InStrSlices("apple", slices) {
+		t.Errorf("apple should be in slices %v", slices)
+	}
+	if !InStrSlices("banana", slices) {
+		t.Errorf("banana should be in slices %v", slices)
+	}
+	if InStrSlices("orange", slices) {
+		t.Errorf("orange should not be in slices %v", slices)
+	}
 }
