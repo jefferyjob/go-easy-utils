@@ -1,3 +1,4 @@
+// Package validUtil 验证银行卡号
 package validUtil
 
 import (
