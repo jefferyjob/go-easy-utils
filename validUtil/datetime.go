@@ -17,16 +17,17 @@ func IsDate(str string) bool {
 	if !reg.MatchString(str) {
 		return false
 	}
+
 	year, _ := strconv.Atoi(str[0:4])
 	month, _ := strconv.Atoi(str[5:7])
 	day, _ := strconv.Atoi(str[8:10])
-	if month < 1 || month > 12 {
+
+	if month < 1 || month > 12 || day < 1 {
 		return false
 	}
-	if day < 1 || day > 31 {
-		return false
-	}
-	if month == 2 {
+
+	switch month {
+	case 2:
 		if year%4 == 0 && year%100 != 0 || year%400 == 0 {
 			if day > 29 {
 				return false
@@ -36,11 +37,16 @@ func IsDate(str string) bool {
 				return false
 			}
 		}
-	} else if month == 4 || month == 6 || month == 9 || month == 11 {
+	case 4, 6, 9, 11:
 		if day > 30 {
 			return false
 		}
+	default:
+		if day > 31 {
+			return false
+		}
 	}
+
 	return true
 }
 
