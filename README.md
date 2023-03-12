@@ -1,9 +1,8 @@
 # go-easy-utils
 
-[//]: # ([![GoEasyUtils Release]&#40;https://img.shields.io/github/release/jefferyjob/go-easy-utils.svg&#41;]&#40;https://github.com/jefferyjob/go-easy-utils/releases&#41;)
+[![GoEasyUtils Release](https://img.shields.io/github/release/jefferyjob/go-easy-utils.svg)](https://github.com/jefferyjob/go-easy-utils/releases)
 [![Go Action](https://github.com/jefferyjob/go-easy-utils/workflows/Go/badge.svg?branch=master)](https://github.com/jefferyjob/go-easy-utils/actions)
-
-[//]: # ([![Go Report Card]&#40;https://goreportcard.com/badge/github.com/jefferyjob/go-easy-utils&#41;]&#40;https://goreportcard.com/report/github.com/jefferyjob/go-easy-utils&#41;)
+[![Go Report Card](https://goreportcard.com/badge/github.com/jefferyjob/go-easy-utils)](https://goreportcard.com/report/github.com/jefferyjob/go-easy-utils)
 [![Go Coverage](https://codecov.io/gh/jefferyjob/go-easy-utils/branch/master/graph/badge.svg)](https://codecov.io/gh/jefferyjob/go-easy-utils)
 [![GoEasyUtils Doc](https://img.shields.io/badge/go.dev-reference-brightgreen?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/jefferyjob/go-easy-utils)
 ![License](https://img.shields.io/github/license/jefferyjob/go-easy-utils)
