@@ -20,9 +20,15 @@ jobs:
       - name: Build
         run: go build -v ./...
 
+      # 运行go的单元测试
       - name: Test
         run: make test
 
+      # 生成 codecov 覆盖报告
+      - name: Test
+        run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+      # 上传测试覆盖率报告到 codecov
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
