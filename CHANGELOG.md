@@ -1,3 +1,3 @@
-# 版本更新记录
+# Version update record
 
 ## v1.0.0
