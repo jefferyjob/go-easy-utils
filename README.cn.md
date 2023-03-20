@@ -360,11 +360,11 @@ func Float64Ceil(input float64) float64
 ### emoji表情包
 
 ```go
-// UnicodeEmojiDecode Emoji表情解码
-func UnicodeEmojiDecode(s string) string
+// DecodeEmojiUnicode Emoji表情解码
+func DecodeEmojiUnicode(unicode string) string
 
-// UnicodeEmojiCode Emoji表情转换
-func UnicodeEmojiCode(s string) string
+// EncodeEmojiUnicode Emoji表情编码
+func EncodeEmojiUnicode(emoji string) string
 ```
 
 ### cryptoUtil 加密与解密
