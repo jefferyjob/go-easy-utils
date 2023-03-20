@@ -1,4 +1,5 @@
-// Package validUtil 验证社交账号
+// 验证工具类
+
 package validUtil
 
 import (
