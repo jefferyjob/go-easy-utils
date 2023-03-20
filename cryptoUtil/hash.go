@@ -1,4 +1,5 @@
-// Package cryptoUtil 加密与解密工具
+// 加密与解密工具
+
 package cryptoUtil
 
 import (

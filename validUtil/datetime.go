@@ -1,4 +1,3 @@
-// Package validUtil 验证时间与日期格式
 package validUtil
 
 import (

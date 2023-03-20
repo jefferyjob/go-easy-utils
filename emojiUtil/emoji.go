@@ -1,4 +1,5 @@
-// Package emojiUtil emoji表情处理工具
+// emoji表情处理工具
+
 package emojiUtil
 
 import (
