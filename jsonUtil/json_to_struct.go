@@ -1,5 +1,3 @@
-// Package jsonUtil Json数据处理包
-// 可用于json赋值结构体，json数据转义
 package jsonUtil
 
 import (
@@ -52,6 +50,17 @@ func JsonToStruct(jsonData string, result interface{}) error {
 		switch fieldValue.Kind() {
 		case reflect.String:
 			fieldValue.SetString(value.(string))
+		//case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		//	switch value.(type) {
+		//	case float64:
+		//		fieldValue.SetInt(int64(value.(float64)))
+		//	case string:
+		//		if intValue, err := strconv.ParseInt(value.(string), 10, 64); err == nil {
+		//			fieldValue.SetInt(intValue)
+		//		}
+		//	default:
+		//		fieldValue.SetInt(int64(value.(int)))
+		//	}
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			switch value.(type) {
 			case float64:
@@ -60,8 +69,16 @@ func JsonToStruct(jsonData string, result interface{}) error {
 				if intValue, err := strconv.ParseInt(value.(string), 10, 64); err == nil {
 					fieldValue.SetInt(intValue)
 				}
-			default:
+			case int:
 				fieldValue.SetInt(int64(value.(int)))
+			case int8:
+				fieldValue.SetInt(int64(value.(int8)))
+			case int16:
+				fieldValue.SetInt(int64(value.(int16)))
+			case int32:
+				fieldValue.SetInt(int64(value.(int32)))
+			case int64:
+				fieldValue.SetInt(value.(int64))
 			}
 		case reflect.Float32, reflect.Float64:
 			switch value.(type) {
@@ -104,6 +121,115 @@ func JsonToStruct(jsonData string, result interface{}) error {
 
 	return nil
 }
+
+//func JsonToStruct(jsonData string, result interface{}) error {
+//	var data map[string]interface{}
+//	err := json.Unmarshal([]byte(jsonData), &data)
+//	if err != nil {
+//		return err
+//	}
+//
+//	resultValue := reflect.ValueOf(result).Elem()
+//	resultType := resultValue.Type()
+//
+//	for i := 0; i < resultType.NumField(); i++ {
+//		fieldType := resultType.Field(i)
+//		fieldName := fieldType.Name
+//		fieldValue := resultValue.FieldByName(fieldName)
+//
+//		jsonTag := fieldType.Tag.Get("json")
+//		if jsonTag == "" {
+//			jsonTag = fieldName
+//		}
+//
+//		value, ok := data[jsonTag]
+//		if !ok {
+//			continue
+//		}
+//
+//		fmt.Println(fieldType.Name, fieldValue.Kind())
+//
+//		switch fieldValue.Kind() {
+//		case reflect.String:
+//			fieldValue.SetString(value.(string))
+//		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+//			switch value.(type) {
+//			case float64:
+//				fieldValue.SetInt(int64(value.(float64)))
+//			case string:
+//				if intValue, err := strconv.ParseInt(value.(string), 10, 64); err == nil {
+//					fieldValue.SetInt(intValue)
+//				}
+//			default:
+//				fieldValue.SetInt(int64(value.(int)))
+//			}
+//		case reflect.Float32, reflect.Float64:
+//			switch value.(type) {
+//			case float64:
+//				fieldValue.SetFloat(value.(float64))
+//			case string:
+//				if floatValue, err := strconv.ParseFloat(value.(string), 64); err == nil {
+//					fieldValue.SetFloat(floatValue)
+//				}
+//			}
+//		case reflect.Struct:
+//			if subData, ok := value.(map[string]interface{}); ok {
+//				subResult := reflect.New(fieldValue.Type())
+//				JsonToStruct(convertToJSONString(subData), subResult.Interface())
+//				fieldValue.Set(subResult.Elem())
+//			}
+//		case reflect.Slice:
+//			if subData, ok := value.([]interface{}); ok {
+//				subResult := reflect.MakeSlice(fieldValue.Type(), len(subData), len(subData))
+//				for j := 0; j < len(subData); j++ {
+//					subValue := subData[j]
+//					subElem := subResult.Index(j)
+//
+//					switch subElem.Kind() {
+//					case reflect.Struct:
+//						if subDataElem, ok := subValue.(map[string]interface{}); ok {
+//							subResultElem := reflect.New(subElem.Type())
+//							JsonToStruct(convertToJSONString(subDataElem), subResultElem.Interface())
+//							subElem.Set(subResultElem.Elem())
+//						}
+//					case reflect.Slice:
+//						if subDataElem, ok := subValue.([]interface{}); ok {
+//							subResultElem := reflect.MakeSlice(subElem.Type(), len(subDataElem), len(subDataElem))
+//							for k := 0; k < len(subDataElem); k++ {
+//								subValueElem := subDataElem[k]
+//								subElemElem := subResultElem.Index(k)
+//
+//								if subElemElem.Kind() == reflect.Struct {
+//									if subDataElemElem, ok := subValueElem.(map[string]interface{}); ok {
+//										subResultElemElem := reflect.New(subElemElem.Type())
+//										JsonToStruct(convertToJSONString(subDataElemElem), subResultElemElem.Interface())
+//										subElemElem.Set(subResultElemElem.Elem())
+//									}
+//								} else {
+//									subElemElem.Set(reflect.ValueOf(subValueElem))
+//								}
+//							}
+//							subElem.Set(subResultElem)
+//						}
+//					default:
+//						subElem.Set(reflect.ValueOf(subValue))
+//					}
+//				}
+//				fieldValue.Set(subResult)
+//			}
+//		default:
+//			if reflect.TypeOf(value).Kind() == reflect.Map {
+//				subResult := reflect.New(fieldValue.Type())
+//				JsonToStruct(convertToJSONString(value.(map[string]interface{})), subResult.Interface())
+//				fieldValue.Set(subResult.Elem())
+//			} else {
+//				fieldValue.Set(reflect.ValueOf(value))
+//			}
+//		}
+//	}
+//
+//	return nil
+//}
 
 func convertToJSONString(data map[string]interface{}) string {
 	jsonBytes, _ := json.Marshal(data)

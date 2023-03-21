@@ -1,5 +1,3 @@
-// 验证工具类
-
 package validUtil
 
 import (

@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestJsonToStruct(t *testing.T) {
+func TestJsonToStruct1(t *testing.T) {
 	type Address struct {
 		City    string `json:"city"`
 		Country string `json:"country"`
@@ -123,4 +123,46 @@ func TestJsonToStruct2(t *testing.T) {
 	}
 
 	fmt.Printf("person2：%+v，， address：%+v \n", person2, person2.Address)
+}
+
+// 多层级json测试
+func TestJsonToStruct3(t *testing.T) {
+	type Address struct {
+		City    string `json:"city"`
+		Street  string `json:"street"`
+		Zipcode uint64 `json:"zipcode"`
+	}
+
+	type Score struct {
+		Subject string `json:"subject"`
+		Score   int    `json:"score"`
+	}
+
+	type Student struct {
+		Name    string  `json:"name"`
+		Age     int     `json:"age"`
+		Address Address `json:"address"`
+		Scores  []Score `json:"scores"`
+	}
+	jsonStr4 := `{
+		"name": "Alice",
+		"age": 30,
+		"address": {
+			"city": "Beijing",
+			"street": "Zhangsan Street",
+			"zipcode": 100
+		},
+		"scores": [
+			{"subject": "Math", "score": 80},
+			{"subject": "English", "score": 90}
+		]
+	}`
+
+	var student Student
+	if err := JsonToStruct(jsonStr4, &student); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("%+v \n", student)
 }
