@@ -139,10 +139,10 @@ func TestJsonToStruct3(t *testing.T) {
 	}
 
 	type Student struct {
-		Name    string  `json:"name"`
-		Age     int     `json:"age"`
+		Name    string  `json:"name,omitempty"`
+		Age     int     `json:"age,omitempty"`
 		Address Address `json:"address"`
-		Scores  []Score `json:"scores"`
+		Scores  []Score `json:"scores,omitempty"`
 	}
 	jsonStr4 := `{
 		"name": "Alice",

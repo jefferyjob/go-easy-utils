@@ -59,23 +59,56 @@ func JsonToStruct(jsonData string, result interface{}) error {
 		case reflect.String:
 			fieldValue.SetString(value.(string))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			val, err := toInt64(value)
-			if err != nil {
-				return err
+			switch value.(type) {
+			case float32:
+				fieldValue.SetInt(int64(value.(float32)))
+			case float64:
+				fieldValue.SetInt(int64(value.(float64)))
+			case string:
+				if intValue, err := strconv.ParseInt(value.(string), 10, 64); err == nil {
+					fieldValue.SetInt(intValue)
+				}
+			case int:
+				fieldValue.SetInt(int64(value.(int)))
+			case int8:
+				fieldValue.SetInt(int64(value.(int8)))
+			case int16:
+				fieldValue.SetInt(int64(value.(int16)))
+			case int32:
+				fieldValue.SetInt(int64(value.(int32)))
+			case int64:
+				fieldValue.SetInt(value.(int64))
 			}
-			fieldValue.SetInt(val)
 		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-			val, err := toUint64(value)
-			if err != nil {
-				return err
+			switch value.(type) {
+			case float32:
+				fieldValue.SetUint(uint64(value.(float32)))
+			case float64:
+				fieldValue.SetUint(uint64(value.(float64)))
+			case string:
+				if intValue, err := strconv.ParseUint(value.(string), 10, 64); err == nil {
+					fieldValue.SetUint(intValue)
+				}
+			case uint:
+				fieldValue.SetUint(uint64(value.(uint)))
+			case uint8:
+				fieldValue.SetUint(uint64(value.(uint8)))
+			case uint16:
+				fieldValue.SetUint(uint64(value.(uint16)))
+			case uint32:
+				fieldValue.SetUint(uint64(value.(uint32)))
+			case uint64:
+				fieldValue.SetUint(value.(uint64))
 			}
-			fieldValue.SetUint(val)
 		case reflect.Float32, reflect.Float64:
-			val, err := toFloat64(value)
-			if err != nil {
-				return err
+			switch value.(type) {
+			case float64:
+				fieldValue.SetFloat(value.(float64))
+			case string:
+				if floatValue, err := strconv.ParseFloat(value.(string), 64); err == nil {
+					fieldValue.SetFloat(floatValue)
+				}
 			}
-			fieldValue.SetFloat(val)
 		case reflect.Struct:
 			if subData, ok := value.(map[string]interface{}); ok {
 				subResult := reflect.New(fieldValue.Type())
