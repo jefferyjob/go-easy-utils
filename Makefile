@@ -9,3 +9,6 @@ lint:
 
 bench:
 	go test -benchmem -bench .
+
+doc:
+	godoc -http=:6060 -play -index

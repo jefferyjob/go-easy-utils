@@ -1,5 +1,3 @@
-// emoji表情处理工具
-
 package emojiUtil
 
 import (

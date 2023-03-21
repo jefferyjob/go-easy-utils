@@ -36,8 +36,8 @@ func main() {
 
 ## Function list
 
-| Package name | Function Outline                                                                          | README               |
-| ------------ | ----------------------------------------------------------------------------------------- | -------------------- |
+| Package name | Function Outline                                                                          | Document             |
+| ------------ | ----------------------------------------------------------------------------------------- |----------------------|
 | anyUtil      | Convert any type of data to the specified type                                            | [README](anyUtil)    |
 | byteUtil     | Conversion of byte array                                                                  | [README](byteUtil)   |
 | cryptoUtil   | Various encryption processing                                                             | [README](cryptoUtil) |

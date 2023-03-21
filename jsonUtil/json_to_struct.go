@@ -1,11 +1,12 @@
-// Package jsonUtil Json数据处理包
-// 可用于json赋值结构体，json数据转义
 package jsonUtil
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 // JsonToStruct 将 JSON 字符串解析为指定的结构体指针
@@ -39,9 +40,14 @@ func JsonToStruct(jsonData string, result interface{}) error {
 		fieldName := fieldType.Name
 		fieldValue := resultValue.FieldByName(fieldName)
 
+		// 从json的tag标签中取出定义字段
 		jsonTag := fieldType.Tag.Get("json")
 		if jsonTag == "" {
 			jsonTag = fieldName
+		} else {
+			if commaIndex := strings.Index(jsonTag, ","); commaIndex != -1 {
+				jsonTag = jsonTag[:commaIndex]
+			}
 		}
 
 		value, ok := data[jsonTag]
@@ -53,25 +59,23 @@ func JsonToStruct(jsonData string, result interface{}) error {
 		case reflect.String:
 			fieldValue.SetString(value.(string))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			switch value.(type) {
-			case float64:
-				fieldValue.SetInt(int64(value.(float64)))
-			case string:
-				if intValue, err := strconv.ParseInt(value.(string), 10, 64); err == nil {
-					fieldValue.SetInt(intValue)
-				}
-			default:
-				fieldValue.SetInt(int64(value.(int)))
+			val, err := toInt64(value)
+			if err != nil {
+				return err
 			}
+			fieldValue.SetInt(val)
+		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+			val, err := toUint64(value)
+			if err != nil {
+				return err
+			}
+			fieldValue.SetUint(val)
 		case reflect.Float32, reflect.Float64:
-			switch value.(type) {
-			case float64:
-				fieldValue.SetFloat(value.(float64))
-			case string:
-				if floatValue, err := strconv.ParseFloat(value.(string), 64); err == nil {
-					fieldValue.SetFloat(floatValue)
-				}
+			val, err := toFloat64(value)
+			if err != nil {
+				return err
 			}
+			fieldValue.SetFloat(val)
 		case reflect.Struct:
 			if subData, ok := value.(map[string]interface{}); ok {
 				subResult := reflect.New(fieldValue.Type())
@@ -108,4 +112,73 @@ func JsonToStruct(jsonData string, result interface{}) error {
 func convertToJSONString(data map[string]interface{}) string {
 	jsonBytes, _ := json.Marshal(data)
 	return string(jsonBytes)
+}
+
+func toInt64(value interface{}) (int64, error) {
+	switch value.(type) {
+	case float32:
+		return int64(value.(float32)), nil
+	case float64:
+		return int64(value.(float64)), nil
+	case string:
+		intValue, err := strconv.ParseInt(value.(string), 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		return intValue, nil
+	case int:
+		return int64(value.(int)), nil
+	case int8:
+		return int64(value.(int8)), nil
+	case int16:
+		return int64(value.(int16)), nil
+	case int32:
+		return int64(value.(int32)), nil
+	case int64:
+		return value.(int64), nil
+	default:
+		return 0, errors.New(fmt.Sprintf("jsonUtils toInt64 err: %T \n", value))
+	}
+}
+
+func toUint64(value interface{}) (uint64, error) {
+	switch value.(type) {
+	case float32:
+		return uint64(value.(float32)), nil
+	case float64:
+		return uint64(value.(float64)), nil
+	case string:
+		intValue, err := strconv.ParseUint(value.(string), 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		return intValue, nil
+	case uint:
+		return uint64(value.(uint)), nil
+	case uint8:
+		return uint64(value.(uint8)), nil
+	case uint16:
+		return uint64(value.(uint16)), nil
+	case uint32:
+		return uint64(value.(uint32)), nil
+	case uint64:
+		return value.(uint64), nil
+	default:
+		return 0, errors.New(fmt.Sprintf("jsonUtils toUint64 err: %T \n", value))
+	}
+}
+
+func toFloat64(value interface{}) (float64, error) {
+	switch value.(type) {
+	case float64:
+		return value.(float64), nil
+	case string:
+		floatValue, err := strconv.ParseFloat(value.(string), 64)
+		if err != nil {
+			return 0, err
+		}
+		return floatValue, nil
+	default:
+		return 0, errors.New(fmt.Sprintf("jsonUtils toFloat64 err: %T \n", value))
+	}
 }
