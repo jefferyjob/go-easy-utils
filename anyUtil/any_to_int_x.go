@@ -7,37 +7,16 @@ import (
 
 // AnyToInt 将给定的值转换为 int
 func AnyToInt(input interface{}) (int, error) {
-	switch input.(type) {
-	case int:
-		return input.(int), nil
-	case int8:
-		return int(input.(int8)), nil
-	case int16:
-		return int(input.(int16)), nil
-	case int32:
-		return int(input.(int32)), nil
-	case int64:
-		return int(input.(int64)), nil
-	case uint:
-		return int(input.(uint)), nil
-	case uint8:
-		return int(input.(uint8)), nil
-	case uint16:
-		return int(input.(uint16)), nil
-	case uint32:
-		return int(input.(uint32)), nil
-	case uint64:
-		return int(input.(uint64)), nil
-	case string:
-		return strconv.Atoi(input.(string))
-	default:
-		return 0, fmt.Errorf("unsupported type %T", input)
+	value, err := AnyToInt64(input)
+	if err != nil {
+		return 0, err
 	}
+	return int(value), nil
 }
 
 // AnyToInt8 将给定的值转换为 int8
 func AnyToInt8(input interface{}) (int8, error) {
-	value, err := AnyToInt(input)
+	value, err := AnyToInt64(input)
 	if err != nil {
 		return 0, err
 	}
@@ -49,7 +28,7 @@ func AnyToInt8(input interface{}) (int8, error) {
 
 // AnyToInt16 将给定的值转换为 int16
 func AnyToInt16(input interface{}) (int16, error) {
-	value, err := AnyToInt(input)
+	value, err := AnyToInt64(input)
 	if err != nil {
 		return 0, err
 	}
@@ -61,7 +40,7 @@ func AnyToInt16(input interface{}) (int16, error) {
 
 // AnyToInt32 将给定的值转换为 int32
 func AnyToInt32(input interface{}) (int32, error) {
-	value, err := AnyToInt(input)
+	value, err := AnyToInt64(input)
 	if err != nil {
 		return 0, err
 	}
@@ -73,9 +52,38 @@ func AnyToInt32(input interface{}) (int32, error) {
 
 // AnyToInt64 将给定的值转换为 int64
 func AnyToInt64(input interface{}) (int64, error) {
-	value, err := AnyToInt(input)
-	if err != nil {
-		return 0, err
+	switch input.(type) {
+	case int:
+		return int64(input.(int)), nil
+	case int8:
+		return int64(input.(int8)), nil
+	case int16:
+		return int64(input.(int16)), nil
+	case int32:
+		return int64(input.(int32)), nil
+	case int64:
+		return input.(int64), nil
+	case uint:
+		return int64(input.(uint)), nil
+	case uint8:
+		return int64(input.(uint8)), nil
+	case uint16:
+		return int64(input.(uint16)), nil
+	case uint32:
+		return int64(input.(uint32)), nil
+	case uint64:
+		return int64(input.(uint64)), nil
+	case string:
+		val, err := strconv.ParseInt(input.(string), 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		return val, nil
+	case float32:
+		return int64(input.(float32)), nil
+	case float64:
+		return int64(input.(float64)), nil
+	default:
+		return 0, fmt.Errorf("unsupported type %T", input)
 	}
-	return int64(value), nil
 }
