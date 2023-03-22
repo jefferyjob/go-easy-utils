@@ -1,33 +1,40 @@
 package validUtil
 
-import (
-	"regexp"
-)
-
 // IsBankCardNo 验证是否为大陆银行卡号
-func IsBankCardNo(cardNo string) bool {
-	// 银行卡号长度为 16-19 位
-	if len(cardNo) < 16 || len(cardNo) > 19 {
+func IsBankCardNo(cardNumber string) bool {
+	if len(cardNumber) != 16 && len(cardNumber) != 19 {
 		return false
 	}
-
-	// 银行卡号必须为数字
-	match, _ := regexp.MatchString("^[0-9]+$", cardNo)
-	if !match {
-		return false
-	}
-
-	// 使用 Luhn 算法验证银行卡号的合法性
-	var sum int
-	for i, c := range cardNo {
-		num := int(c - '0')
-		if i%2 == 0 {
-			num *= 2
-			if num > 9 {
-				num -= 9
-			}
+	var cardArr []int
+	for _, c := range cardNumber {
+		if c < '0' || c > '9' {
+			return false
 		}
-		sum += num
+		cardArr = append(cardArr, int(c-'0'))
 	}
-	return sum%10 == 0
+	if len(cardArr) == 16 {
+		sum := 0
+		for i := len(cardArr) - 1; i >= 0; i-- {
+			if i%2 == 0 {
+				cardArr[i] *= 2
+				if cardArr[i] > 9 {
+					cardArr[i] -= 9
+				}
+			}
+			sum += cardArr[i]
+		}
+		return sum%10 == 0
+	} else {
+		sum := 0
+		for i := len(cardArr) - 1; i >= 0; i-- {
+			if (len(cardArr)-i)%2 == 0 {
+				cardArr[i] *= 2
+				if cardArr[i] > 9 {
+					cardArr[i] -= 9
+				}
+			}
+			sum += cardArr[i]
+		}
+		return sum%10 == 0
+	}
 }
