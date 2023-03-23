@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+// ErrSyntax indicates that a value does not have the right syntax for the target type
+// 指示值不具有目标类型的正确语法
 var ErrSyntax = strconv.ErrSyntax
 
 // ErrType indicates that a value does not have the right syntax for the target type

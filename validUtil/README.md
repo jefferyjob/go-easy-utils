@@ -1,4 +1,15 @@
-### ValidUtil 验证工具
+# ValidUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/validUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // IsTime 验证是否为时间格式（HH:mm:ss）

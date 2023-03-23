@@ -1,4 +1,15 @@
-### floatUtil 浮点型处理
+# floatUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/floatUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // Float32ToStr float32转字符串

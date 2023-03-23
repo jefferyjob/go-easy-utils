@@ -1,4 +1,15 @@
-### sliceUtil 切片处理工具
+# sliceUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/sliceUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // Chunk 将一个切片按指定大小分成多个切片，并返回一个包含这些切片的二维切片。

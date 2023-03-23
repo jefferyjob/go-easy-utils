@@ -1,4 +1,15 @@
-### cryptoUtil 加密与解密
+# cryptoUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/cryptoUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // HashSHA256 hash加密

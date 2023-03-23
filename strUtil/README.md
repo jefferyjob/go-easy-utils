@@ -1,4 +1,15 @@
-### strUtil 字符串工具
+# strUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/strUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // StrToInt string转int

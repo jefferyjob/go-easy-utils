@@ -1,4 +1,15 @@
-### byteUtil 字节数组
+# byteUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/byteUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // BytesToStr 字节数组转字符串
