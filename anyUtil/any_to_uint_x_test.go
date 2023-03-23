@@ -23,7 +23,7 @@ func TestAnyToUint(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{-5, 0, fmt.Errorf("cannot convert negative value to unsigned integer")},
+		{-5, 0, fmt.Errorf("value -5 is negative and cannot be converted to unsigned integer")},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
