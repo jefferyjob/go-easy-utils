@@ -127,19 +127,34 @@ func IsPassword(password string) bool
 
 ```go
 // StrToInt string转int
-func StrToInt(str string) int 
+func StrToInt(str string) int
 
 // StrToInt8 string转int8
-func StrToInt8(str string) int8 
+func StrToInt8(str string) int8
 
 // StrToInt16 string转int16
-func StrToInt16(str string) int16 
+func StrToInt16(str string) int16
 
 // StrToInt32 string转int32
-func StrToInt32(str string) int32 
+func StrToInt32(str string) int32
 
 // StrToInt64 string转int64
-func StrToInt64(str string) int64 
+func StrToInt64(str string) int64
+
+// StrToUint string转uint
+func StrToUint(str string) uint
+
+// StrToUint8 string转uint8
+func StrToUint8(str string) uint8
+
+// StrToUint16 string转uint16
+func StrToUint16(str string) uint16
+
+// StrToUint32 string转uint32
+func StrToUint32(str string) uint32
+
+// StrToUint64 string转uint64
+func StrToUint64(str string) uint64
 
 // StrToBytes 字符串转字节数组
 func StrToBytes(data string) []byte 
@@ -304,21 +319,6 @@ func MapKeyExists(m map[string]interface{}, key string) bool
 ### intUtil 数值型处理
 
 ```go
-// StrToInt 将string类型转换为int类型
-func StrToInt(s string) (int, error)
-
-// StrToInt8 将string类型转换为int8类型
-func StrToInt8(s string) (int8, error)
-
-// StrToInt16 将string类型转换为int16类型
-func StrToInt16(s string) (int16, error)
-
-// StrToInt32 将string类型转换为int32类型
-func StrToInt32(s string) (int32, error)
-
-// StrToInt64 将string类型转换为int64类型
-func StrToInt64(s string) (int64, error)
-
 // IntToString 将int类型转换为string类型
 func IntToString(n int) string
 

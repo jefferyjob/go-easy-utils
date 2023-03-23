@@ -135,3 +135,7 @@ func TestAnyToInt64(t *testing.T) {
 		})
 	}
 }
+
+func TestName(t *testing.T) {
+	fmt.Println(uint64(^int64(0)))
+}
