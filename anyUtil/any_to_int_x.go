@@ -97,13 +97,13 @@ func AnyToInt64(value interface{}) (int64, error) {
 		return reflect.ValueOf(value).Int(), nil
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		v := reflect.ValueOf(value).Uint()
-		if v > uint64(^int64(0)) {
+		if v > math.MaxUint64 {
 			return 0, errors.New("value out of range")
 		}
 		return int64(v), nil
 	case reflect.Float32, reflect.Float64:
 		v := reflect.ValueOf(value).Float()
-		if v < float64(^int64(0))+1 || v > float64(^int64(0)) {
+		if v < float64(math.MinInt64) || v > float64(math.MaxInt64) {
 			return 0, errors.New("value out of range")
 		}
 		return int64(v), nil
