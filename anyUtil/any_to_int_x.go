@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"strconv"
 )
 
 // AnyToInt 将给定的值转换为 int
@@ -13,9 +14,13 @@ func AnyToInt(input interface{}) (int, error) {
 	if err != nil {
 		return 0, err
 	}
-	if v < int64(^int(0)+1) || v > int64(^int(0)) {
+
+	// int 兼容32位和64位系统
+	if int64(int(v)) != v {
+		fmt.Println(int64(int(v)), v)
 		return 0, errors.New("value out of range")
 	}
+
 	return int(v), nil
 }
 
@@ -57,56 +62,27 @@ func AnyToInt32(input interface{}) (int32, error) {
 
 // AnyToInt64 将给定的值转换为 int64
 func AnyToInt64(value interface{}) (int64, error) {
-	//switch input.(type) {
-	//case int:
-	//	return int64(input.(int)), nil
-	//case int8:
-	//	return int64(input.(int8)), nil
-	//case int16:
-	//	return int64(input.(int16)), nil
-	//case int32:
-	//	return int64(input.(int32)), nil
-	//case int64:
-	//	return input.(int64), nil
-	//case uint:
-	//	return int64(input.(uint)), nil
-	//case uint8:
-	//	return int64(input.(uint8)), nil
-	//case uint16:
-	//	return int64(input.(uint16)), nil
-	//case uint32:
-	//	return int64(input.(uint32)), nil
-	//case uint64:
-	//	return int64(input.(uint64)), nil
-	//case string:
-	//	val, err := strconv.ParseInt(input.(string), 10, 64)
-	//	if err != nil {
-	//		return 0, err
-	//	}
-	//	return val, nil
-	//case float32:
-	//	return int64(input.(float32)), nil
-	//case float64:
-	//	return int64(input.(float64)), nil
-	//default:
-	//	return 0, fmt.Errorf("unsupported type %T", input)
-	//}
-
 	switch reflect.TypeOf(value).Kind() {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		return reflect.ValueOf(value).Int(), nil
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		v := reflect.ValueOf(value).Uint()
 		if v > math.MaxUint64 {
-			return 0, errors.New("value out of range")
+			return 0, fmt.Errorf("value %d is too large to convert to int", v)
 		}
 		return int64(v), nil
 	case reflect.Float32, reflect.Float64:
 		v := reflect.ValueOf(value).Float()
 		if v < float64(math.MinInt64) || v > float64(math.MaxInt64) {
-			return 0, errors.New("value out of range")
+			return 0, fmt.Errorf("value %f is too large or too small to convert to int", v)
 		}
 		return int64(v), nil
+	case reflect.String:
+		val, err := strconv.ParseInt(value.(string), 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		return val, nil
 	}
-	return 0, errors.New("unsupported type")
+	return 0, fmt.Errorf("unsupported type %T to int", value)
 }

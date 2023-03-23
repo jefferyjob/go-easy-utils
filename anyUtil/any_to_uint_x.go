@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"strconv"
 )
 
 // AnyToUint 将给定的值转换为 uint
@@ -13,9 +14,12 @@ func AnyToUint(input interface{}) (uint, error) {
 	if err != nil {
 		return 0, err
 	}
-	if v > uint64(^uint(0)) {
+
+	// uint 兼容32位和64位系统
+	if uint64(uint(v)) != v {
 		return 0, errors.New("value out of range")
 	}
+
 	return uint(v), nil
 }
 
@@ -63,15 +67,21 @@ func AnyToUint64(value interface{}) (uint64, error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		v := reflect.ValueOf(value).Int()
 		if v < 0 {
-			return 0, errors.New("cannot convert negative value to unsigned integer")
+			return 0, fmt.Errorf("value %v is negative and cannot be converted to unsigned integer", v)
 		}
 		return uint64(v), nil
 	case reflect.Float32, reflect.Float64:
 		v := reflect.ValueOf(value).Float()
 		if v < 0 {
-			return 0, errors.New("cannot convert negative value to unsigned integer")
+			return 0, fmt.Errorf("value %f is too large or too small to convert to uint", v)
 		}
 		return uint64(v), nil
+	case reflect.String:
+		val, err := strconv.ParseUint(value.(string), 10, 64)
+		if err != nil {
+			return 0, err
+		}
+		return val, nil
 	}
-	return 0, errors.New("unsupported type")
+	return 0, fmt.Errorf("unsupported type %T to uint", value)
 }
