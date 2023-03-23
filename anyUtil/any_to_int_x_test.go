@@ -32,7 +32,7 @@ func TestAnyToInt(t *testing.T) {
 		{input: float32(123.45), expected: 123, err: nil},
 		{input: float64(123.45), expected: 123, err: nil},
 		{input: "123", expected: 123, err: nil},
-		{input: "abc", expected: 0, err: errors.New(`strconv.ParseInt: parsing "abc": invalid syntax`)},
+		{input: "abc", expected: 0, err: ErrSyntax},
 	}
 
 	for _, tc := range testCases {
