@@ -1,4 +1,15 @@
-### randUtil 随机数
+# randUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/randUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // RandomInt 生成指定范围内的随机整数

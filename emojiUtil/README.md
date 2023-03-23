@@ -1,4 +1,15 @@
-### emoji表情包
+# emoji表情包
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/emojiUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // DecodeEmojiUnicode Emoji表情解码

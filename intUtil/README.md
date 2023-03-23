@@ -1,4 +1,15 @@
-### intUtil 数值型处理
+# intUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/intUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // IntToString 将int类型转换为string类型

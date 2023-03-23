@@ -1,4 +1,15 @@
-### mapUtil map类型处理
+# mapUtil
+
+## Install
+
+```bash
+go get -u github.com/jefferyjob/go-easy-utils/mapUtil
+```
+
+## ErrorCode
+
+
+## Functions
 
 ```go
 // MapValueExists 判断map中的value是否存在
