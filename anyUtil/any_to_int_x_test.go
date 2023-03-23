@@ -83,13 +83,13 @@ func TestAnyToInt8(t *testing.T) {
 			name:     "positive integer out of range",
 			input:    128,
 			expected: 0,
-			err:      fmt.Errorf("128 out of int8 range"),
+			err:      ErrValOut,
 		},
 		{
 			name:     "negative integer out of range",
 			input:    -129,
 			expected: 0,
-			err:      fmt.Errorf("-129 out of int8 range"),
+			err:      ErrValOut,
 		},
 		{
 			name:     "float",
@@ -107,13 +107,13 @@ func TestAnyToInt8(t *testing.T) {
 			name:     "string out of range",
 			input:    "128",
 			expected: 0,
-			err:      fmt.Errorf("128 out of int8 range"),
+			err:      ErrValOut,
 		},
 		{
 			name:     "invalid string",
 			input:    "invalid",
 			expected: 0,
-			err:      fmt.Errorf(`strconv.ParseInt: parsing "invalid": invalid syntax`),
+			err:      ErrSyntax,
 		},
 	}
 
@@ -124,9 +124,12 @@ func TestAnyToInt8(t *testing.T) {
 
 			// Check error
 			if err != nil {
-				if err.Error() != tc.err.Error() {
+				if !errors.Is(err, tc.err) {
 					t.Errorf("Expected error: %v, but got: %v", tc.err, err)
 				}
+				//if err.Error() != tc.err.Error() {
+				//	t.Errorf("Expected error: %v, but got: %v", tc.err, err)
+				//}
 			}
 
 			// Check result
@@ -180,13 +183,13 @@ func TestAnyToInt32(t *testing.T) {
 	}{
 		{int(123), 123, nil},
 		{int64(2147483647), 2147483647, nil},
-		{int64(2147483648), 0, fmt.Errorf("%d out of int32 range", 2147483648)},
+		{int64(2147483648), 0, ErrValOut},
 		{int64(-2147483648), -2147483648, nil},
-		{int64(-2147483649), 0, fmt.Errorf("%d out of int32 range", -2147483649)},
+		{int64(-2147483649), 0, ErrValOut},
 		{float64(123.45), 123, nil},
 		{"123", 123, nil},
-		{"-2147483649", 0, fmt.Errorf("-2147483649 out of int32 range")},
-		{struct{}{}, 0, fmt.Errorf("unsupported type %T to int", struct{}{})},
+		{"-2147483649", 0, ErrValOut},
+		{struct{}{}, 0, ErrType},
 	}
 
 	for _, testCase := range testCases {

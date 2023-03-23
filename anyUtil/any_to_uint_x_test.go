@@ -23,7 +23,7 @@ func TestAnyToUint(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{-5, 0, fmt.Errorf("value -5 is negative and cannot be converted to unsigned integer")},
+		{-5, 0, ErrUnsignedInt},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
@@ -46,7 +46,7 @@ func TestAnyToUint8(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{300, 0, fmt.Errorf("300 out of uint8 range")},
+		{300, 0, ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
@@ -69,7 +69,7 @@ func TestAnyToUint16(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{70000, 0, fmt.Errorf("70000 out of uint16 range")},
+		{70000, 0, ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
@@ -92,7 +92,7 @@ func TestAnyToUint32(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{5000000000, 0, fmt.Errorf("5000000000 out of uint32 range")},
+		{5000000000, 0, ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}

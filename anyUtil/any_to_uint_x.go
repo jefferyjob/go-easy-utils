@@ -1,8 +1,6 @@
 package anyUtil
 
 import (
-	"errors"
-	"fmt"
 	"math"
 	"reflect"
 	"strconv"
@@ -17,7 +15,7 @@ func AnyToUint(input interface{}) (uint, error) {
 
 	// uint 兼容32位和64位系统
 	if uint64(uint(v)) != v {
-		return 0, errors.New("value out of range")
+		return 0, ErrValOut
 	}
 
 	return uint(v), nil
@@ -30,7 +28,7 @@ func AnyToUint8(input interface{}) (uint8, error) {
 		return 0, err
 	}
 	if value > math.MaxUint8 {
-		return 0, fmt.Errorf("%d out of uint8 range", value)
+		return 0, ErrValOut
 	}
 	return uint8(value), nil
 }
@@ -42,7 +40,7 @@ func AnyToUint16(input interface{}) (uint16, error) {
 		return 0, err
 	}
 	if value > math.MaxUint16 {
-		return 0, fmt.Errorf("%d out of uint16 range", value)
+		return 0, ErrValOut
 	}
 	return uint16(value), nil
 }
@@ -54,7 +52,7 @@ func AnyToUint32(input interface{}) (uint32, error) {
 		return 0, err
 	}
 	if value > math.MaxUint32 {
-		return 0, fmt.Errorf("%d out of uint32 range", value)
+		return 0, ErrValOut
 	}
 	return uint32(value), nil
 }
@@ -67,21 +65,21 @@ func AnyToUint64(value interface{}) (uint64, error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		v := reflect.ValueOf(value).Int()
 		if v < 0 {
-			return 0, fmt.Errorf("value %v is negative and cannot be converted to unsigned integer", v)
+			return 0, ErrUnsignedInt
 		}
 		return uint64(v), nil
 	case reflect.Float32, reflect.Float64:
 		v := reflect.ValueOf(value).Float()
 		if v < 0 {
-			return 0, fmt.Errorf("value %f is too large or too small to convert to uint", v)
+			return 0, ErrUnsignedInt
 		}
 		return uint64(v), nil
 	case reflect.String:
 		val, err := strconv.ParseUint(value.(string), 10, 64)
 		if err != nil {
-			return 0, err
+			return 0, ErrSyntax
 		}
 		return val, nil
 	}
-	return 0, fmt.Errorf("unsupported type %T to uint", value)
+	return 0, ErrType
 }
