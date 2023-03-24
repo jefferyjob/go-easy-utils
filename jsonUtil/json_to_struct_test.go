@@ -106,6 +106,21 @@ func TestJsonToStruct2(t *testing.T) {
 
 	fmt.Printf("person1：%+v \n", person1)
 
+}
+
+func TestJsonToStruct3(t *testing.T) {
+	type Address struct {
+		City    string `json:"city"`
+		Country string `json:"country"`
+	}
+
+	type Person struct {
+		Name      string   `json:"name"`
+		Age       int      `json:"age"`
+		Address   Address  `json:"address"`
+		Interests []string `json:"interests"`
+	}
+
 	jsonData2 := `{
         "name": "Bob",
         "age": "25",
@@ -117,7 +132,7 @@ func TestJsonToStruct2(t *testing.T) {
     }`
 
 	var person2 Person
-	err = JsonToStruct(jsonData2, &person2)
+	err := JsonToStruct(jsonData2, &person2)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -126,7 +141,7 @@ func TestJsonToStruct2(t *testing.T) {
 }
 
 // 多层级json测试
-func TestJsonToStruct3(t *testing.T) {
+func TestJsonToStruct4(t *testing.T) {
 	type Address struct {
 		City    string `json:"city"`
 		Street  string `json:"street"`
@@ -165,4 +180,69 @@ func TestJsonToStruct3(t *testing.T) {
 	}
 
 	fmt.Printf("%+v \n", student)
+}
+
+func TestJsonToStruct5(t *testing.T) {
+	type Student struct {
+		Name string `json:"name,omitempty"`
+		Age  int    `json:"age,omitempty"`
+	}
+	jsonStr4 := `{
+		"name":null,
+		"age": "30"
+	}`
+
+	var student Student
+	if err := JsonToStruct(jsonStr4, &student); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("%+v \n", student)
+}
+
+func TestJsonToStruct6(t *testing.T) {
+	type Student struct {
+		Name interface{} `json:"name,omitempty"`
+		Age  int         `json:"age,omitempty"`
+	}
+	jsonStr4 := `{
+		"name":"zhangsan",
+		"age": "123"
+	}`
+
+	var student Student
+	if err := JsonToStruct(jsonStr4, &student); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("%+v \n", student)
+}
+
+func TestJsonToStruct7(t *testing.T) {
+	type Student struct {
+		Name  bool `json:"name"`
+		Name2 uint `json:"name2"`
+		Name3 uint `json:"name3"`
+		Age   int  `json:"age"`
+	}
+	jsonStr4 := `{
+		"name": true,
+		"name2": -1,
+		"name3": null,
+		"age": "123"
+	}`
+
+	var student Student
+	if err := JsonToStruct(jsonStr4, &student); err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	fmt.Printf("%#v \n", student)
+}
+
+func TestToUint64(t *testing.T) {
+	fmt.Println(toUint64(""))
 }

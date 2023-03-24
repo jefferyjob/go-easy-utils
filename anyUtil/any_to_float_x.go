@@ -1,7 +1,7 @@
 package anyUtil
 
 import (
-	"fmt"
+	"github.com/jefferyjob/go-easy-utils"
 	"math"
 	"strconv"
 )
@@ -12,15 +12,18 @@ func AnyToFloat32(value interface{}) (float32, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println(-math.MaxFloat32, f64, math.MaxFloat32)
 	if f64 < -math.MaxFloat32 || f64 > math.MaxFloat32 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return float32(f64), nil
 }
 
 // AnyToFloat64 将给定的值转换为float64
 func AnyToFloat64(v interface{}) (float64, error) {
+	if v == nil {
+		return 0, nil
+	}
+
 	switch val := v.(type) {
 	case float32:
 		return float64(val), nil
@@ -49,32 +52,11 @@ func AnyToFloat64(v interface{}) (float64, error) {
 	case string:
 		v, err := strconv.ParseFloat(val, 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return v, nil
+	case interface{}:
+		return 0, nil
 	}
-	return 0, ErrType
-
-	//switch reflect.TypeOf(v).Kind() {
-	//case reflect.Float64:
-	//	return v.(float64), nil
-	//case reflect.Float32:
-	//	return float64(v.(float32)), nil
-	//case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-	//	intVal := reflect.ValueOf(v).Int()
-	//	if float64(intVal) > math.MaxFloat64 || float64(intVal) < -math.MaxFloat64 {
-	//		return 0, ErrValOut
-	//	}
-	//	return float64(intVal), nil
-	//case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-	//	uintVal := reflect.ValueOf(v).Uint()
-	//	if uintVal > uint64(math.MaxUint) {
-	//		return 0, ErrValOut
-	//	}
-	//	return float64(uintVal), nil
-	//case reflect.String:
-	//	return strconv.ParseFloat(v.(string), 64)
-	//default:
-	//	return 0, ErrType
-	//}
+	return 0, go_easy_utils.ErrType
 }

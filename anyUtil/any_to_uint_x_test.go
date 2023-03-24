@@ -1,19 +1,10 @@
 package anyUtil
 
 import (
-	"fmt"
+	"github.com/jefferyjob/go-easy-utils"
 	"reflect"
 	"testing"
 )
-
-func TestAA(t *testing.T) {
-	toUint, err := AnyToUint(1.5)
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
-	fmt.Println(toUint)
-}
 
 func TestAnyToUint(t *testing.T) {
 	// Test cases
@@ -23,7 +14,7 @@ func TestAnyToUint(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{-5, 0, ErrUnsignedInt},
+		{-5, 0, go_easy_utils.ErrUnsignedInt},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
@@ -46,7 +37,7 @@ func TestAnyToUint8(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{300, 0, ErrValOut},
+		{300, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
@@ -69,7 +60,7 @@ func TestAnyToUint16(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{70000, 0, ErrValOut},
+		{70000, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
@@ -92,7 +83,7 @@ func TestAnyToUint32(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{5000000000, 0, ErrValOut},
+		{5000000000, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 	}
