@@ -1,4 +1,4 @@
-package anyUtil
+package go_easy_utils
 
 import (
 	"errors"

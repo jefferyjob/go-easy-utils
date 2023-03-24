@@ -1,6 +1,7 @@
 package anyUtil
 
 import (
+	"github.com/jefferyjob/go-easy-utils"
 	"math"
 	"reflect"
 	"strconv"
@@ -15,7 +16,7 @@ func AnyToUint(input interface{}) (uint, error) {
 
 	// uint 兼容32位和64位系统
 	if uint64(uint(v)) != v {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 
 	return uint(v), nil
@@ -28,7 +29,7 @@ func AnyToUint8(input interface{}) (uint8, error) {
 		return 0, err
 	}
 	if value > math.MaxUint8 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return uint8(value), nil
 }
@@ -40,7 +41,7 @@ func AnyToUint16(input interface{}) (uint16, error) {
 		return 0, err
 	}
 	if value > math.MaxUint16 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return uint16(value), nil
 }
@@ -52,7 +53,7 @@ func AnyToUint32(input interface{}) (uint32, error) {
 		return 0, err
 	}
 	if value > math.MaxUint32 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return uint32(value), nil
 }
@@ -65,21 +66,23 @@ func AnyToUint64(value interface{}) (uint64, error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		v := reflect.ValueOf(value).Int()
 		if v < 0 {
-			return 0, ErrUnsignedInt
+			return 0, go_easy_utils.ErrUnsignedInt
 		}
 		return uint64(v), nil
 	case reflect.Float32, reflect.Float64:
 		v := reflect.ValueOf(value).Float()
 		if v < 0 {
-			return 0, ErrUnsignedInt
+			return 0, go_easy_utils.ErrUnsignedInt
 		}
 		return uint64(v), nil
 	case reflect.String:
 		val, err := strconv.ParseUint(value.(string), 10, 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return val, nil
+	case reflect.Interface:
+		return AnyToUint64(reflect.ValueOf(value).Elem().Interface())
 	}
-	return 0, ErrType
+	return 0, go_easy_utils.ErrType
 }
