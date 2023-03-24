@@ -22,9 +22,6 @@
 go get -u github.com/jefferyjob/go-easy-utils/jsonUtil
 ```
 
-## ErrorCode
-
-
 ## Functions
 
 ```go
