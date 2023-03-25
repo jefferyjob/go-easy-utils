@@ -290,22 +290,6 @@ func SumFloat32Slice(slice []float32) float32
 func SumFloat64Slice(slice []float64) float64
 ```
 
-### randUtil 随机数
-
-```go
-// RandomInt 生成指定范围内的随机整数
-func RandomInt(min, max int) int
-
-// RandomFloat 生成指定范围内的随机浮点数
-func RandomFloat(min, max float64) float64
-
-// RandomString 生成指定长度的随机字符串
-func RandomString(length int) string
-
-// RandomBytes 生成指定长度的随机字节数组
-func RandomBytes(length int) []byte
-```
-
 ### mapUtil map类型处理
 
 ```go
@@ -349,12 +333,6 @@ func Float32ToFloat64(f float32) float64
 
 // Float64ToFloat32 float64转float32
 func Float64ToFloat32(f float64) float32
-
-// Float64Round 四舍五入
-func Float64Round(input float64, precision int) float64
-
-// Float64Ceil 向上取整
-func Float64Ceil(input float64) float64
 ```
 
 ### emoji表情包
