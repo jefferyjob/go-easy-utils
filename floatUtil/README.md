@@ -20,10 +20,4 @@ func Float32ToFloat64(f float32) float64
 
 // Float64ToFloat32 float64转float32
 func Float64ToFloat32(f float64) float32
-
-// Float64Round 四舍五入
-func Float64Round(input float64, precision int) float64
-
-// Float64Ceil 向上取整
-func Float64Ceil(input float64) float64
 ```
