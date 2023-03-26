@@ -84,19 +84,19 @@ func AnyToUint64(i interface{}) (uint64, error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		intValue := v.Int()
 		if intValue < 0 {
-			return 0, nil
+			return 0, go_easy_utils.ErrUnsignedInt
 		}
 		return uint64(intValue), nil
 	case reflect.Float32, reflect.Float64:
 		floatValue := v.Float()
 		if floatValue < 0 {
-			return 0, nil
+			return 0, go_easy_utils.ErrUnsignedInt
 		}
 		return uint64(floatValue), nil
 	case reflect.Complex64, reflect.Complex128:
 		realValue := real(v.Complex())
 		if realValue < 0 {
-			return 0, nil
+			return 0, go_easy_utils.ErrUnsignedInt
 		}
 		return uint64(realValue), nil
 	case reflect.String:
@@ -112,11 +112,6 @@ func AnyToUint64(i interface{}) (uint64, error) {
 		} else {
 			return 0, nil
 		}
-	//case reflect.Ptr, reflect.Interface:
-	//	if v.IsNil() {
-	//		return 0, nil
-	//	}
-	//	return toUint64(v.Elem().Interface())
 	default:
 		return 0, go_easy_utils.ErrType
 	}
