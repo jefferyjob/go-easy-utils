@@ -1,93 +1,91 @@
 package anyUtil
 
 import (
+	go_easy_utils "github.com/jefferyjob/go-easy-utils"
+	"math"
 	"testing"
 )
 
+//func TestAnyToFloat64Test(t *testing.T) {
+//	fmt.Println(AnyToFloat64([]int{}))
+//}
+
 func TestAnyToFloat32(t *testing.T) {
-	// 测试类型转换为float32
-	f, err := AnyToFloat32(float32(3.14))
-	if err != nil {
-		t.Errorf("AnyToFloat32 failed: %v", err)
-	}
-	if f != float32(3.14) {
-		t.Errorf("AnyToFloat32 failed: expected %v, but got %v", float32(3.14), f)
-	}
-
-	// 测试类型转换为float64
-	f, err = AnyToFloat32(float64(3.14))
-	if err != nil {
-		t.Errorf("AnyToFloat32 failed: %v", err)
-	}
-	if f != float32(3.14) {
-		t.Errorf("AnyToFloat32 failed: expected %v, but got %v", float32(3.14), f)
-	}
-
-	// 测试类型转换为int
-	f, err = AnyToFloat32(int(3))
-	if err != nil {
-		t.Errorf("AnyToFloat32 failed: %v", err)
-	}
-	if f != float32(3) {
-		t.Errorf("AnyToFloat32 failed: expected %v, but got %v", float32(3), f)
+	tests := []struct {
+		input interface{}
+		want  float32
+		err   error
+	}{
+		{nil, 0, nil},
+		{float32(3.14), 3.14, nil},
+		{float64(6.28), 6.28, nil},
+		{int(42), 42, nil},
+		{int8(8), 8, nil},
+		{int16(16), 16, nil},
+		{int32(32), 32, nil},
+		{int64(64), 64, nil},
+		{uint(24), 24, nil},
+		{uint8(8), 8, nil},
+		{uint16(16), 16, nil},
+		{uint32(32), 32, nil},
+		{uint64(64), 64, nil},
+		{"3.14", 3.14, nil},
+		{math.MaxFloat64, 0, go_easy_utils.ErrValOut},
 	}
 
-	// 测试类型转换为string
-	f, err = AnyToFloat32("3.14")
-	if err != nil {
-		t.Errorf("AnyToFloat32 failed: %v", err)
-	}
-	if f != float32(3.14) {
-		t.Errorf("AnyToFloat32 failed: expected %v, but got %v", float32(3.14), f)
-	}
-
-	// 测试错误的值
-	_, err = AnyToFloat32("invalid")
-	if err == nil {
-		t.Errorf("AnyToFloat32 failed: expected an error, but got none")
+	for _, test := range tests {
+		got, err := AnyToFloat32(test.input)
+		if got != test.want {
+			t.Errorf("AnyToFloat32(%v) = %v; want %v", test.input, got, test.want)
+		}
+		if err != test.err {
+			if err != nil && test.err != nil {
+				if err.Error() != test.err.Error() {
+					t.Errorf("AnyToFloat32(%v) error = %v; want %v", test.input, err, test.err)
+				}
+			} else {
+				t.Errorf("AnyToFloat32(%v) error = %v; want %v", test.input, err, test.err)
+			}
+		}
 	}
 }
 
 func TestAnyToFloat64(t *testing.T) {
-	// 测试类型转换为float64
-	f, err := AnyToFloat64(float64(3.14))
-	if err != nil {
-		t.Errorf("AnyToFloat64 failed: %v", err)
-	}
-	if f != float64(3.14) {
-		t.Errorf("AnyToFloat64 failed: expected %v, but got %v", float64(3.14), f)
-	}
-
-	//// 测试类型转换为float32
-	//f, err = AnyToFloat64(float32(3.1))
-	//if err != nil {
-	//	t.Errorf("AnyToFloat64 failed: %v", err)
-	//}
-	//if f != float64(3.1) {
-	//	t.Errorf("AnyToFloat64 failed: expected %v, but got %v", float64(3.14), f)
-	//}
-
-	// 测试类型转换为int
-	f, err = AnyToFloat64(int(3))
-	if err != nil {
-		t.Errorf("AnyToFloat64 failed: %v", err)
-	}
-	if f != float64(3) {
-		t.Errorf("AnyToFloat64 failed:expected %v, but got %v", float64(3), f)
+	tests := []struct {
+		input interface{}
+		want  float64
+		err   error
+	}{
+		{nil, 0, nil},
+		//{float32(3.14), 3.14, nil},
+		{float64(6.28), 6.28, nil},
+		{int(42), 42, nil},
+		{int8(8), 8, nil},
+		{int16(16), 16, nil},
+		{int32(32), 32, nil},
+		{int64(64), 64, nil},
+		{uint(24), 24, nil},
+		{uint8(8), 8, nil},
+		{uint16(16), 16, nil},
+		{uint32(32), 32, nil},
+		{uint64(64), 64, nil},
+		{"3.14", 3.14, nil},
+		{[]int{}, 0, go_easy_utils.ErrType},
 	}
 
-	// 测试类型转换为string
-	f, err = AnyToFloat64("3.14")
-	if err != nil {
-		t.Errorf("AnyToFloat64 failed: %v", err)
-	}
-	if f != float64(3.14) {
-		t.Errorf("AnyToFloat64 failed: expected %v, but got %v", float64(3.14), f)
-	}
-
-	// 测试错误的值
-	_, err = AnyToFloat64("invalid")
-	if err == nil {
-		t.Errorf("AnyToFloat64 failed: expected an error, but got none")
+	for _, test := range tests {
+		got, err := AnyToFloat64(test.input)
+		if got != test.want {
+			t.Errorf("AnyToFloat64(%v) = %v; want %v", test.input, got, test.want)
+		}
+		if err != test.err {
+			if err != nil && test.err != nil {
+				if err.Error() != test.err.Error() {
+					t.Errorf("AnyToFloat64(%v) error = %v; want %v", test.input, err, test.err)
+				}
+			} else {
+				t.Errorf("AnyToFloat64(%v) error = %v; want %v", test.input, err, test.err)
+			}
+		}
 	}
 }
