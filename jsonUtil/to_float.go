@@ -110,18 +110,12 @@ func toFloat64Reflect(i interface{}) (float64, error) {
 		return 0, nil
 	}
 
-	// 检查解引用后的值是否为 nil
-	if reflect.ValueOf(i).Kind() == reflect.Ptr && reflect.ValueOf(i).IsNil() {
-		return 0, nil
-	}
-
 	v := reflect.ValueOf(i)
-	// 处理指针类型
-	if reflect.TypeOf(i).Kind() == reflect.Ptr {
-		if reflect.ValueOf(i).IsNil() {
+	if v.Kind() == reflect.Ptr {
+		if v.IsNil() {
 			return 0, nil
 		}
-		v = reflect.ValueOf(i).Elem()
+		v = v.Elem()
 	}
 
 	switch v.Kind() {
