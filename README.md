@@ -14,7 +14,7 @@ English | [简体中文](README.cn.md)
 This is a general data type processing tool class based on Go language, which helps developers process common data types and data operations in business code implementation. It allows you to focus on the implementation of your business code without processing the basic data type conversion and validation functions. The non-intrusive design of the tool library can make your business code easier to read and elegant.
 
 ## Quick Start
-**install**
+**Install**
 ```bash
 go get -u github.com/jefferyjob/go-easy-utils
 ```
