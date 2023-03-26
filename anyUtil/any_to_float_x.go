@@ -55,8 +55,7 @@ func AnyToFloat64(v interface{}) (float64, error) {
 			return 0, go_easy_utils.ErrSyntax
 		}
 		return v, nil
-	case interface{}:
-		return 0, nil
+	default:
+		return 0, go_easy_utils.ErrType
 	}
-	return 0, go_easy_utils.ErrType
 }

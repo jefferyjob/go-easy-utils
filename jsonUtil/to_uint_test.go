@@ -13,6 +13,41 @@ func TestToUint64(t *testing.T) {
 		wantError error
 	}{
 		{
+			name:  "Test -float32",
+			input: float32(-0.1),
+			want:  0,
+		},
+		{
+			name:  "Test -float64",
+			input: float64(-0.2),
+			want:  0,
+		},
+		{
+			name:  "Test -int",
+			input: int(-1),
+			want:  0,
+		},
+		{
+			name:  "Test -int8",
+			input: int8(-2),
+			want:  0,
+		},
+		{
+			name:  "Test -int16",
+			input: int8(-3),
+			want:  0,
+		},
+		{
+			name:  "Test -int32",
+			input: int8(-4),
+			want:  0,
+		},
+		{
+			name:  "Test -int64",
+			input: int8(-5),
+			want:  0,
+		},
+		{
 			name:  "Test uint8",
 			input: uint8(42),
 			want:  42,
