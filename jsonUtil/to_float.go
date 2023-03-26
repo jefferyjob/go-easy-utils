@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	"fmt"
 	"github.com/jefferyjob/go-easy-utils"
 	"reflect"
 	"strconv"
@@ -135,7 +134,6 @@ func toFloat64Reflect(i interface{}) (float64, error) {
 		}
 		return floatValue, nil
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		fmt.Println("怎么可以到这里呢")
 		return float64(v.Int()), nil
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
 		return float64(v.Uint()), nil
@@ -152,5 +150,4 @@ func toFloat64Reflect(i interface{}) (float64, error) {
 	default:
 		return 0, go_easy_utils.ErrType
 	}
-
 }

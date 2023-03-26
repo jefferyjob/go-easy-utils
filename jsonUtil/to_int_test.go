@@ -32,6 +32,7 @@ func TestToInt64(t *testing.T) {
 		{complex128(1 + 2i), 1, nil},
 		{nil, 0, nil},
 		{"not a number", 0, go_easy_utils.ErrSyntax},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	for _, tt := range tests {

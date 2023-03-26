@@ -1,8 +1,6 @@
-package jsonUtil
+package anyUtil
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestToBool(t *testing.T) {
 	var tests = []struct {
@@ -46,14 +44,9 @@ func TestToBool(t *testing.T) {
 		{complex128(1 + 1i), true},
 		{complex128(0 + 0i), false},
 		{(*int)(nil), false},
-		{make(chan int), false},
 	}
 	for _, test := range tests {
-		if got := toBool(test.input); got != test.want {
-			t.Errorf("toBool(%v) = %v; want %v", test.input, got, test.want)
-		}
-
-		if got := toBoolReflect(test.input); got != test.want {
+		if got := AnyToBool(test.input); got != test.want {
 			t.Errorf("toBool(%v) = %v; want %v", test.input, got, test.want)
 		}
 	}

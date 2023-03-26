@@ -26,6 +26,7 @@ func TestToString(t *testing.T) {
 		{"bool-false", false, "false"},
 		{"complex64", complex64(1 + 2i), "(1+2i)"},
 		{"complex128", complex128(3 + 4i), "(3+4i)"},
+		{"chan", make(chan int), ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

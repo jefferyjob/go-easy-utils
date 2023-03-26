@@ -403,6 +403,9 @@ func AnyToUint32(input interface{}) (uint32, error)
 
 // AnyToUint64 将给定的值转换为 uint64
 func AnyToUint64(input interface{}) (uint64, error)
+
+// AnyToBool 将给定的值转换为bool
+func AnyToBool(i interface{}) bool 
 ```
 
 

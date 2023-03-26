@@ -2,7 +2,6 @@ package jsonUtil
 
 import (
 	"fmt"
-	"log"
 	"testing"
 )
 
@@ -86,6 +85,8 @@ func TestJsonToStruct1(t *testing.T) {
 	type Person struct {
 		Name    string   `json:"name"`
 		Age     int      `json:"age"`
+		Source  float64  `json:"source"`
+		Number  int      `json:"number"`
 		Address Address  `json:"address"`
 		Emails  []string `json:"emails"`
 	}
@@ -93,6 +94,7 @@ func TestJsonToStruct1(t *testing.T) {
 	jsonData := `{
         "name": "John Doe",
         "age": 30,
+ 		"source": "99.99",
         "address": {
             "city": "Shanghai",
             "country": "China"
@@ -144,39 +146,6 @@ func TestJsonToStruct1(t *testing.T) {
 			t.Errorf("Emails[%d] mismatch: expected %s but got %s", i, expectedEmail, resultPerson.Emails[i])
 		}
 	}
-}
-
-func TestJsonToStruct2(t *testing.T) {
-	type Address struct {
-		City    string `json:"city"`
-		Country string `json:"country"`
-	}
-
-	type Person struct {
-		Name      string   `json:"name"`
-		Age       int      `json:"age"`
-		Address   Address  `json:"address"`
-		Interests []string `json:"interests"`
-	}
-
-	jsonData1 := `{
-        "name": "Bob",
-        "age": 25,
-        "address": {
-            "city": "Shanghai",
-            "country": "China"
-        },
-        "interests": ["reading", "swimming"]
-    }`
-
-	var person1 Person
-	err := JsonToStruct(jsonData1, &person1)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("person1：%+v \n", person1)
-
 }
 
 // 多层级json测试

@@ -44,6 +44,7 @@ func TestToFloat64(t *testing.T) {
 		{true, 1, nil},
 		{false, 0, nil},
 		{(*bool)(nil), 0, nil},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	for _, tc := range testCases {

@@ -61,33 +61,49 @@ func AnyToInt32(input interface{}) (int32, error) {
 }
 
 // AnyToInt64 将给定的值转换为 int64
-func AnyToInt64(value interface{}) (int64, error) {
-	if value == nil {
+func AnyToInt64(i interface{}) (int64, error) {
+	if i == nil {
 		return 0, nil
 	}
-	switch reflect.TypeOf(value).Kind() {
-	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		return reflect.ValueOf(value).Int(), nil
-	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		v := reflect.ValueOf(value).Uint()
-		if v > math.MaxUint64 {
-			return 0, go_easy_utils.ErrValOut
+
+	// 检查解引用后的值是否为 nil
+	if reflect.ValueOf(i).Kind() == reflect.Ptr && reflect.ValueOf(i).IsNil() {
+		return 0, nil
+	}
+
+	v := reflect.ValueOf(i)
+	// 处理指针类型
+	if reflect.TypeOf(i).Kind() == reflect.Ptr {
+		if reflect.ValueOf(i).IsNil() {
+			return 0, nil
 		}
-		return int64(v), nil
+		v = reflect.ValueOf(i).Elem()
+	}
+
+	switch v.Kind() {
 	case reflect.Float32, reflect.Float64:
-		v := reflect.ValueOf(value).Float()
-		if v < float64(math.MinInt64) || v > float64(math.MaxInt64) {
-			return 0, go_easy_utils.ErrValOut
-		}
-		return int64(v), nil
+		return int64(v.Float()), nil
 	case reflect.String:
-		val, err := strconv.ParseInt(value.(string), 10, 64)
+		intValue, err := strconv.ParseInt(v.String(), 10, 64)
 		if err != nil {
 			return 0, go_easy_utils.ErrSyntax
 		}
-		return val, nil
-	case reflect.Interface:
-		return AnyToInt64(reflect.ValueOf(value).Elem().Interface())
+		return intValue, nil
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return v.Int(), nil
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		return int64(v.Uint()), nil
+	case reflect.Complex64:
+		return int64(real(v.Complex())), nil
+	case reflect.Complex128:
+		return int64(real(v.Complex())), nil
+	case reflect.Bool:
+		if v.Bool() {
+			return 1, nil
+		} else {
+			return 0, nil
+		}
+	default:
+		return 0, go_easy_utils.ErrType
 	}
-	return 0, go_easy_utils.ErrType
 }

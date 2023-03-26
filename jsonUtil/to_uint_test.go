@@ -34,18 +34,23 @@ func TestToUint64(t *testing.T) {
 		},
 		{
 			name:  "Test -int16",
-			input: int8(-3),
+			input: int16(-3),
 			want:  0,
 		},
 		{
 			name:  "Test -int32",
-			input: int8(-4),
+			input: int32(-4),
 			want:  0,
 		},
 		{
 			name:  "Test -int64",
-			input: int8(-5),
+			input: int64(-5),
 			want:  0,
+		},
+		{
+			name:  "Test uint",
+			input: uint(12),
+			want:  12,
 		},
 		{
 			name:  "Test uint8",
