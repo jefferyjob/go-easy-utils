@@ -1,8 +1,9 @@
 package anyUtil
 
 import (
-	"fmt"
+	"github.com/jefferyjob/go-easy-utils"
 	"math"
+	"reflect"
 	"strconv"
 )
 
@@ -12,69 +13,54 @@ func AnyToFloat32(value interface{}) (float32, error) {
 	if err != nil {
 		return 0, err
 	}
-	fmt.Println(-math.MaxFloat32, f64, math.MaxFloat32)
 	if f64 < -math.MaxFloat32 || f64 > math.MaxFloat32 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return float32(f64), nil
 }
 
 // AnyToFloat64 将给定的值转换为float64
-func AnyToFloat64(v interface{}) (float64, error) {
-	switch val := v.(type) {
-	case float32:
-		return float64(val), nil
-	case float64:
-		return val, nil
-	case int:
-		return float64(val), nil
-	case int8:
-		return float64(val), nil
-	case int16:
-		return float64(val), nil
-	case int32:
-		return float64(val), nil
-	case int64:
-		return float64(val), nil
-	case uint:
-		return float64(val), nil
-	case uint8:
-		return float64(val), nil
-	case uint16:
-		return float64(val), nil
-	case uint32:
-		return float64(val), nil
-	case uint64:
-		return float64(val), nil
-	case string:
-		v, err := strconv.ParseFloat(val, 64)
-		if err != nil {
-			return 0, ErrSyntax
-		}
-		return v, nil
+func AnyToFloat64(i interface{}) (float64, error) {
+	if i == nil {
+		return 0, nil
 	}
-	return 0, ErrType
 
-	//switch reflect.TypeOf(v).Kind() {
-	//case reflect.Float64:
-	//	return v.(float64), nil
-	//case reflect.Float32:
-	//	return float64(v.(float32)), nil
-	//case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-	//	intVal := reflect.ValueOf(v).Int()
-	//	if float64(intVal) > math.MaxFloat64 || float64(intVal) < -math.MaxFloat64 {
-	//		return 0, ErrValOut
-	//	}
-	//	return float64(intVal), nil
-	//case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
-	//	uintVal := reflect.ValueOf(v).Uint()
-	//	if uintVal > uint64(math.MaxUint) {
-	//		return 0, ErrValOut
-	//	}
-	//	return float64(uintVal), nil
-	//case reflect.String:
-	//	return strconv.ParseFloat(v.(string), 64)
-	//default:
-	//	return 0, ErrType
-	//}
+	// 检查解引用后的值是否为 nil
+	if reflect.ValueOf(i).Kind() == reflect.Ptr && reflect.ValueOf(i).IsNil() {
+		return 0, nil
+	}
+
+	v := reflect.ValueOf(i)
+	// 处理指针类型
+	if reflect.TypeOf(i).Kind() == reflect.Ptr {
+		if reflect.ValueOf(i).IsNil() {
+			return 0, nil
+		}
+		v = reflect.ValueOf(i).Elem()
+	}
+
+	switch v.Kind() {
+	case reflect.Float32, reflect.Float64:
+		return v.Float(), nil
+	case reflect.String:
+		floatValue, err := strconv.ParseFloat(v.String(), 64)
+		if err != nil {
+			return 0, go_easy_utils.ErrSyntax
+		}
+		return floatValue, nil
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		return float64(v.Int()), nil
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+		return float64(v.Uint()), nil
+	case reflect.Complex64, reflect.Complex128:
+		return real(v.Complex()), nil
+	case reflect.Bool:
+		if v.Bool() {
+			return 1, nil
+		} else {
+			return 0, nil
+		}
+	default:
+		return 0, go_easy_utils.ErrType
+	}
 }

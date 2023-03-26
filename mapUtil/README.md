@@ -6,9 +6,6 @@
 go get -u github.com/jefferyjob/go-easy-utils/mapUtil
 ```
 
-## ErrorCode
-
-
 ## Functions
 
 ```go
