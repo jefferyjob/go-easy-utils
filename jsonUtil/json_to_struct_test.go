@@ -6,6 +6,77 @@ import (
 	"testing"
 )
 
+// name uses two json tags
+// age is defined as int, and the value of json is string
+// is_use is defined as bool, the value of json is int
+func TestDemo1(t *testing.T) {
+	jsonData := `{
+		"name": "make",
+		"age": "22",
+		"is_use": "1"
+	}`
+	type People struct {
+		Name  string `json:"name,omitempty"`
+		Age   int    `json:"age"`
+		IsUse bool   `json:"is_use"`
+	}
+	var people People
+	if err := JsonToStruct(jsonData, &people); err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%+v \n", people)
+	// return
+	// {Name:make Age:22 IsUse:true}
+}
+
+// Structure nesting and slice nesting processing
+func TestJsonToStructDemo2(t *testing.T) {
+	type Address struct {
+		City    string `json:"city"`
+		Country string `json:"country"`
+	}
+	type Person struct {
+		Name      string   `json:"name"`
+		Age       int      `json:"age"`
+		Address   Address  `json:"address"`
+		Interests []string `json:"interests"`
+	}
+
+	jsonData2 := `{
+        "name": "Bob",
+        "age": "25",
+        "address": {
+            "city": "Shanghai",
+            "country": "China"
+        },
+        "interests": ["reading", "swimming"]
+    }`
+
+	var person Person
+	err := JsonToStruct(jsonData2, &person)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%+v \n", person)
+	// {Name:Bob Age:25 Address:{City:Shanghai Country:China} Interests:[reading swimming]}
+}
+
+// 非法的json字符串
+func TestJsonToStructErrJson(t *testing.T) {
+	jsonData := `{"name":}`
+	type People struct {
+		Name string `json:"name"`
+	}
+	var people People
+	err := JsonToStruct(jsonData, &people)
+	if err == nil {
+		t.Errorf("err %s", err)
+		return
+	}
+}
+
 func TestJsonToStruct1(t *testing.T) {
 	type Address struct {
 		City    string `json:"city"`
@@ -106,38 +177,6 @@ func TestJsonToStruct2(t *testing.T) {
 
 	fmt.Printf("person1：%+v \n", person1)
 
-}
-
-func TestJsonToStruct3(t *testing.T) {
-	type Address struct {
-		City    string `json:"city"`
-		Country string `json:"country"`
-	}
-
-	type Person struct {
-		Name      string   `json:"name"`
-		Age       int      `json:"age"`
-		Address   Address  `json:"address"`
-		Interests []string `json:"interests"`
-	}
-
-	jsonData2 := `{
-        "name": "Bob",
-        "age": "25",
-        "address": {
-            "city": "Shanghai",
-            "country": "China"
-        },
-        "interests": ["reading", "swimming"]
-    }`
-
-	var person2 Person
-	err := JsonToStruct(jsonData2, &person2)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Printf("person2：%+v，， address：%+v \n", person2, person2.Address)
 }
 
 // 多层级json测试
@@ -241,8 +280,4 @@ func TestJsonToStruct7(t *testing.T) {
 	}
 
 	fmt.Printf("%#v \n", student)
-}
-
-func TestToUint64(t *testing.T) {
-	fmt.Println(toUint64(""))
 }
