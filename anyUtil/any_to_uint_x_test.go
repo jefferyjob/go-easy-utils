@@ -17,6 +17,7 @@ func TestAnyToUint(t *testing.T) {
 		{-5, 0, go_easy_utils.ErrUnsignedInt},
 		{"20", 20, nil},
 		{1.5, 1, nil},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -40,6 +41,7 @@ func TestAnyToUint8(t *testing.T) {
 		{300, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -63,6 +65,7 @@ func TestAnyToUint16(t *testing.T) {
 		{70000, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -86,6 +89,7 @@ func TestAnyToUint32(t *testing.T) {
 		{5000000000, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -99,6 +103,8 @@ func TestAnyToUint32(t *testing.T) {
 }
 
 func TestAnyToUint64(t *testing.T) {
+	iPtr := 90
+
 	tests := []struct {
 		name      string
 		input     interface{}
@@ -230,6 +236,21 @@ func TestAnyToUint64(t *testing.T) {
 			name:  "Test bool false",
 			input: false,
 			want:  0,
+		},
+		{
+			name:  "Test int point",
+			input: &iPtr,
+			want:  90,
+		},
+		{
+			name:  "Test nil",
+			input: nil,
+			want:  0,
+		},
+		{
+			name:      "test -complex",
+			input:     complex(-1, -1),
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test invalid type",

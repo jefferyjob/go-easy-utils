@@ -113,6 +113,11 @@ func TestToUint64(t *testing.T) {
 			want:  42,
 		},
 		{
+			name:  "test -complex",
+			input: complex(-1, -1),
+			want:  0,
+		},
+		{
 			name:  "Test string",
 			input: "42",
 			want:  42,

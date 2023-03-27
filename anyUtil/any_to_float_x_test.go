@@ -31,6 +31,7 @@ func TestAnyToFloat32(t *testing.T) {
 		{uint64(64), 64, nil},
 		{"3.14", 3.14, nil},
 		{math.MaxFloat64, 0, go_easy_utils.ErrValOut},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	for _, test := range tests {
@@ -51,6 +52,8 @@ func TestAnyToFloat32(t *testing.T) {
 }
 
 func TestAnyToFloat64(t *testing.T) {
+	iPtr := 90
+
 	tests := []struct {
 		input interface{}
 		want  float64
@@ -70,6 +73,13 @@ func TestAnyToFloat64(t *testing.T) {
 		{uint32(32), 32, nil},
 		{uint64(64), 64, nil},
 		{"3.14", 3.14, nil},
+		{true, 1, nil},
+		{false, 0, nil},
+		{complex64(1 + 2i), 1, nil},
+		{complex128(1 + 2i), 1, nil},
+		{&iPtr, 90, nil},
+		{(*int)(nil), 0, nil},
+		{"abc", 0, go_easy_utils.ErrSyntax},
 		{[]int{}, 0, go_easy_utils.ErrType},
 	}
 

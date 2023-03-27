@@ -30,7 +30,7 @@ func isValidMonth(month, year int) bool {
 	case 1, 3, 5, 7, 8, 10, 12:
 		return true
 	case 4, 6, 9, 11:
-		return false
+		return true
 	case 2:
 		if year%4 == 0 && year%100 != 0 || year%400 == 0 {
 			return true
