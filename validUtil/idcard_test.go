@@ -16,7 +16,7 @@ func TestIsIDCard(t *testing.T) {
 	}{
 		{"", false},
 		{"110102197809193026", true},
-		{"1234567890123X", false},
+		{"142629680611101", true},
 	}
 	for _, c := range cases {
 		got := IsIDCard(c.input)
