@@ -1,8 +1,12 @@
 package anyUtil
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestToBool(t *testing.T) {
+	iPtr := 90
+
 	var tests = []struct {
 		input interface{}
 		want  bool
@@ -44,6 +48,8 @@ func TestToBool(t *testing.T) {
 		{complex128(1 + 1i), true},
 		{complex128(0 + 0i), false},
 		{(*int)(nil), false},
+		{&iPtr, true},
+		{[]int{}, false},
 	}
 	for _, test := range tests {
 		if got := AnyToBool(test.input); got != test.want {

@@ -3,6 +3,7 @@ package anyUtil
 import "testing"
 
 func TestAnyToStr(t *testing.T) {
+	iPtr := 90
 	testCases := []struct {
 		input    interface{}
 		expected string
@@ -20,6 +21,10 @@ func TestAnyToStr(t *testing.T) {
 		{uint64(640), "640"},
 		{float32(3.14159), "3.14159"},
 		{float64(2.71828), "2.71828"},
+		{complex64(1 + 2i), "(1+2i)"},
+		{complex128(3 + 4i), "(3+4i)"},
+		{(*int)(nil), ""},
+		{&iPtr, "90"},
 		{true, "true"},
 		{nil, ""},
 	}
