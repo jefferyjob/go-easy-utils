@@ -1,7 +1,6 @@
 package anyUtil
 
 import (
-	"fmt"
 	"github.com/jefferyjob/go-easy-utils"
 	"math"
 	"reflect"
@@ -17,7 +16,6 @@ func AnyToInt(input interface{}) (int, error) {
 
 	// int 兼容32位和64位系统
 	if int64(int(v)) != v {
-		fmt.Println(int64(int(v)), v)
 		return 0, go_easy_utils.ErrValOut
 	}
 
