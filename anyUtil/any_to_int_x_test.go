@@ -7,6 +7,10 @@ import (
 	"testing"
 )
 
+//func TestAnyToIntDemo(t *testing.T) {
+//	fmt.Println(AnyToInt(math.MinInt32))
+//}
+
 func TestAnyToInt(t *testing.T) {
 	type testCase struct {
 		input    interface{}
@@ -229,11 +233,16 @@ func TestAnyToInt64(t *testing.T) {
 		{"42.42", int64(0), true}, // invalid syntax
 		// unsupported type
 		{struct{}{}, int64(0), true},
-		// other type
+		// complex
+		{complex64(1 + 2i), 1, false},
+		{complex128(1 + 2i), 1, false},
+		// point
+		{(*int)(nil), 0, false},
 		{nil, 0, false},
+		{&iPtr, 90, false},
+		// bool
 		{true, 1, false},
 		{false, 0, false},
-		{&iPtr, 90, false},
 	}
 
 	for _, testCase := range testCases {
