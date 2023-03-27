@@ -8,4 +8,4 @@
 - 优化了 `anyUtil` 包中关于指针类型的判断
 - 优化了 `anyUtil` 和 `jsonUtil` 文档
 - Fix：删除了 `AnyToInt` 方法中的debug代码 #5
-- Fix：修复了身份证号最后一位是x，加权求和比较条件错误 #7
+- Fix：修复了身份证号验证存在的问题 #7
