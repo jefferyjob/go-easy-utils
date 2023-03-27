@@ -67,12 +67,13 @@ func IsIDCard18(id string) bool {
 		num, _ := strconv.Atoi(string(id[i]))
 		sum += num * weights[i]
 	}
+
 	// 计算校验码
 	checkCode := sum % 11
 	checkCodeMap := map[int]string{
 		0:  "1",
 		1:  "0",
-		2:  "X",
+		2:  "10", // 身份证最后一位是X，加权求和是10
 		3:  "9",
 		4:  "8",
 		5:  "7",
