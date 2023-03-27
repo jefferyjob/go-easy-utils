@@ -3,6 +3,7 @@ package anyUtil
 import (
 	"errors"
 	"github.com/jefferyjob/go-easy-utils"
+	"math"
 	"testing"
 )
 
@@ -154,6 +155,7 @@ func TestAnyToInt16(t *testing.T) {
 		{float32(123.45), 123, nil},
 		{float64(123.45), 123, nil},
 		{"12345", 12345, nil},
+		{math.MinInt16 - 1, 0, go_easy_utils.ErrValOut},
 		{"not a number", 0, go_easy_utils.ErrSyntax},
 	}
 
@@ -199,6 +201,8 @@ func TestAnyToInt32(t *testing.T) {
 }
 
 func TestAnyToInt64(t *testing.T) {
+	iPtr := 90
+
 	testCases := []struct {
 		input    interface{}
 		expected int64
@@ -225,6 +229,11 @@ func TestAnyToInt64(t *testing.T) {
 		{"42.42", int64(0), true}, // invalid syntax
 		// unsupported type
 		{struct{}{}, int64(0), true},
+		// other type
+		{nil, 0, false},
+		{true, 1, false},
+		{false, 0, false},
+		{&iPtr, 90, false},
 	}
 
 	for _, testCase := range testCases {
