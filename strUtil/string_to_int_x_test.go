@@ -8,7 +8,7 @@ func TestStrToInt(t *testing.T) {
 	// Test cases
 	testCases := []struct {
 		input    string
-		expected int64
+		expected int
 	}{
 		{"0", 0},
 		{"1", 1},
@@ -19,7 +19,7 @@ func TestStrToInt(t *testing.T) {
 	// Test loop
 	for _, tc := range testCases {
 		// Call the function
-		got := StrToInt64(tc.input)
+		got := StrToInt(tc.input)
 
 		// Check the result
 		if got != tc.expected {
@@ -32,7 +32,7 @@ func TestStrToInt8(t *testing.T) {
 	// Test cases
 	testCases := []struct {
 		input    string
-		expected int64
+		expected int8
 	}{
 		{"0", 0},
 		{"1", 1},
@@ -43,7 +43,7 @@ func TestStrToInt8(t *testing.T) {
 	// Test loop
 	for _, tc := range testCases {
 		// Call the function
-		got := StrToInt64(tc.input)
+		got := StrToInt8(tc.input)
 
 		// Check the result
 		if got != tc.expected {
@@ -56,7 +56,7 @@ func TestStrToInt16(t *testing.T) {
 	// Test cases
 	testCases := []struct {
 		input    string
-		expected int64
+		expected int16
 	}{
 		{"0", 0},
 		{"1", 1},
@@ -67,7 +67,7 @@ func TestStrToInt16(t *testing.T) {
 	// Test loop
 	for _, tc := range testCases {
 		// Call the function
-		got := StrToInt64(tc.input)
+		got := StrToInt16(tc.input)
 
 		// Check the result
 		if got != tc.expected {
@@ -80,7 +80,7 @@ func TestStrToInt32(t *testing.T) {
 	// Test cases
 	testCases := []struct {
 		input    string
-		expected int64
+		expected int32
 	}{
 		{"0", 0},
 		{"1", 1},
@@ -91,7 +91,7 @@ func TestStrToInt32(t *testing.T) {
 	// Test loop
 	for _, tc := range testCases {
 		// Call the function
-		got := StrToInt64(tc.input)
+		got := StrToInt32(tc.input)
 
 		// Check the result
 		if got != tc.expected {
