@@ -109,10 +109,10 @@ func IsIDCard15(idCard string) bool {
 	}
 
 	// 验证校验位
-	factors := []int{7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2}
+	factors := []int{7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8}
 	checkCodes := []string{"1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2"}
 	sum := 0
-	for i := 0; i < 17; i++ {
+	for i := 0; i < 15; i++ {
 		num, _ := strconv.Atoi(string(idCard[i]))
 		sum += num * factors[i]
 	}
