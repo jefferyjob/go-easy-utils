@@ -65,6 +65,7 @@ func TestIsIDCard15(t *testing.T) {
 		{"142629601611101", false}, // 年份非法
 		{"01345678901234", false},
 		{"1234567890123X", false},
+		{"9994567890123X", false},
 	}
 	for _, c := range cases15 {
 		got := IsIDCard15(c.input)
