@@ -27,6 +27,7 @@ func TestAnyToStr(t *testing.T) {
 		{&iPtr, "90"},
 		{true, "true"},
 		{nil, ""},
+		{make(chan int), ""},
 	}
 
 	for _, testCase := range testCases {
