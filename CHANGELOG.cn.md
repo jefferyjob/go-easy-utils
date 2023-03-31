@@ -9,3 +9,7 @@
 - 优化了 `anyUtil` 和 `jsonUtil` 文档
 - Fix：删除了 `AnyToInt` 方法中的debug代码 #5
 - Fix：修复了身份证号验证存在的问题 #7
+
+## v1.0.2
+- 优化了 `jsonUtil` 包中result类型的验证
+- 修复了`JsonToStruct`中数据类型传入空字符串的校验错误

@@ -167,11 +167,6 @@ func toStringReflect(i interface{}) string {
 		return fmt.Sprintf("(%g+%gi)", real(v.Complex()), imag(v.Complex()))
 	case reflect.Bool:
 		return strconv.FormatBool(v.Bool())
-	//case reflect.Ptr:
-	//	if v.IsNil() {
-	//		return ""
-	//	}
-	//	return toStringReflect(v.Elem().Interface())
 	default:
 		return ""
 	}

@@ -194,8 +194,10 @@ func toUint64Reflect(i interface{}) (uint64, error) {
 		}
 		return uint64(realValue), nil
 	case reflect.String:
-		strValue := v.String()
-		uintValue, err := strconv.ParseUint(strValue, 10, 64)
+		if v.String() == "" {
+			return 0, nil
+		}
+		uintValue, err := strconv.ParseUint(v.String(), 10, 64)
 		if err != nil {
 			return 0, go_easy_utils.ErrSyntax
 		}
@@ -206,11 +208,6 @@ func toUint64Reflect(i interface{}) (uint64, error) {
 		} else {
 			return 0, nil
 		}
-	//case reflect.Ptr, reflect.Interface:
-	//	if v.IsNil() {
-	//		return 0, nil
-	//	}
-	//	return toUint64(v.Elem().Interface())
 	default:
 		return 0, go_easy_utils.ErrType
 	}
