@@ -132,6 +132,9 @@ func toInt64Reflect(i interface{}) (int64, error) {
 	case reflect.Float32, reflect.Float64:
 		return int64(v.Float()), nil
 	case reflect.String:
+		if v.String() == "" {
+			return 0, nil
+		}
 		intValue, err := strconv.ParseInt(v.String(), 10, 64)
 		if err != nil {
 			return 0, go_easy_utils.ErrSyntax
@@ -151,11 +154,6 @@ func toInt64Reflect(i interface{}) (int64, error) {
 		} else {
 			return 0, nil
 		}
-	//case reflect.Ptr:
-	//	if v.IsNil() {
-	//		return 0, nil
-	//	}
-	//	return toInt64Reflect(v.Elem().Interface())
 	default:
 		return 0, go_easy_utils.ErrType
 	}

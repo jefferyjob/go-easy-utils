@@ -2,6 +2,7 @@ package jsonUtil
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"reflect"
 	"strings"
@@ -10,6 +11,10 @@ import (
 // JsonToStruct Parses JSON into a specified structure pointer
 // 将JSON解析为指定的结构体指针
 func JsonToStruct(jsonData string, result interface{}) error {
+	if reflect.ValueOf(result).Kind() != reflect.Pointer || reflect.ValueOf(result).IsNil() {
+		return errors.New("the argument to Result must be a non-nil pointer")
+	}
+
 	var data map[string]interface{}
 	err := json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
@@ -103,11 +108,6 @@ func JsonToStruct(jsonData string, result interface{}) error {
 	}
 	return nil
 }
-
-//func isJSON(jsonStr string) bool {
-//	var raw json.RawMessage
-//	return json.Unmarshal([]byte(jsonStr), &raw) == nil
-//}
 
 func convertToJSONString(data map[string]interface{}) string {
 	jsonBytes, _ := json.Marshal(data)
