@@ -98,7 +98,7 @@ func toBoolReflect(i interface{}) bool {
 		} else if val == "false" {
 			return false
 		}
-		return v.String() != ""
+		return val != ""
 	//case reflect.Ptr, reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Slice:
 	//	return !v.IsNil()
 	default:

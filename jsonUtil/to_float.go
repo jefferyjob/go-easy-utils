@@ -122,6 +122,9 @@ func toFloat64Reflect(i interface{}) (float64, error) {
 	case reflect.Float32, reflect.Float64:
 		return v.Float(), nil
 	case reflect.String:
+		if v.String() == "" {
+			return 0, nil
+		}
 		floatValue, err := strconv.ParseFloat(v.String(), 64)
 		if err != nil {
 			return 0, go_easy_utils.ErrSyntax
