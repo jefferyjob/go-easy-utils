@@ -134,4 +134,13 @@ func SumFloat32Slice(slice []float32) float32
 
 // SumFloat64Slice 对slice中的元素求和
 func SumFloat64Slice(slice []float64) float64
+
+// IsSlice 判断指定值i是否是slice类型
+func IsSlice(slice interface{}) bool
+
+// ColumnSlice 获取slice中某个单一列的值
+func ColumnSlice(slice interface{}, column string) ([]interface{}, error)
+
+// UniqueSlice 移除slice中重复的值
+func UniqueSlice(slice interface{}) interface{}
 ```
