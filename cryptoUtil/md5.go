@@ -6,8 +6,8 @@ import (
 )
 
 // Md5 MD5加密
-func Md5(string string) string {
+func Md5(str string) string {
 	h := md5.New()
-	h.Write([]byte(string)) // 需要加密的字符串为
+	h.Write([]byte(str)) // 需要加密的字符串为
 	return hex.EncodeToString(h.Sum(nil))
 }

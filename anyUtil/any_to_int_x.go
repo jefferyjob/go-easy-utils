@@ -8,8 +8,8 @@ import (
 )
 
 // AnyToInt 将给定的值转换为 int
-func AnyToInt(input interface{}) (int, error) {
-	v, err := AnyToInt64(input)
+func AnyToInt(i interface{}) (int, error) {
+	v, err := AnyToInt64(i)
 	if err != nil {
 		return 0, err
 	}
@@ -23,8 +23,8 @@ func AnyToInt(input interface{}) (int, error) {
 }
 
 // AnyToInt8 将给定的值转换为 int8
-func AnyToInt8(input interface{}) (int8, error) {
-	value, err := AnyToInt64(input)
+func AnyToInt8(i interface{}) (int8, error) {
+	value, err := AnyToInt64(i)
 	if err != nil {
 		return 0, err
 	}
@@ -35,8 +35,8 @@ func AnyToInt8(input interface{}) (int8, error) {
 }
 
 // AnyToInt16 将给定的值转换为 int16
-func AnyToInt16(input interface{}) (int16, error) {
-	value, err := AnyToInt64(input)
+func AnyToInt16(i interface{}) (int16, error) {
+	value, err := AnyToInt64(i)
 	if err != nil {
 		return 0, err
 	}
@@ -47,8 +47,8 @@ func AnyToInt16(input interface{}) (int16, error) {
 }
 
 // AnyToInt32 将给定的值转换为 int32
-func AnyToInt32(input interface{}) (int32, error) {
-	value, err := AnyToInt64(input)
+func AnyToInt32(i interface{}) (int32, error) {
+	value, err := AnyToInt64(i)
 	if err != nil {
 		return 0, err
 	}

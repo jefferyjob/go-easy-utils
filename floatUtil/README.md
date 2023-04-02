@@ -13,7 +13,7 @@ go get -u github.com/jefferyjob/go-easy-utils/floatUtil
 func Float32ToStr(f float32) string
 
 // Float64ToStr float64转字符串
-func Float64ToStr(input float64) string
+func Float64ToStr(f float64) string
 
 // Float32ToFloat64 float32转float64
 func Float32ToFloat64(f float32) float64

@@ -3,8 +3,8 @@ package strUtil
 import "strconv"
 
 // StrToUint string转uint
-func StrToUint(str string) uint {
-	i, err := strconv.ParseUint(str, 10, 0)
+func StrToUint(v string) uint {
+	i, err := strconv.ParseUint(v, 10, 0)
 	if err != nil {
 		return 0
 	}
@@ -12,8 +12,8 @@ func StrToUint(str string) uint {
 }
 
 // StrToUint8 string转uint8
-func StrToUint8(str string) uint8 {
-	i, err := strconv.ParseUint(str, 10, 8)
+func StrToUint8(v string) uint8 {
+	i, err := strconv.ParseUint(v, 10, 8)
 	if err != nil {
 		return 0
 	}
@@ -21,8 +21,8 @@ func StrToUint8(str string) uint8 {
 }
 
 // StrToUint16 string转uint16
-func StrToUint16(str string) uint16 {
-	i, err := strconv.ParseUint(str, 10, 16)
+func StrToUint16(v string) uint16 {
+	i, err := strconv.ParseUint(v, 10, 16)
 	if err != nil {
 		return 0
 	}
@@ -30,8 +30,8 @@ func StrToUint16(str string) uint16 {
 }
 
 // StrToUint32 string转uint32
-func StrToUint32(str string) uint32 {
-	i, err := strconv.ParseUint(str, 10, 32)
+func StrToUint32(v string) uint32 {
+	i, err := strconv.ParseUint(v, 10, 32)
 	if err != nil {
 		return 0
 	}
@@ -39,8 +39,8 @@ func StrToUint32(str string) uint32 {
 }
 
 // StrToUint64 string转uint64
-func StrToUint64(str string) uint64 {
-	i, err := strconv.ParseUint(str, 10, 64)
+func StrToUint64(v string) uint64 {
+	i, err := strconv.ParseUint(v, 10, 64)
 	if err != nil {
 		return 0
 	}

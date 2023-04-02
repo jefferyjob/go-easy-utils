@@ -10,5 +10,5 @@ go get -u github.com/jefferyjob/go-easy-utils/byteUtil
 
 ```go
 // BytesToStr 字节数组转字符串
-func BytesToStr(data []byte) string
+func BytesToStr(b []byte) string
 ```

@@ -13,5 +13,5 @@ go get -u github.com/jefferyjob/go-easy-utils/cryptoUtil
 func HashSHA256(str string) string
 
 // Md5 MD5加密
-func Md5(string string) string
+func Md5(str string) string
 ```
