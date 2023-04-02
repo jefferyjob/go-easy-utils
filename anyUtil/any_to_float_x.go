@@ -8,8 +8,8 @@ import (
 )
 
 // AnyToFloat32 将给定的值转换为float32
-func AnyToFloat32(value interface{}) (float32, error) {
-	f64, err := AnyToFloat64(value)
+func AnyToFloat32(i interface{}) (float32, error) {
+	f64, err := AnyToFloat64(i)
 	if err != nil {
 		return 0, err
 	}
