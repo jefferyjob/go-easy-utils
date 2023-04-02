@@ -13,3 +13,7 @@
 ## v1.0.2
 - Optimized the validation of the result type in the `jsonUtil` package
 - Fixed the validation error of passing an empty string for the data type in `JsonToStruct`
+
+## v1.1.0
+- `sliceUtil` More methods have been added to the package
+- Some formal parameters in the project are more standardized in naming
