@@ -128,37 +128,37 @@ func IsPassword(password string) bool
 
 ```go
 // StrToInt string转int
-func StrToInt(str string) int
+func StrToInt(v string) int
 
 // StrToInt8 string转int8
-func StrToInt8(str string) int8
+func StrToInt8(v string) int8
 
 // StrToInt16 string转int16
-func StrToInt16(str string) int16
+func StrToInt16(v string) int16
 
 // StrToInt32 string转int32
-func StrToInt32(str string) int32
+func StrToInt32(v string) int32
 
 // StrToInt64 string转int64
-func StrToInt64(str string) int64
+func StrToInt64(v string) int64
 
 // StrToUint string转uint
-func StrToUint(str string) uint
+func StrToUint(v string) uint
 
 // StrToUint8 string转uint8
-func StrToUint8(str string) uint8
+func StrToUint8(v string) uint8
 
 // StrToUint16 string转uint16
-func StrToUint16(str string) uint16
+func StrToUint16(v string) uint16
 
 // StrToUint32 string转uint32
-func StrToUint32(str string) uint32
+func StrToUint32(v string) uint32
 
 // StrToUint64 string转uint64
-func StrToUint64(str string) uint64
+func StrToUint64(v string) uint64
 
 // StrToBytes 字符串转字节数组
-func StrToBytes(data string) []byte 
+func StrToBytes(v string) []byte 
 ```
 
 ### sliceUtil 切片处理工具
@@ -314,19 +314,19 @@ func MapKeyExists(m map[string]interface{}, key string) bool
 
 ```go
 // IntToString 将int类型转换为string类型
-func IntToString(n int) string
+func IntToString(v int) string
 
 // Int8ToString 将int8类型转换为string类型
-func Int8ToString(n int8) string
+func Int8ToString(v int8) string
 
 // Int16ToString 将int16类型转换为string类型
-func Int16ToString(n int16) string
+func Int16ToString(v int16) string
 
 // Int32ToString 将int32类型转换为string类型
-func Int32ToString(n int32) string
+func Int32ToString(v int32) string
 
 // Int64ToString 将int64类型转换为string类型
-func Int64ToString(n int64) string
+func Int64ToString(v int64) string
 ```
 
 ### floatUtil 浮点型处理

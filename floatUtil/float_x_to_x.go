@@ -11,8 +11,8 @@ func Float32ToStr(f float32) string {
 }
 
 // Float64ToStr float64转字符串
-func Float64ToStr(input float64) string {
-	return strconv.FormatFloat(input, 'f', -1, 64)
+func Float64ToStr(f float64) string {
+	return strconv.FormatFloat(f, 'f', -1, 64)
 }
 
 // Float32ToFloat64 float32转float64

@@ -10,17 +10,17 @@ go get -u github.com/jefferyjob/go-easy-utils/intUtil
 
 ```go
 // IntToString 将int类型转换为string类型
-func IntToString(n int) string
+func IntToString(v int) string
 
 // Int8ToString 将int8类型转换为string类型
-func Int8ToString(n int8) string
+func Int8ToString(v int8) string
 
 // Int16ToString 将int16类型转换为string类型
-func Int16ToString(n int16) string
+func Int16ToString(v int16) string
 
 // Int32ToString 将int32类型转换为string类型
-func Int32ToString(n int32) string
+func Int32ToString(v int32) string
 
 // Int64ToString 将int64类型转换为string类型
-func Int64ToString(n int64) string
+func Int64ToString(v int64) string
 ```
