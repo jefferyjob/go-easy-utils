@@ -8,33 +8,33 @@ import (
 func TestChunk(t *testing.T) {
 	tests := []struct {
 		name  string
-		slice []interface{}
+		slice []any
 		size  int
-		want  [][]interface{}
+		want  [][]any
 	}{
 		{
 			name:  "empty slice",
-			slice: []interface{}{},
+			slice: []any{},
 			size:  3,
-			want:  [][]interface{}{},
+			want:  [][]any{},
 		},
 		{
 			name:  "slice with less than chunk size",
-			slice: []interface{}{1, 2},
+			slice: []any{1, 2},
 			size:  3,
-			want:  [][]interface{}{{1, 2}},
+			want:  [][]any{{1, 2}},
 		},
 		{
 			name:  "slice with exact chunk size",
-			slice: []interface{}{1, 2, 3, 4, 5, 6},
+			slice: []any{1, 2, 3, 4, 5, 6},
 			size:  3,
-			want:  [][]interface{}{{1, 2, 3}, {4, 5, 6}},
+			want:  [][]any{{1, 2, 3}, {4, 5, 6}},
 		},
 		{
 			name:  "slice with more than chunk size",
-			slice: []interface{}{1, 2, 3, 4, 5, 6, 7},
+			slice: []any{1, 2, 3, 4, 5, 6, 7},
 			size:  3,
-			want:  [][]interface{}{{1, 2, 3}, {4, 5, 6}, {7}},
+			want:  [][]any{{1, 2, 3}, {4, 5, 6}, {7}},
 		},
 	}
 

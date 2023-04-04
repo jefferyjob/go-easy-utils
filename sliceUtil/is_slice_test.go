@@ -4,12 +4,12 @@ import "testing"
 
 func TestIsSlice(t *testing.T) {
 	var tests = []struct {
-		input interface{}
+		input any
 		want  bool
 	}{
 		{[]int{1, 1, 3}, true},
-		{[]interface{}{1, 2, "a"}, true},
-		{[]map[string]interface{}{
+		{[]any{1, 2, "a"}, true},
+		{[]map[string]any{
 			{"1": 1},
 			{"c": 89},
 		}, true},

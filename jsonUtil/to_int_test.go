@@ -7,7 +7,7 @@ import (
 
 func TestToInt64(t *testing.T) {
 	var tests = []struct {
-		input    interface{}
+		input    any
 		expected int64
 		err      error
 	}{

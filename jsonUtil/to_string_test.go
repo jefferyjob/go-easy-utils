@@ -5,7 +5,7 @@ import "testing"
 func TestToString(t *testing.T) {
 	tests := []struct {
 		name  string
-		value interface{}
+		value any
 		want  string
 	}{
 		{"nil", nil, ""},

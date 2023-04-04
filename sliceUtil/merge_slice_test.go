@@ -7,10 +7,10 @@ import (
 
 // 测试MergeSlices
 func TestMergeSlices(t *testing.T) {
-	slice1 := []interface{}{1, 2, 3}
-	slice2 := []interface{}{4, 5, 6}
-	slice3 := []interface{}{7, 8, 9}
-	expected := []interface{}{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	slice1 := []any{1, 2, 3}
+	slice2 := []any{4, 5, 6}
+	slice3 := []any{7, 8, 9}
+	expected := []any{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	result := MergeSlice(slice1, slice2, slice3)
 	if !reflect.DeepEqual(result, expected) {
 		t.Errorf("Expected %v, but got %v", expected, result)

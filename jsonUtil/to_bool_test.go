@@ -6,7 +6,7 @@ import (
 
 func TestToBool(t *testing.T) {
 	var tests = []struct {
-		input interface{}
+		input any
 		want  bool
 	}{
 		{true, true},

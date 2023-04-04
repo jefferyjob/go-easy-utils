@@ -8,7 +8,7 @@ func TestToBool(t *testing.T) {
 	iPtr := 90
 
 	var tests = []struct {
-		input interface{}
+		input any
 		want  bool
 	}{
 		{true, true},

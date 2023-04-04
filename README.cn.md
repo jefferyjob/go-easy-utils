@@ -30,7 +30,7 @@ import (
 
 func main() {
 	var slice = []string{"this", "is", "go", "easy", "utils"}
-	chunkSlice := sliceUtil.ChunkStr(slice, 2)
+	chunkSlice := sliceUtil.ChunkSlice(slice, 2)
 	fmt.Printf("%v", chunkSlice)
 }
 ```
@@ -41,7 +41,7 @@ func main() {
 
 ```go
 // JsonToStruct 将 JSON 字符串解析为指定的结构体指针
-func JsonToStruct(jsonData string, result interface{}) error
+func JsonToStruct(jsonData string, result any) error
 ```
 
 ### ValidUtil 验证工具
@@ -190,10 +190,10 @@ func UniqueSlice[T comparable](slice []T) []T
 
 ```go
 // MapValueExists 判断map中的value是否存在
-func MapValueExists(m map[string]interface{}, value interface{}) bool
+func MapValueExists[T comparable](m map[string]T, value T) bool
 
 // MapKeyExists 判断map中的key是否存在
-func MapKeyExists(m map[string]interface{}, key string) bool
+func MapKeyExists(m map[string]any, key string) bool
 ```
 
 ### intUtil 数值型处理
@@ -222,7 +222,7 @@ func Int64ToString(v int64) string
 func Float32ToStr(f float32) string
 
 // Float64ToStr float64转字符串
-func Float64ToStr(input float64) string
+func Float64ToStr(f float64) string
 
 // Float32ToFloat64 float32转float64
 func Float32ToFloat64(f float32) float64
@@ -262,46 +262,46 @@ func BytesToStr(data []byte) string
 
 ```go
 // AnyToFloat32 将给定的值转换为float32
-func AnyToFloat32(i interface{}) (float32, error) 
+func AnyToFloat32(i any) (float32, error)
 
 // AnyToFloat64 将给定的值转换为float64
-func AnyToFloat64(i interface{}) (float64, error)
+func AnyToFloat64(i any) (float64, error)
 
 // AnyToInt 将给定的值转换为 int
-func AnyToInt(i interface{}) (int, error)
+func AnyToInt(i any) (int, error)
 
 // AnyToInt8 将给定的值转换为 int8
-func AnyToInt8(i interface{}) (int8, error)
+func AnyToInt8(i any) (int8, error)
 
 // AnyToInt16 将给定的值转换为 int16
-func AnyToInt16(i interface{}) (int16, error)
+func AnyToInt16(i any) (int16, error)
 
 // AnyToInt32 将给定的值转换为 int32
-func AnyToInt32(i interface{}) (int32, error)
+func AnyToInt32(i any) (int32, error)
 
 // AnyToInt64 将给定的值转换为 int64
-func AnyToInt64(i interface{}) (int64, error)
+func AnyToInt64(i any) (int64, error)
 
 // AnyToStr 任意类型数据转string
-func AnyToStr(i interface{}) string 
+func AnyToStr(i any) string
 
 // AnyToUint 将给定的值转换为 uint
-func AnyToUint(i interface{}) (uint, error)
+func AnyToUint(i any) (uint, error)
 
 // AnyToUint8 将给定的值转换为 uint8
-func AnyToUint8(i interface{}) (uint8, error)
+func AnyToUint8(i any) (uint8, error)
 
 // AnyToUint16 将给定的值转换为 uint16
-func AnyToUint16(i interface{}) (uint16, error)
+func AnyToUint16(i any) (uint16, error)
 
 // AnyToUint32 将给定的值转换为 uint32
-func AnyToUint32(i interface{}) (uint32, error)
+func AnyToUint32(i any) (uint32, error)
 
 // AnyToUint64 将给定的值转换为 uint64
-func AnyToUint64(i interface{}) (uint64, error)
+func AnyToUint64(i any) (uint64, error)
 
 // AnyToBool 将给定的值转换为bool
-func AnyToBool(i interface{}) bool 
+func AnyToBool(i any) bool 
 ```
 
 

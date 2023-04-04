@@ -31,7 +31,7 @@ func TestColumnSlice(t *testing.T) {
 		name   string
 		input  []Person
 		column string
-		output []interface{}
+		output []any
 	}{
 		{
 			name:   "success",
