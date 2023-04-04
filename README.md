@@ -23,7 +23,7 @@ This extension pack v2.0 supports generics and any.
 ## Quick Start
 **Install**
 ```bash
-go get github.com/jefferyjob/go-easy-utils@v1.1.0
+go get -u github.com/jefferyjob/go-easy-utils
 ```
 **Use Demo**
 ```go
