@@ -391,7 +391,7 @@ func TestJsonToStructMoreNest(t *testing.T) {
 
 //func TestJsonToStruct6(t *testing.T) {
 //	type Student struct {
-//		Name interface{} `json:"name,omitempty"`
+//		Name any `json:"name,omitempty"`
 //		Age  int         `json:"age,omitempty"`
 //	}
 //	jsonStr4 := `{

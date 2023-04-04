@@ -10,12 +10,12 @@ import (
 
 // JsonToStruct Parses JSON into a specified structure pointer
 // 将JSON解析为指定的结构体指针
-func JsonToStruct(jsonData string, result interface{}) error {
+func JsonToStruct(jsonData string, result any) error {
 	if reflect.ValueOf(result).Kind() != reflect.Pointer || reflect.ValueOf(result).IsNil() {
 		return errors.New("the argument to Result must be a non-nil pointer")
 	}
 
-	var data map[string]interface{}
+	var data map[string]any
 	err := json.Unmarshal([]byte(jsonData), &data)
 	if err != nil {
 		return err
@@ -72,7 +72,7 @@ func JsonToStruct(jsonData string, result interface{}) error {
 			val := toBoolReflect(value)
 			fieldValue.SetBool(val)
 		case reflect.Struct:
-			if subData, ok := value.(map[string]interface{}); ok {
+			if subData, ok := value.(map[string]any); ok {
 				subResult := reflect.New(fieldValue.Type())
 				err := JsonToStruct(convertToJSONString(subData), subResult.Interface())
 				if err != nil {
@@ -81,14 +81,14 @@ func JsonToStruct(jsonData string, result interface{}) error {
 				fieldValue.Set(subResult.Elem())
 			}
 		case reflect.Slice:
-			if subData, ok := value.([]interface{}); ok {
+			if subData, ok := value.([]any); ok {
 				subResult := reflect.MakeSlice(fieldValue.Type(), len(subData), len(subData))
 				for j := 0; j < len(subData); j++ {
 					subValue := subData[j]
 					subElem := subResult.Index(j)
 
 					if subElem.Kind() == reflect.Struct {
-						if subDataElem, ok := subValue.(map[string]interface{}); ok {
+						if subDataElem, ok := subValue.(map[string]any); ok {
 							subResultElem := reflect.New(subElem.Type())
 							err := JsonToStruct(convertToJSONString(subDataElem), subResultElem.Interface())
 							if err != nil {
@@ -109,7 +109,7 @@ func JsonToStruct(jsonData string, result interface{}) error {
 	return nil
 }
 
-func convertToJSONString(data map[string]interface{}) string {
+func convertToJSONString(data map[string]any) string {
 	jsonBytes, _ := json.Marshal(data)
 	return string(jsonBytes)
 }

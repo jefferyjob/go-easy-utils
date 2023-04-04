@@ -38,7 +38,7 @@ go get -u github.com/jefferyjob/go-easy-utils/jsonUtil
 ```go
 // JsonToStruct Parses JSON into a specified structure pointer
 // 将JSON解析为指定的结构体指针
-func JsonToStruct(jsonData string, result interface{}) error
+func JsonToStruct(jsonData string, result any) error
 ```
 
 ## Demo
