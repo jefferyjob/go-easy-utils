@@ -23,7 +23,7 @@
 ## 快速开始
 **安装**
 ```bash
-go get -u github.com/jefferyjob/go-easy-utils
+go get github.com/jefferyjob/go-easy-utils@v1.1.0
 ```
 **使用Demo**
 ```go
