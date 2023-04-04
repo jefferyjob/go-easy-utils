@@ -17,7 +17,7 @@ func TestIsSlice(t *testing.T) {
 		{make(chan int), false},
 	}
 	for _, test := range tests {
-		if got := IsSlice(test.input); got != test.want {
+		if got := Is(test.input); got != test.want {
 			t.Errorf("IsSlice(%v) = %v; want %v", test.input, got, test.want)
 		}
 	}
