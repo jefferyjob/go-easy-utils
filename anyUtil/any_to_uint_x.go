@@ -8,7 +8,7 @@ import (
 )
 
 // AnyToUint 将给定的值转换为 uint
-func AnyToUint(i interface{}) (uint, error) {
+func AnyToUint(i any) (uint, error) {
 	v, err := AnyToUint64(i)
 	if err != nil {
 		return 0, err
@@ -23,7 +23,7 @@ func AnyToUint(i interface{}) (uint, error) {
 }
 
 // AnyToUint8 将给定的值转换为 uint8
-func AnyToUint8(i interface{}) (uint8, error) {
+func AnyToUint8(i any) (uint8, error) {
 	value, err := AnyToUint64(i)
 	if err != nil {
 		return 0, err
@@ -35,7 +35,7 @@ func AnyToUint8(i interface{}) (uint8, error) {
 }
 
 // AnyToUint16 将给定的值转换为 uint16
-func AnyToUint16(i interface{}) (uint16, error) {
+func AnyToUint16(i any) (uint16, error) {
 	value, err := AnyToUint64(i)
 	if err != nil {
 		return 0, err
@@ -47,7 +47,7 @@ func AnyToUint16(i interface{}) (uint16, error) {
 }
 
 // AnyToUint32 将给定的值转换为 uint32
-func AnyToUint32(i interface{}) (uint32, error) {
+func AnyToUint32(i any) (uint32, error) {
 	value, err := AnyToUint64(i)
 	if err != nil {
 		return 0, err
@@ -59,7 +59,7 @@ func AnyToUint32(i interface{}) (uint32, error) {
 }
 
 // AnyToUint64 将给定的值转换为 uint64
-func AnyToUint64(i interface{}) (uint64, error) {
+func AnyToUint64(i any) (uint64, error) {
 	if i == nil {
 		return 0, nil
 	}

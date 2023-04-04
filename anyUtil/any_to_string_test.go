@@ -5,7 +5,7 @@ import "testing"
 func TestAnyToStr(t *testing.T) {
 	iPtr := 90
 	testCases := []struct {
-		input    interface{}
+		input    any
 		expected string
 	}{
 		{"hello", "hello"},

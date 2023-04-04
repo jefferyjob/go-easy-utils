@@ -1,19 +1,13 @@
 package sliceUtil
 
 import (
-	"errors"
 	"reflect"
 )
 
 // ColumnSlice 获取slice中某个单一列的值
-func ColumnSlice(slice interface{}, column string) ([]interface{}, error) {
+func ColumnSlice[T any](slice []T, column string) []any {
 	// 获取切片的反射值
 	sliceValue := reflect.ValueOf(slice)
-
-	// 判断是否为切片
-	if sliceValue.Kind() != reflect.Slice {
-		return nil, errors.New("not a slice")
-	}
 
 	// 获取切片的长度和元素类型
 	length := sliceValue.Len()
@@ -29,11 +23,11 @@ func ColumnSlice(slice interface{}, column string) ([]interface{}, error) {
 		}
 	}
 	if fieldIndex == -1 {
-		return nil, errors.New("column not found")
+		return []any{}
 	}
 
 	// 构造返回值切片
-	result := make([]interface{}, length)
+	result := make([]any, length)
 
 	// 获取每个元素指定字段的值，并添加到返回值切片中
 	for i := 0; i < length; i++ {
@@ -42,5 +36,5 @@ func ColumnSlice(slice interface{}, column string) ([]interface{}, error) {
 		result[i] = fieldValue.Interface()
 	}
 
-	return result, nil
+	return result
 }

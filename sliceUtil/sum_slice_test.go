@@ -1,6 +1,8 @@
 package sliceUtil
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestSumIntSlice(t *testing.T) {
 	testCases := []struct {
@@ -27,7 +29,7 @@ func TestSumIntSlice(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			result := SumIntSlice(tc.input)
+			result := SumSlice(tc.input)
 			if result != tc.expected {
 				t.Errorf("Expected %d but got %d", tc.expected, result)
 			}
@@ -60,7 +62,7 @@ func TestSumInt8Slice(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			result := SumInt8Slice(tc.input)
+			result := SumSlice(tc.input)
 			if result != tc.expected {
 				t.Errorf("Expected %d but got %d", tc.expected, result)
 			}
@@ -82,7 +84,7 @@ func TestSumInt16Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumInt16Slice(tt.slice)
+			got := SumSlice(tt.slice)
 			if got != tt.want {
 				t.Errorf("SumInt16Slice(%v) = %v, want %v", tt.slice, got, tt.want)
 			}
@@ -104,7 +106,7 @@ func TestSumInt32Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumInt32Slice(tt.slice)
+			got := SumSlice(tt.slice)
 			if got != tt.want {
 				t.Errorf("SumInt32Slice(%v) = %v, want %v", tt.slice, got, tt.want)
 			}
@@ -126,7 +128,7 @@ func TestSumInt64Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumInt64Slice(tt.slice)
+			got := SumSlice(tt.slice)
 			if got != tt.want {
 				t.Errorf("SumInt64Slice(%v) = %v, want %v", tt.slice, got, tt.want)
 			}
@@ -148,7 +150,7 @@ func TestSumFloat32Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumFloat32Slice(tt.slice)
+			got := SumSlice(tt.slice)
 			if got != tt.want {
 				t.Errorf("SumFloat32Slice(%v) = %v, want %v", tt.slice, got, tt.want)
 			}
@@ -170,7 +172,7 @@ func TestSumFloat64Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumFloat64Slice(tt.slice)
+			got := SumSlice(tt.slice)
 			if got != tt.want {
 				t.Errorf("SumFloat64Slice(%v) = %v, want %v", tt.slice, got, tt.want)
 			}

@@ -7,7 +7,7 @@ import (
 )
 
 // AnyToStr 任意类型数据转string
-func AnyToStr(i interface{}) string {
+func AnyToStr(i any) string {
 	if i == nil {
 		return ""
 	}

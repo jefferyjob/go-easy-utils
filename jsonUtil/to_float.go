@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func toFloat64(i interface{}) (float64, error) {
+func toFloat64(i any) (float64, error) {
 	if i == nil {
 		return 0, nil
 	}
@@ -105,7 +105,7 @@ func toFloat64(i interface{}) (float64, error) {
 	}
 }
 
-func toFloat64Reflect(i interface{}) (float64, error) {
+func toFloat64Reflect(i any) (float64, error) {
 	if i == nil {
 		return 0, nil
 	}

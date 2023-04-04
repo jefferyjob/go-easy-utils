@@ -6,6 +6,14 @@
 go get -u github.com/jefferyjob/go-easy-utils/floatUtil
 ```
 
+## Import
+
+```go
+import (
+	"github.com/jefferyjob/go-easy-utils/floatUtil"
+)
+```
+
 ## Functions
 
 ```go

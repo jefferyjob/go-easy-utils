@@ -12,7 +12,7 @@ import (
 
 func TestAnyToFloat32(t *testing.T) {
 	tests := []struct {
-		input interface{}
+		input any
 		want  float32
 		err   error
 	}{
@@ -55,7 +55,7 @@ func TestAnyToFloat64(t *testing.T) {
 	iPtr := 90
 
 	tests := []struct {
-		input interface{}
+		input any
 		want  float64
 		err   error
 	}{

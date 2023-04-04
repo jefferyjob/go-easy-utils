@@ -9,7 +9,7 @@ import (
 func TestAnyToUint(t *testing.T) {
 	// Test cases
 	tests := []struct {
-		input  interface{}
+		input  any
 		output uint
 		err    error
 	}{
@@ -33,7 +33,7 @@ func TestAnyToUint(t *testing.T) {
 func TestAnyToUint8(t *testing.T) {
 	// Test cases
 	tests := []struct {
-		input  interface{}
+		input  any
 		output uint8
 		err    error
 	}{
@@ -57,7 +57,7 @@ func TestAnyToUint8(t *testing.T) {
 func TestAnyToUint16(t *testing.T) {
 	// Test cases
 	tests := []struct {
-		input  interface{}
+		input  any
 		output uint16
 		err    error
 	}{
@@ -81,7 +81,7 @@ func TestAnyToUint16(t *testing.T) {
 func TestAnyToUint32(t *testing.T) {
 	// Test cases
 	tests := []struct {
-		input  interface{}
+		input  any
 		output uint32
 		err    error
 	}{
@@ -107,7 +107,7 @@ func TestAnyToUint64(t *testing.T) {
 
 	tests := []struct {
 		name      string
-		input     interface{}
+		input     any
 		want      uint64
 		wantError error
 	}{

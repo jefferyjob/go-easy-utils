@@ -7,14 +7,14 @@ import (
 )
 
 //func TestFloat(t *testing.T) {
-//	var data1 interface{}
+//	var data1 any
 //	data1 = 123
 //	fmt.Println(toFloat64Reflect(data1))
 //
 //	data2 := int16Ptr(80)
 //	fmt.Println(toFloat64Reflect(data2))
 //
-//	data3 := map[interface{}]interface{}{
+//	data3 := map[any]any{
 //		"aaa": "aaa",
 //	}
 //	fmt.Println(toFloat64Reflect(data3))
@@ -22,7 +22,7 @@ import (
 
 func TestToFloat64(t *testing.T) {
 	testCases := []struct {
-		value       interface{}
+		value       any
 		expected    float64
 		expectedErr error
 	}{
@@ -64,7 +64,7 @@ func TestToFloat64(t *testing.T) {
 func TestToFloat64Pointer(t *testing.T) {
 	testCases := []struct {
 		name          string
-		input         interface{}
+		input         any
 		expectedValue float64
 		expectedError error
 	}{

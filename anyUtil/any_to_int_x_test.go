@@ -13,7 +13,7 @@ import (
 
 func TestAnyToInt(t *testing.T) {
 	type testCase struct {
-		input    interface{}
+		input    any
 		expected int
 		err      error
 	}
@@ -63,7 +63,7 @@ func TestAnyToInt8(t *testing.T) {
 	// Test cases
 	testCases := []struct {
 		name     string
-		input    interface{}
+		input    any
 		expected int8
 		err      error
 	}{
@@ -142,7 +142,7 @@ func TestAnyToInt8(t *testing.T) {
 
 func TestAnyToInt16(t *testing.T) {
 	tests := []struct {
-		input interface{}
+		input any
 		want  int16
 		err   error
 	}{
@@ -178,7 +178,7 @@ func TestAnyToInt16(t *testing.T) {
 
 func TestAnyToInt32(t *testing.T) {
 	testCases := []struct {
-		input         interface{}
+		input         any
 		expectedValue int32
 		expectedError error
 	}{
@@ -208,7 +208,7 @@ func TestAnyToInt64(t *testing.T) {
 	iPtr := 90
 
 	testCases := []struct {
-		input    interface{}
+		input    any
 		expected int64
 		err      bool
 	}{
