@@ -3,7 +3,7 @@ package anyUtil
 import "reflect"
 
 // AnyToBool 将给定的值转换为bool
-func AnyToBool(i interface{}) bool {
+func AnyToBool(i any) bool {
 	if i == nil {
 		return false
 	}
