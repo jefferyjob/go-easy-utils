@@ -1,7 +1,7 @@
 package sliceUtil
 
-// Unique 移除slice中重复的值
-func Unique[T comparable](slice []T) []T {
+// UniqueSlice 移除slice中重复的值
+func UniqueSlice[T comparable](slice []T) []T {
 	if len(slice) == 0 {
 		return slice
 	}

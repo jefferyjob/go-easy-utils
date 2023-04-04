@@ -33,6 +33,14 @@ JsonToStruct 是一个将JSON字符串解析为结构体的方法。这个方法
 go get -u github.com/jefferyjob/go-easy-utils/jsonUtil
 ```
 
+## Import
+
+```go
+import (
+	"github.com/jefferyjob/go-easy-utils/jsonUtil"
+)
+```
+
 ## Functions
 
 ```go

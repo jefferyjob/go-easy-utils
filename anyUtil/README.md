@@ -6,6 +6,14 @@
 go get -u github.com/jefferyjob/go-easy-utils/anyUtil
 ```
 
+## Import
+
+```go
+import (
+	"github.com/jefferyjob/go-easy-utils/anyUtil"
+)
+```
+
 ## Functions
 
 ```go

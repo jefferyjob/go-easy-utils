@@ -1,7 +1,7 @@
 package sliceUtil
 
-// Chunk 把slice分割为新的数组块
-func Chunk[T any](slice []T, size int) [][]T {
+// ChunkSlice 把slice分割为新的数组块
+func ChunkSlice[T any](slice []T, size int) [][]T {
 	var chunks [][]T
 	for i := 0; i < len(slice); i += size {
 		end := i + size

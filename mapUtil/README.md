@@ -6,6 +6,14 @@
 go get -u github.com/jefferyjob/go-easy-utils/mapUtil
 ```
 
+## Import
+
+```go
+import (
+	"github.com/jefferyjob/go-easy-utils/mapUtil"
+)
+```
+
 ## Functions
 
 ```go

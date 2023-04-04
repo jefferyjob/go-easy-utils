@@ -6,8 +6,8 @@ type Numeric interface {
 		~float32 | ~float64
 }
 
-// Sum 对slice中的元素求和
-func Sum[T Numeric](slice []T) T {
+// SumSlice 对slice中的元素求和
+func SumSlice[T Numeric](slice []T) T {
 	var sum T
 	for _, v := range slice {
 		sum += v

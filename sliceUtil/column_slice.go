@@ -4,8 +4,8 @@ import (
 	"reflect"
 )
 
-// Column 获取slice中某个单一列的值
-func Column[T any](slice []T, column string) []any {
+// ColumnSlice 获取slice中某个单一列的值
+func ColumnSlice[T any](slice []T, column string) []any {
 	// 获取切片的反射值
 	sliceValue := reflect.ValueOf(slice)
 

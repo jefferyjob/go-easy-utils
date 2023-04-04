@@ -17,7 +17,7 @@ import (
 //	}
 //
 //	// 获取年龄列
-//	ages := Column(people, "Age")
+//	ages := ColumnSlice(people, "Age")
 //	fmt.Println(ages) // 输出：[18 20 22]
 //}
 
@@ -49,7 +49,7 @@ func TestColumnSlice(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			output := Column(tc.input, tc.column)
+			output := ColumnSlice(tc.input, tc.column)
 			if !reflect.DeepEqual(output, tc.output) {
 				t.Errorf("expected %v, but got %v", tc.output, output)
 			}
