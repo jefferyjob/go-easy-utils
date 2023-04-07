@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func toString(i interface{}) string {
+func toString(i any) string {
 	if i == nil {
 		return ""
 	}
@@ -137,7 +137,7 @@ func toString(i interface{}) string {
 	}
 }
 
-func toStringReflect(i interface{}) string {
+func toStringReflect(i any) string {
 	if i == nil {
 		return ""
 	}

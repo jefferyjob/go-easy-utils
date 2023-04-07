@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func toInt64(i interface{}) (int64, error) {
+func toInt64(i any) (int64, error) {
 	if i == nil {
 		return 0, nil
 	}
@@ -115,7 +115,7 @@ func toInt64(i interface{}) (int64, error) {
 	}
 }
 
-func toInt64Reflect(i interface{}) (int64, error) {
+func toInt64Reflect(i any) (int64, error) {
 	if i == nil {
 		return 0, nil
 	}

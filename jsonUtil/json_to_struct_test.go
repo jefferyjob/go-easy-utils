@@ -16,33 +16,19 @@ func TestDemo1(t *testing.T) {
 		"is_use": "1"
 	}`
 
-	var people1 struct {
+	var people struct {
 		Name  string `json:"name,omitempty"`
 		Age   int    `json:"age"`
 		IsUse bool   `json:"is_use"`
 	}
 
-	var people2 struct {
-		Name  string `json:"name,omitempty"`
-		Age   string `json:"age"`
-		IsUse bool   `json:"is_use"`
-	}
-
-	if err := JsonToStruct(jsonData, &people1); err != nil {
+	if err := JsonToStruct(jsonData, &people); err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("people1:%#v \n", people1)
+	fmt.Printf("%+v \n", people)
 	// return
-	// people1:struct { Name string "json:\"name,omitempty\""; Age int "json:\"age\""; IsUse bool "json:\"is_use\"" }{Name:"make", Age:22, IsUse:true}
-
-	if err := JsonToStruct(jsonData, &people2); err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Printf("people2:%#v \n", people2)
-	// return
-	// people2:struct { Name string "json:\"name,omitempty\""; Age string "json:\"age\""; IsUse bool "json:\"is_use\"" }{Name:"make", Age:"22", IsUse:true}
+	// {Name:make Age:22 IsUse:true}
 }
 
 // Structure nesting and slice nesting processing
@@ -391,7 +377,7 @@ func TestJsonToStructMoreNest(t *testing.T) {
 
 //func TestJsonToStruct6(t *testing.T) {
 //	type Student struct {
-//		Name interface{} `json:"name,omitempty"`
+//		Name any `json:"name,omitempty"`
 //		Age  int         `json:"age,omitempty"`
 //	}
 //	jsonStr4 := `{

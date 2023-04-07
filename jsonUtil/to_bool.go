@@ -5,7 +5,7 @@ import (
 	"reflect"
 )
 
-func toBool(i interface{}) bool {
+func toBool(i any) bool {
 	if i == nil {
 		return false
 	}
@@ -67,7 +67,7 @@ func toBool(i interface{}) bool {
 	}
 }
 
-func toBoolReflect(i interface{}) bool {
+func toBoolReflect(i any) bool {
 	if i == nil {
 		return false
 	}
