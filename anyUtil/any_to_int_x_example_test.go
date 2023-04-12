@@ -33,8 +33,8 @@ func ExampleAnyToInt8() {
 func ExampleAnyToInt16() {
 	s1 := "100"
 	s2 := "-100"
-	res1, _ := AnyToInt(s1)
-	res2, _ := AnyToInt(s2)
+	res1, _ := AnyToInt16(s1)
+	res2, _ := AnyToInt16(s2)
 
 	fmt.Printf("%d,%T\n", res1, res1)
 	fmt.Printf("%d,%T\n", res2, res2)
@@ -47,8 +47,8 @@ func ExampleAnyToInt16() {
 func ExampleAnyToInt32() {
 	s1 := "100"
 	s2 := "-100"
-	res1, _ := AnyToInt(s1)
-	res2, _ := AnyToInt(s2)
+	res1, _ := AnyToInt32(s1)
+	res2, _ := AnyToInt32(s2)
 
 	fmt.Printf("%d,%T\n", res1, res1)
 	fmt.Printf("%d,%T\n", res2, res2)
@@ -61,8 +61,8 @@ func ExampleAnyToInt32() {
 func ExampleAnyToInt64() {
 	s1 := "100"
 	s2 := "-100"
-	res1, _ := AnyToInt(s1)
-	res2, _ := AnyToInt(s2)
+	res1, _ := AnyToInt64(s1)
+	res2, _ := AnyToInt64(s2)
 
 	fmt.Printf("%d,%T\n", res1, res1)
 	fmt.Printf("%d,%T\n", res2, res2)
