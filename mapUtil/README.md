@@ -17,9 +17,9 @@ import (
 ## Functions
 
 ```go
-// MapValueExists 判断map中的value是否存在
-func MapValueExists(m map[string]T, value T) bool
-
 // MapKeyExists 判断map中的key是否存在
-func MapKeyExists(m map[string]any, key string) bool
+func MapKeyExists((m map[T]T2, key T)) bool
+
+// MapValueExists 判断map中的value是否存在
+func MapValueExists(m map[T2]T, value T) bool
 ```
