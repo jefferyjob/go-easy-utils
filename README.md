@@ -11,20 +11,21 @@
 English | [简体中文](README.cn.md)
 
 ## Introduction
-
 This is a general data type processing tool class based on Go language, which helps developers process common data types and data operations in business code implementation. It allows you to focus on the implementation of your business code without processing the basic data type conversion and validation functions. The non-intrusive design of the tool library can make your business code easier to read and elegant.
-
-## Notice
-
-If your go version is less than v1.18, then you should use [v1.1.0](https://github.com/jefferyjob/go-easy-utils/tree/v1.1.0) version. If your go version is greater than or equal to v1.18, then you should use v2.x.x.
-
-This extension pack v2.0 supports generics and any.
 
 ## Quick Start
 **Install**
+
+Use users with `Go1.18` and above, it is recommended to install `v2.x.x`. Because `v2.x.x` app rewritten most functions of `Go1.18`
 ```bash
 go get -u github.com/jefferyjob/go-easy-utils
 ```
+
+Users who use `Go1.18` below must install `v1.x.x`. The latest `v1` version is `v1.1.0`
+```bash
+go get github.com/jefferyjob/go-easy-utils@v1.1.0
+```
+
 **Use Demo**
 ```go
 package main
@@ -36,7 +37,7 @@ import (
 
 func main() {
 	var slice = []string{"this", "is", "go", "easy", "utils"}
-	chunkSlice := sliceUtil.ChunkStr(slice, 2)
+	chunkSlice := sliceUtil.ChunkSlice(slice, 2)
 	fmt.Printf("%v", chunkSlice)
 }
 ```
@@ -44,7 +45,7 @@ func main() {
 ## Function list
 
 | Package name | Function Outline                                                                          | Document             |
-| ------------ | ----------------------------------------------------------------------------------------- |----------------------|
+|--------------| ----------------------------------------------------------------------------------------- |----------------------|
 | anyUtil      | Convert any type of data to the specified type                                            | [README](anyUtil)    |
 | byteUtil     | Conversion of byte array                                                                  | [README](byteUtil)   |
 | cryptoUtil   | Various encryption processing                                                             | [README](cryptoUtil) |
@@ -53,6 +54,7 @@ func main() {
 | intUtil      | Numerical data processing                                                                 | [README](intUtil)    |
 | jsonUtil     | Json data conversion, support weak type conversion                                        | [README](jsonUtil)   |
 | mapUtil      | Map type data processing                                                                  | [README](mapUtil)    |
+| mathUtil     | The Math function can handle values within the range of integers and floats.              | [README](mathUtil)   |
 | randUtil     | Random number generation, including: number, string, byte array                           | [README](randUtil)   |
 | sliceUtil    | Slice processing (grouping, summation, transformation, merging, etc.)                     | [README](sliceUtil)  |
 | strUtil      | String conversion processing                                                              | [README](strUtil)    |

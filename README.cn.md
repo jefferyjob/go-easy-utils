@@ -11,20 +11,21 @@
 [English](README.md) | 简体中文
 
 ## 介绍
-
 这是一个基于 Go 语言开发的通用数据类型处理工具类，帮助开发者在业务代码实现中处理常见的数据类型和数据操作。可以让您专注于您的业务代码的实现，而免去处理基本数据类型转换和验证的功能。该工具库无侵入式的设计可以让您的业务代码更容易阅读和优雅。
-
-## 公告
-
-如果您的go版本小于v1.18，那么您应该使用 [v1.1.0](https://github.com/jefferyjob/go-easy-utils/tree/v1.1.0) 版本。如果您的go版本大于等于v1.18版本，那么您应该使用 v2.x.x 版本。
-
-该扩展包 v2.0 支持泛型和any。
 
 ## 快速开始
 **安装**
+
+使用 `Go1.18` 及以上版本的用户，建议安装 `v2.x.x`。 因为 `v2.x.x` 应用 `Go1.18` 的泛型重写了大部分函数
 ```bash
 go get -u github.com/jefferyjob/go-easy-utils
 ```
+
+使用 `Go1.18` 以下版本的用户，必须安装 `v1.x.x`。目前最新的 `v1` 版本是 `v1.1.0`
+```bash
+go get github.com/jefferyjob/go-easy-utils@v1.1.0
+```
+
 **使用Demo**
 ```go
 package main
@@ -171,25 +172,25 @@ func StrToBytes(v string) []byte
 
 ```go
 // Chunk 把slice分割为新的数组块
-func ChunkSlice[T any](slice []T, size int) [][]T
+func ChunkSlice(slice []T, size int) [][]T
 
 // Column 获取slice中某个单一列的值
-func ColumnSlice[T any](slice []T, column string) []any
+func ColumnSlice(slice []T, column string) []any
 
 // In 判断value是否在slice中
-func InSlice[T comparable](value T, slices []T) bool
+func InSlice(value T, slices []T) bool
 
 // Is 判断指定值i是否是slice类型
 func IsSlice(slice any) bool
 
 // Merge 将多个slice合并成一个slice
-func MergeSlice[T any](slices ...[]T) []T
+func MergeSlice(slices ...[]T) []T
 
 // Sum 对slice中的元素求和
-func SumSlice[T Numeric](slice []T) T
+func SumSlice(slice []T) T
 
 // Unique 移除slice中重复的值
-func UniqueSlice[T comparable](slice []T) []T
+func UniqueSlice(slice []T) []T
 ```
 
 ### mapUtil map类型处理
@@ -206,41 +207,41 @@ func MapKeyExists(m map[string]any, key string) bool
 
 ```go
 // Abs 返回一个数的绝对值
-func Abs[T Numeric](num T) T
+func Abs(num T) T
 
 // Ceil 对float数据向上取整
-func Ceil[T float32 | float64](num T) int
+func Ceil(num T) int
 
 // Floor 对float数据向下取整
-func Floor[T float32 | float64](num T) int
+func Floor(num T) int
 
 // Max 返回slice中最大值
-func Max[T Numeric](slice []T) T
+func Max(slice []T) T
 
 // Min 返回slice中最小值
-func Min[T Numeric](slice []T) T
+func Min(slice []T) T
 
 // Round 对float数据四舍五入
-func Round[T float32 | float64](num T) int
+func Round(num T) int
 ```
 
 ### intUtil 数值型处理
 
 ```go
-// IntToString 将int类型转换为string类型
-func IntToString(v int) string
+// IntToStr 将int类型转换为string类型
+func IntToStr(v int) string
 
-// Int8ToString 将int8类型转换为string类型
-func Int8ToString(v int8) string
+// Int8ToStr 将int8类型转换为string类型
+func Int8ToStr(v int8) string
 
-// Int16ToString 将int16类型转换为string类型
-func Int16ToString(v int16) string
+// Int16ToStr 将int16类型转换为string类型
+func Int16ToStr(v int16) string
 
-// Int32ToString 将int32类型转换为string类型
-func Int32ToString(v int32) string
+// Int32ToStr 将int32类型转换为string类型
+func Int32ToStr(v int32) string
 
-// Int64ToString 将int64类型转换为string类型
-func Int64ToString(v int64) string
+// Int64ToStr 将int64类型转换为string类型
+func Int64ToStr(v int64) string
 ```
 
 ### floatUtil 浮点型处理
