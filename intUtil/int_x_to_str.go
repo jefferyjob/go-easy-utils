@@ -12,7 +12,7 @@ func Int8ToStr(v int8) string {
 	return strconv.Itoa(int(v))
 }
 
-// Int16ToString 将int16类型转换为string类型
+// Int16ToStr 将int16类型转换为string类型
 func Int16ToStr(v int16) string {
 	return strconv.Itoa(int(v))
 }
