@@ -16,7 +16,7 @@ func TestIntToString(t *testing.T) {
 	// Iterate through test cases
 	for _, testCase := range testCases {
 		// Call function with input and get result
-		result := IntToString(testCase.input)
+		result := IntToStr(testCase.input)
 
 		// Compare result with expected output
 		if result != testCase.expected {
@@ -28,7 +28,7 @@ func TestIntToString(t *testing.T) {
 func TestInt8ToString(t *testing.T) {
 	n := int8(42)
 	expected := "42"
-	result := Int8ToString(n)
+	result := Int8ToStr(n)
 	if result != expected {
 		t.Errorf("Int8ToString(%d) = %s; expected %s", n, result, expected)
 	}
@@ -37,7 +37,7 @@ func TestInt8ToString(t *testing.T) {
 func TestInt16ToString(t *testing.T) {
 	n := int16(42)
 	expected := "42"
-	result := Int16ToString(n)
+	result := Int16ToStr(n)
 	if result != expected {
 		t.Errorf("Int16ToString(%d) = %s; expected %s", n, result, expected)
 	}
@@ -46,7 +46,7 @@ func TestInt16ToString(t *testing.T) {
 func TestInt32ToString(t *testing.T) {
 	n := int32(42)
 	expected := "42"
-	result := Int32ToString(n)
+	result := Int32ToStr(n)
 	if result != expected {
 		t.Errorf("Int32ToString(%d) = %s; expected %s", n, result, expected)
 	}
@@ -55,7 +55,7 @@ func TestInt32ToString(t *testing.T) {
 func TestInt64ToString(t *testing.T) {
 	n := int64(42)
 	expected := "42"
-	result := Int64ToString(n)
+	result := Int64ToStr(n)
 	if result != expected {
 		t.Errorf("Int64ToString(%d) = %s; expected %s", n, result, expected)
 	}
