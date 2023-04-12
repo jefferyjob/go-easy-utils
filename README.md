@@ -13,6 +13,12 @@ English | [简体中文](README.cn.md)
 ## Introduction
 This is a general data type processing tool class based on Go language, which helps developers process common data types and data operations in business code implementation. It allows you to focus on the implementation of your business code without processing the basic data type conversion and validation functions. The non-intrusive design of the tool library can make your business code easier to read and elegant.
 
+## Notice
+
+If your go version is less than v1.18, then you should use [v1.1.0](https://github.com/jefferyjob/go-easy-utils/tree/v1.1.0) version. If your go version is greater than or equal to v1.18, then you should use v2.x.x.
+
+This extension pack v2.0 supports generics and any.
+
 ## Quick Start
 **Install**
 
@@ -23,7 +29,7 @@ go get -u github.com/jefferyjob/go-easy-utils
 
 Users who use `Go1.18` below must install `v1.x.x`. The latest `v1` version is `v1.1.0`
 ```bash
-go get github.com/jefferyjob/go-easy-utils@v1.1.0
+go get -u github.com/jefferyjob/go-easy-utils
 ```
 
 **Use Demo**
