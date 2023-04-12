@@ -18,20 +18,20 @@ import (
 
 ```go
 // Abs 返回一个数的绝对值
-func Abs[T Numeric](num T) T
+func Abs(num T) T
 
 // Ceil 对float数据向上取整
-func Ceil[T float32 | float64](num T) int
+func Ceil(num T) int
 
 // Floor 对float数据向下取整
-func Floor[T float32 | float64](num T) int
+func Floor(num T) int
 
 // Max 返回slice中最大值
-func Max[T Numeric](slice []T) T
+func Max(slice []T) T
 
 // Min 返回slice中最小值
-func Min[T Numeric](slice []T) T
+func Min(slice []T) T
 
 // Round 对float数据四舍五入
-func Round[T float32 | float64](num T) int
+func Round(num T) int
 ```
