@@ -24,4 +24,4 @@
 - 删除了 `intUtil` 包
 
 ## v2.0.1
-- `mathUtil` 包泛型优化 (#30)
+- `mathUtil` 包泛型优化
