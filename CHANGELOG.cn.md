@@ -22,3 +22,6 @@
 - 项目全面支持泛型和any
 - 新增 `mathUtil` 包
 - 删除了 `intUtil` 包
+
+## v2.0.1
+- `mathUtil` 包泛型优化 (#30)
