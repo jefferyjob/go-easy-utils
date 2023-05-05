@@ -1,7 +1,7 @@
 package jsonUtil
 
 import (
-	go_easy_utils "github.com/jefferyjob/go-easy-utils"
+	go_easy_utils "github.com/jefferyjob/go-easy-utils/v2"
 	"reflect"
 	"testing"
 )

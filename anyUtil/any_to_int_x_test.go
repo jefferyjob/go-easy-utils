@@ -2,7 +2,7 @@ package anyUtil
 
 import (
 	"errors"
-	"github.com/jefferyjob/go-easy-utils"
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"testing"
 )
