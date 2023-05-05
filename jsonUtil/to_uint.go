@@ -1,7 +1,7 @@
 package jsonUtil
 
 import (
-	"github.com/jefferyjob/go-easy-utils"
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"reflect"
 	"strconv"
 )

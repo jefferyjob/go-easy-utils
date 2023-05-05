@@ -1,7 +1,7 @@
 package anyUtil
 
 import (
-	"github.com/jefferyjob/go-easy-utils"
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"reflect"
 	"strconv"
