@@ -22,6 +22,4 @@
 - The project fully supports generics and any (#19)
 - Added `mathUtil` package (#22)
 - Removed `intUtil` package (#27)
-
-## v2.0.1
 - `mathUtil` package generic optimization (#30)

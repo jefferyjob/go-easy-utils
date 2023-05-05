@@ -10,7 +10,7 @@ go get -u github.com/jefferyjob/go-easy-utils/byteUtil
 
 ```go
 import (
-	"github.com/jefferyjob/go-easy-utils/byteUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/byteUtil"
 )
 ```
 

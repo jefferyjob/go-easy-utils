@@ -10,7 +10,7 @@ go get -u github.com/jefferyjob/go-easy-utils/validUtil
 
 ```go
 import (
-	"github.com/jefferyjob/go-easy-utils/validUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/validUtil"
 )
 ```
 
