@@ -10,7 +10,7 @@ go get -u github.com/jefferyjob/go-easy-utils/emojiUtil
 
 ```go
 import (
-	"github.com/jefferyjob/go-easy-utils/emojiUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/emojiUtil"
 )
 ```
 

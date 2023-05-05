@@ -18,7 +18,7 @@ This is a general data type processing tool class based on Go language, which he
 
 Use users with `Go1.18` and above, it is recommended to install `v2.x.x`. Because `v2.x.x` app rewritten most functions of `Go1.18`
 ```bash
-go get -u github.com/jefferyjob/go-easy-utils
+go get -u github.com/jefferyjob/go-easy-utils/v2
 ```
 
 Users who use `Go1.18` below must install `v1.x.x`. The latest `v1` version is `v1.1.0`
@@ -32,7 +32,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jefferyjob/go-easy-utils/sliceUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/sliceUtil"
 )
 
 func main() {

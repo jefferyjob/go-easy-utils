@@ -18,7 +18,7 @@
 
 使用 `Go1.18` 及以上版本的用户，建议安装 `v2.x.x`。 因为 `v2.x.x` 应用 `Go1.18` 的泛型重写了大部分函数
 ```bash
-go get -u github.com/jefferyjob/go-easy-utils
+go get -u github.com/jefferyjob/go-easy-utils/v2
 ```
 
 使用 `Go1.18` 以下版本的用户，必须安装 `v1.x.x`。目前最新的 `v1` 版本是 `v1.1.0`
@@ -32,7 +32,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jefferyjob/go-easy-utils/sliceUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/sliceUtil"
 )
 
 func main() {

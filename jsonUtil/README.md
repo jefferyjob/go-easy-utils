@@ -30,7 +30,7 @@ JsonToStruct 是一个将JSON字符串解析为结构体的方法。这个方法
 ## Install
 
 ```bash
-go get -u github.com/jefferyjob/go-easy-utils/jsonUtil
+go get -u github.com/jefferyjob/go-easy-utils/v2/jsonUtil
 ```
 
 ## Import

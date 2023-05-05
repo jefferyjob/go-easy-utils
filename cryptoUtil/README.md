@@ -10,7 +10,7 @@ go get -u github.com/jefferyjob/go-easy-utils/cryptoUtil
 
 ```go
 import (
-	"github.com/jefferyjob/go-easy-utils/cryptoUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/cryptoUtil"
 )
 ```
 

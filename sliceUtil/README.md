@@ -10,7 +10,7 @@ go get -u github.com/jefferyjob/go-easy-utils/sliceUtil
 
 ```go
 import (
-	"github.com/jefferyjob/go-easy-utils/sliceUtil"
+	"github.com/jefferyjob/go-easy-utils/v2/sliceUtil"
 )
 ```
 
