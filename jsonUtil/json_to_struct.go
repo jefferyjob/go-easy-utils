@@ -3,16 +3,26 @@ package jsonUtil
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"reflect"
 	"strings"
+)
+
+var (
+	// ErrPoint 不是指针类型
+	ErrPoint = errors.New("the argument to Result must be a non-nil pointer")
+	// ErrNotMap 不是Map类型
+	ErrNotMap = errors.New("cannot parse map, value is not a map")
+	// ErrNotSlice 不是Slice类型
+	ErrNotSlice = errors.New("cannot parse slice, value is not a slice")
 )
 
 // JsonToStruct Parses JSON into a specified structure pointer
 // 将JSON解析为指定的结构体指针
 func JsonToStruct(jsonData string, result interface{}) error {
 	if reflect.ValueOf(result).Kind() != reflect.Pointer || reflect.ValueOf(result).IsNil() {
-		return errors.New("the argument to Result must be a non-nil pointer")
+		return ErrPoint
 	}
 
 	var data map[string]interface{}
@@ -29,15 +39,8 @@ func JsonToStruct(jsonData string, result interface{}) error {
 		fieldName := fieldType.Name
 		fieldValue := resultValue.FieldByName(fieldName)
 
-		// 从json的tag标签中取出定义字段
-		jsonTag := fieldType.Tag.Get("json")
-		if jsonTag == "" {
-			jsonTag = fieldName
-		} else {
-			if commaIndex := strings.Index(jsonTag, ","); commaIndex != -1 {
-				jsonTag = jsonTag[:commaIndex]
-			}
-		}
+		// 获取json的tag
+		jsonTag := getJsonTag(fieldType, fieldName)
 
 		value, ok := data[jsonTag]
 		if !ok {
@@ -72,7 +75,7 @@ func JsonToStruct(jsonData string, result interface{}) error {
 			val := toBoolReflect(value)
 			fieldValue.SetBool(val)
 		case reflect.Struct:
-			if subData, ok := value.(map[string]interface{}); ok {
+			if subData, ok := value.(map[string]any); ok {
 				subResult := reflect.New(fieldValue.Type())
 				err := JsonToStruct(convertToJSONString(subData), subResult.Interface())
 				if err != nil {
@@ -80,33 +83,38 @@ func JsonToStruct(jsonData string, result interface{}) error {
 				}
 				fieldValue.Set(subResult.Elem())
 			}
-		case reflect.Slice:
-			if subData, ok := value.([]interface{}); ok {
-				subResult := reflect.MakeSlice(fieldValue.Type(), len(subData), len(subData))
-				for j := 0; j < len(subData); j++ {
-					subValue := subData[j]
-					subElem := subResult.Index(j)
-
-					if subElem.Kind() == reflect.Struct {
-						if subDataElem, ok := subValue.(map[string]interface{}); ok {
-							subResultElem := reflect.New(subElem.Type())
-							err := JsonToStruct(convertToJSONString(subDataElem), subResultElem.Interface())
-							if err != nil {
-								return err
-							}
-							subElem.Set(subResultElem.Elem())
-						}
-					} else {
-						subElem.Set(reflect.ValueOf(subValue))
-					}
+		case reflect.Map:
+			if subData, ok := value.(map[string]interface{}); ok {
+				subResult := reflect.New(fieldType.Type).Elem()
+				if err := parseMap(subResult, subData); err != nil {
+					return err
 				}
 				fieldValue.Set(subResult)
 			}
-			//default:
-			//	fieldValue.Set(reflect.ValueOf(value))
+		case reflect.Slice:
+			if subData, ok := value.([]interface{}); ok {
+				if err := parseSlice(fieldValue, subData); err != nil {
+					return err
+				}
+			} else {
+				return fmt.Errorf("unexpected value type for slice: %T", value)
+			}
 		}
 	}
 	return nil
+}
+
+// 从json的tag标签中取出定义字段
+func getJsonTag(fieldType reflect.StructField, fieldName string) string {
+	jsonTag := fieldType.Tag.Get("json")
+	if jsonTag == "" {
+		jsonTag = fieldName
+	} else {
+		if commaIndex := strings.Index(jsonTag, ","); commaIndex != -1 {
+			jsonTag = jsonTag[:commaIndex]
+		}
+	}
+	return jsonTag
 }
 
 func convertToJSONString(data map[string]interface{}) string {
