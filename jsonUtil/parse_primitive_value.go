@@ -6,6 +6,8 @@ import (
 	"reflect"
 )
 
+// 原始数据类型转换支持
+// 将数据转为Struct指定的类型
 func parsePrimitiveValue(fieldVal reflect.Value, v interface{}) error {
 	switch fieldVal.Kind() {
 	case reflect.String:
@@ -43,10 +45,3 @@ func parsePrimitiveValue(fieldVal reflect.Value, v interface{}) error {
 	}
 	return nil
 }
-
-//case reflect.String, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
-//reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
-//reflect.Float32, reflect.Float64, reflect.Bool:
-//if err := parsePrimitiveValue(fieldVal, v); err != nil {
-//return err
-//}
