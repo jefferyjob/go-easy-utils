@@ -21,7 +21,7 @@ Use users with `Go1.18` and above, it is recommended to install `v2.x.x`. Becaus
 go get -u github.com/jefferyjob/go-easy-utils/v2
 ```
 
-Users who use versions below `Go1.18`, please use [v1.x.x][jefferyjob/go-easy-utils/tree/v1] version
+Users who use versions below `Go1.18`, please use [v1.x](https://github.com/jefferyjob/go-easy-utils/tree/v1) version
 
 **Use Demo**
 ```go

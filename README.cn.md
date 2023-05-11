@@ -21,7 +21,7 @@
 go get -u github.com/jefferyjob/go-easy-utils/v2
 ```
 
-使用 `Go1.18` 以下版本的用户，请使用 [v1.x.x][jefferyjob/go-easy-utils/tree/v1] 版本
+使用 `Go1.18` 以下版本的用户，请使用 [v1.x](https://github.com/jefferyjob/go-easy-utils/tree/v1) 版本
 
 **使用Demo**
 ```go
