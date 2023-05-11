@@ -23,3 +23,7 @@
 - Added `mathUtil` package (#22)
 - Removed `intUtil` package (#27)
 - `mathUtil` package generic optimization (#30)
+
+## v2.0.1
+- Fixed the data type inconsistency parsing error in `slice` in `JsonToStruct` (#37)
+- `JsonToStruct` supports parsing of `map` data type (#37)

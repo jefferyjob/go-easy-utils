@@ -23,3 +23,7 @@
 - 新增 `mathUtil` 包
 - 删除了 `intUtil` 包
 - `mathUtil` 包泛型优化
+
+## v2.0.1
+- 修复了`JsonToStruct`中`slice`中数据类型不一致解析错误
+- `JsonToStruct`支持`map`数据类型的解析
