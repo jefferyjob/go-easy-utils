@@ -3,6 +3,7 @@ package jsonUtil
 import (
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"testing"
 )
 
@@ -311,6 +312,109 @@ func TestJsonToStructMoreNest(t *testing.T) {
 		if resultPerson.Emails[i] != expectedEmail {
 			t.Errorf("Emails[%d] mismatch: expected %s but got %s", i, expectedEmail, resultPerson.Emails[i])
 		}
+	}
+}
+
+// 合法验证：多层级嵌套
+func TestJsonToStructMoreNest2(t *testing.T) {
+	var jsonData = `
+	{
+		"uid": 666,
+		"use_id": ["hello", 5, 9],
+		"age": "20",
+		"equip": {
+			"keyMike": true,
+			"keyTom": false
+		},
+		"happy": {
+			"k1": [1, 2, 3],
+			"k2": [4, 5, 6]
+		},
+		"slices": [{
+			"nickname": "ABC",
+			"money": "20"
+		}, {
+			"nickname": "EFG",
+			"money": "22"
+		}],
+		"maps": {
+			"m1": {
+				"name": "alis",
+				"age": "20"
+			},
+			"m2": {
+				"name": "jom",
+				"age": "22"
+			}
+		}
+	}
+	`
+
+	type SliceVal struct {
+		Nickname string `json:"nickname"`
+		Money    int    `json:"money"`
+	}
+
+	type MapVal struct {
+		Name string `json:"name"`
+		Age  int    `json:"age"`
+	}
+
+	type Target struct {
+		Uid    int               `json:"uid"`
+		UseId  []string          `json:"use_id"`
+		Age    int               `json:"age"`
+		Equip  map[string]bool   `json:"equip"`
+		Happy  map[string][]int  `json:"happy"`
+		Slices []SliceVal        `json:"slices"`
+		Maps   map[string]MapVal `json:"maps"`
+	}
+
+	var res Target
+	err := JsonToStruct(jsonData, &res)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	//jsonRes, _ := json.Marshal(res)
+	//fmt.Printf("%+v \n", res)
+	//fmt.Println(string(jsonRes))
+
+	expected := Target{
+		Uid:   666,
+		UseId: []string{"hello", "5", "9"},
+		Age:   20,
+		Equip: map[string]bool{
+			"keyMike": true,
+			"keyTom":  false,
+		},
+		Happy: map[string][]int{
+			"k1": {1, 2, 3},
+			"k2": {4, 5, 6},
+		},
+		Slices: []SliceVal{
+			{
+				Nickname: "ABC",
+				Money:    20,
+			},
+			{
+				Nickname: "EFG",
+				Money:    22,
+			},
+		},
+		Maps: map[string]MapVal{
+			"m1": {
+				Name: "alis",
+				Age:  20,
+			},
+			"m2": {
+				Name: "jom",
+				Age:  22,
+			},
+		},
+	}
+
+	if !reflect.DeepEqual(res, expected) {
+		t.Errorf("Result not as expected.\nExpected: %+v\nActual: %+v\n", expected, res)
 	}
 }
 
