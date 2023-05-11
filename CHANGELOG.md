@@ -17,3 +17,7 @@
 ## v1.1.0
 - `sliceUtil` More methods have been added to the package
 - Some formal parameters in the project are more standardized in naming
+
+## v1.1.1
+- Fixed the data type inconsistency parsing error in `slice` in `JsonToStruct` (#36)
+- `JsonToStruct` supports parsing of `map` data type (#36)

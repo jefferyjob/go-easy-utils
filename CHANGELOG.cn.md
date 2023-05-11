@@ -17,3 +17,7 @@
 ## v1.1.0
 - `sliceUtil` 包中增加了更多的方法
 - 项目中的某些形参更加规范命名
+
+## v1.1.0
+- 修复了`JsonToStruct`中`slice`中数据类型不一致解析错误
+- `JsonToStruct`支持`map`数据类型的解析
