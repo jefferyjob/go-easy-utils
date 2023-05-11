@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -22,5 +21,4 @@ func TestJsonToStructSlice1(t *testing.T) {
 		t.Errorf("err %s", err)
 		return
 	}
-	fmt.Println(target, err)
 }

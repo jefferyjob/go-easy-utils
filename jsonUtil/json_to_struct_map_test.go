@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -36,7 +35,6 @@ func TestJsonToStructMap1(t *testing.T) {
 		t.Errorf("err %s", err)
 		return
 	}
-	fmt.Printf("%+v, err:%s \n", target, err)
 }
 
 func TestJsonToStructMap2(t *testing.T) {
@@ -70,7 +68,4 @@ func TestJsonToStructMap2(t *testing.T) {
 		t.Errorf("err %s", err)
 		return
 	}
-	fmt.Printf("%+v, err:%s \n", target, err)
 }
-
-
