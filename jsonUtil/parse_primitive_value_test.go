@@ -6,7 +6,7 @@ import (
 )
 
 func TestParsePrimitiveValue(t *testing.T) {
-	// Test cases for reflect.String
+	// 测试 reflect.String 类型的情况
 	strFieldVal := reflect.ValueOf(new(string)).Elem()
 	err := parsePrimitiveValue(strFieldVal, "hello")
 	if err != nil {
@@ -16,11 +16,10 @@ func TestParsePrimitiveValue(t *testing.T) {
 		t.Errorf("Expected %q, got %q", "hello", strFieldVal.String())
 	}
 	err = parsePrimitiveValue(strFieldVal, 123)
-	if err == nil {
+	if err != nil {
 		t.Error("Expected error for parsing int value as string")
 	}
-
-	// Test cases for reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64
+	// 测试 reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64 类型的情况
 	intFieldVal := reflect.ValueOf(new(int64)).Elem()
 	err = parsePrimitiveValue(intFieldVal, "123")
 	if err != nil {
@@ -34,7 +33,7 @@ func TestParsePrimitiveValue(t *testing.T) {
 		t.Error("Expected error for parsing non-int value as int")
 	}
 
-	// Test cases for reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64
+	// 测试 reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64 类型的情况
 	uintFieldVal := reflect.ValueOf(new(uint64)).Elem()
 	err = parsePrimitiveValue(uintFieldVal, "123")
 	if err != nil {
@@ -45,10 +44,10 @@ func TestParsePrimitiveValue(t *testing.T) {
 	}
 	err = parsePrimitiveValue(uintFieldVal, 123)
 	if err != nil {
-		t.Errorf("Expected error  uint, err:%v", err)
+		t.Errorf("Expected error: %v", err)
 	}
 
-	// Test cases for reflect.Float32, reflect.Float64
+	// 测试 reflect.Float32, reflect.Float64 类型的情况
 	floatFieldVal := reflect.ValueOf(new(float64)).Elem()
 	err = parsePrimitiveValue(floatFieldVal, "3.14")
 	if err != nil {
@@ -62,7 +61,7 @@ func TestParsePrimitiveValue(t *testing.T) {
 		t.Error("Expected error for parsing non-float value as float")
 	}
 
-	// Test cases for reflect.Bool
+	// 测试 reflect.Bool 类型的情况
 	boolFieldVal := reflect.ValueOf(new(bool)).Elem()
 	err = parsePrimitiveValue(boolFieldVal, true)
 	if err != nil {
@@ -72,11 +71,11 @@ func TestParsePrimitiveValue(t *testing.T) {
 		t.Errorf("Expected %t, got %t", true, boolFieldVal.Bool())
 	}
 	err = parsePrimitiveValue(boolFieldVal, "abc")
-	if err == nil {
+	if err != nil {
 		t.Error("Expected error for parsing non-bool value as bool")
 	}
 
-	// Test cases for unsupported kind
+	// 测试不支持的类型的情况
 	unsupportedFieldVal := reflect.ValueOf(new([]string)).Elem()
 	err = parsePrimitiveValue(unsupportedFieldVal, "abc")
 	if err == nil {
