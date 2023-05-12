@@ -35,11 +35,7 @@ func parsePrimitiveValue(fieldVal reflect.Value, v interface{}) error {
 		}
 		fieldVal.SetFloat(n)
 	case reflect.Bool:
-		b, ok := v.(bool)
-		if !ok {
-			return errors.New("failed to parse bool")
-		}
-		fieldVal.SetBool(b)
+		fieldVal.SetBool(toBoolReflect(v))
 	default:
 		return fmt.Errorf("unsupported kind: %s", fieldVal.Kind())
 	}
