@@ -5,15 +5,15 @@ import (
 	"reflect"
 )
 
-func parseMap(value reflect.Value, data map[string]interface{}) error {
+func parseMap(value reflect.Value, subData map[string]interface{}) error {
 	if value.Kind() != reflect.Map {
 		return ErrNotMap
 	}
 
 	valueType := value.Type().Elem()
-	newMap := reflect.MakeMapWithSize(value.Type(), len(data))
+	newMap := reflect.MakeMapWithSize(value.Type(), len(subData))
 
-	for key, val := range data {
+	for key, val := range subData {
 		newKey := reflect.ValueOf(key)
 
 		if valueType.Kind() == reflect.Interface {
@@ -37,24 +37,24 @@ func parseMap(value reflect.Value, data map[string]interface{}) error {
 	return nil
 }
 
-func parseValue(fieldVal reflect.Value, v interface{}) error {
+func parseValue(fieldVal reflect.Value, item interface{}) error {
 	switch fieldVal.Kind() {
 	case reflect.String, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
 		reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
 		reflect.Float32, reflect.Float64, reflect.Bool:
-		if err := parsePrimitiveValue(fieldVal, v); err != nil {
+		if err := parsePrimitiveValue(fieldVal, item); err != nil {
 			return err
 		}
 	case reflect.Struct:
-		if subData, ok := v.(map[string]interface{}); ok {
+		if subData, ok := item.(map[string]interface{}); ok {
 			if err := JsonToStruct(convertToJSONString(subData), fieldVal.Addr().Interface()); err != nil {
 				return err
 			}
 		} else {
-			return fmt.Errorf("unexpected value type for struct: %T", v)
+			return fmt.Errorf("unexpected value type for struct: %T", item)
 		}
 	case reflect.Slice:
-		if arr, ok := v.([]interface{}); ok {
+		if arr, ok := item.([]interface{}); ok {
 			elemType := fieldVal.Type().Elem()
 			sliceVal := reflect.MakeSlice(fieldVal.Type(), len(arr), len(arr))
 			for i, elem := range arr {
@@ -66,10 +66,10 @@ func parseValue(fieldVal reflect.Value, v interface{}) error {
 			}
 			fieldVal.Set(sliceVal)
 		} else {
-			return fmt.Errorf("unexpected value type for slice: %T", v)
+			return fmt.Errorf("unexpected value type for slice: %T", item)
 		}
 	case reflect.Map:
-		if mapData, ok := v.(map[string]interface{}); ok {
+		if mapData, ok := item.(map[string]interface{}); ok {
 			mapType := fieldVal.Type()
 			if fieldVal.IsNil() {
 				fieldVal.Set(reflect.MakeMap(mapType))
@@ -88,7 +88,13 @@ func parseValue(fieldVal reflect.Value, v interface{}) error {
 				mapVal.SetMapIndex(keyVal, elemVal)
 			}
 		} else {
-			return fmt.Errorf("unexpected value type for map: %T", v)
+			return fmt.Errorf("unexpected value type for map: %T", item)
+		}
+	case reflect.Interface:
+		if item == nil {
+			fieldVal.Set(reflect.Zero(fieldVal.Type()))
+		} else {
+			fieldVal.Set(reflect.ValueOf(item))
 		}
 	default:
 		return fmt.Errorf("unsupported kind: %s", fieldVal.Kind())
