@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
 	"reflect"
 	"strings"
 )
@@ -48,32 +47,12 @@ func JsonToStruct(jsonData string, result interface{}) error {
 		}
 
 		switch fieldValue.Kind() {
-		case reflect.String:
-			fieldValue.SetString(toStringReflect(value))
-		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			val, err := toInt64Reflect(value)
-			if err != nil {
-				log.Printf("toInt64Reflect err:%s \n", err)
+		case reflect.String, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+			reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+			reflect.Float32, reflect.Float64, reflect.Bool:
+			if err := parsePrimitiveValue(fieldValue, value); err != nil {
 				return err
 			}
-			fieldValue.SetInt(val)
-		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-			val, err := toUint64Reflect(value)
-			if err != nil {
-				log.Printf("toUint64Reflect err:%s \n", err)
-				return err
-			}
-			fieldValue.SetUint(val)
-		case reflect.Float32, reflect.Float64:
-			val, err := toFloat64Reflect(value)
-			if err != nil {
-				log.Printf("toFloat64Reflect err:%s \n", err)
-				return err
-			}
-			fieldValue.SetFloat(val)
-		case reflect.Bool:
-			val := toBoolReflect(value)
-			fieldValue.SetBool(val)
 		case reflect.Struct:
 			if subData, ok := value.(map[string]any); ok {
 				subResult := reflect.New(fieldValue.Type())
