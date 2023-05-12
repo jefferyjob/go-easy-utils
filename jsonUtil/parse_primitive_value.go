@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 )
@@ -11,11 +10,7 @@ import (
 func parsePrimitiveValue(fieldVal reflect.Value, v interface{}) error {
 	switch fieldVal.Kind() {
 	case reflect.String:
-		str, ok := v.(string)
-		if !ok {
-			return errors.New("failed to parse string")
-		}
-		fieldVal.SetString(str)
+		fieldVal.SetString(toStringReflect(v))
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		n, err := toInt64Reflect(v)
 		if err != nil {
