@@ -23,5 +23,7 @@
 - `JsonToStruct` supports parsing of `map` data type (#36)
 
 ## v1.2.0
-- `JsonToStruct` supports `interface{}` defined in basic data types (#39)
-- `JsonToStruct` supports `any` defined in primitive data types (#39)
+- `JsonToStruct` supports `interface{}` defined in basic data types (#40)
+- `JsonToStruct` supports `any` defined in primitive data types (#40)
+- Optimize `string` escape compatibility of `parsePrimitiveValue` (#42)
+- Optimize `parsePrimitiveValue`'s `bool` escape compatibility (#43)
