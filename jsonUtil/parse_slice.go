@@ -36,6 +36,12 @@ func parseSlice(fieldValue reflect.Value, subData []interface{}) error {
 			if err != nil {
 				return err
 			}
+		} else if elemType.Kind() == reflect.Interface {
+			if item == nil {
+				elem.Set(reflect.Zero(elemType))
+			} else {
+				elem.Set(reflect.ValueOf(item))
+			}
 		} else {
 			// 否则，将项目转换为适当的类型并设置元素值
 			switch elem.Kind() {

@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	"errors"
 	"fmt"
 	"reflect"
 )
@@ -11,11 +10,7 @@ import (
 func parsePrimitiveValue(fieldVal reflect.Value, v interface{}) error {
 	switch fieldVal.Kind() {
 	case reflect.String:
-		str, ok := v.(string)
-		if !ok {
-			return errors.New("failed to parse string")
-		}
-		fieldVal.SetString(str)
+		fieldVal.SetString(toStringReflect(v))
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		n, err := toInt64Reflect(v)
 		if err != nil {
@@ -35,11 +30,7 @@ func parsePrimitiveValue(fieldVal reflect.Value, v interface{}) error {
 		}
 		fieldVal.SetFloat(n)
 	case reflect.Bool:
-		b, ok := v.(bool)
-		if !ok {
-			return errors.New("failed to parse bool")
-		}
-		fieldVal.SetBool(b)
+		fieldVal.SetBool(toBoolReflect(v))
 	default:
 		return fmt.Errorf("unsupported kind: %s", fieldVal.Kind())
 	}

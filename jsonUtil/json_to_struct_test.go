@@ -426,9 +426,116 @@ func TestJsonToStructMoreNest2(t *testing.T) {
 			},
 		},
 	}
-	
+
 	if !reflect.DeepEqual(res, expected) {
 		t.Errorf("Result not as expected.\nExpected: %+v\nActual: %+v\n", expected, res)
+	}
+}
+
+// 普通数据类型定义 interface
+func TestJsonToStructAny1(t *testing.T) {
+	jsonData := `{
+		"name": "make",
+		"age": "10"
+	}`
+	type Target struct {
+		Name interface{} `json:"name"`
+		Age  uint        `json:"age"`
+	}
+	var target Target
+	err := JsonToStruct(jsonData, &target)
+	if err != nil {
+		t.Errorf("err %s", err)
+		return
+	}
+}
+
+// 普通数据类型定义 any
+func TestJsonToStructAny2(t *testing.T) {
+	jsonData := `{
+		"name": "make",
+		"age": "10"
+	}`
+	type Target struct {
+		Name any  `json:"name"`
+		Age  uint `json:"age"`
+	}
+	var target Target
+	err := JsonToStruct(jsonData, &target)
+	if err != nil {
+		t.Errorf("err %s", err)
+		return
+	}
+}
+
+// slice 中包含 interface
+func TestJsonToStructAny3(t *testing.T) {
+	jsonData := `{
+		"name": ["make",6,"tom"]
+	}`
+	type Target struct {
+		Name []interface{} `json:"name"`
+	}
+	var target Target
+	err := JsonToStruct(jsonData, &target)
+	if err != nil {
+		t.Errorf("err %s", err)
+		return
+	}
+}
+
+// slice 中包含 any
+func TestJsonToStructAny4(t *testing.T) {
+	jsonData := `{
+		"name": ["make",6,"tom"]
+	}`
+	type Target struct {
+		Name []any `json:"name"`
+	}
+	var target Target
+	err := JsonToStruct(jsonData, &target)
+	if err != nil {
+		t.Errorf("err %s", err)
+		return
+	}
+	fmt.Println(target, err)
+}
+
+// map 中包含 interface
+func TestJsonToStructAny5(t *testing.T) {
+	jsonData := `{
+		"name": {
+			"key1": "mike",
+			"key2": 666
+		}
+	}`
+	type Target struct {
+		Name map[string]interface{} `json:"name"`
+	}
+	var target Target
+	err := JsonToStruct(jsonData, &target)
+	if err != nil {
+		t.Errorf("err %s", err)
+		return
+	}
+}
+
+// map 中包含 any
+func TestJsonToStructAny6(t *testing.T) {
+	jsonData := `{
+		"name": {
+			"key1": "mike",
+			"key2": 666
+		}
+	}`
+	type Target struct {
+		Name map[string]any `json:"name"`
+	}
+	var target Target
+	err := JsonToStruct(jsonData, &target)
+	if err != nil {
+		t.Errorf("err %s", err)
+		return
 	}
 }
 
