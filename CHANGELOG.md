@@ -26,4 +26,4 @@
 - `JsonToStruct` supports `interface{}` defined in basic data types (#40)
 - `JsonToStruct` supports `any` defined in primitive data types (#40)
 - Optimize `string` escape compatibility of `parsePrimitiveValue` (#42)
-- Optimize `parsePrimitiveValue`'s `bool` escape compatibility (#43)
+- Optimize `parsePrimitiveValue`'s `bool` escape compatibility (#42)
