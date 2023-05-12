@@ -99,6 +99,12 @@ func JsonToStruct(jsonData string, result any) error {
 			} else {
 				return fmt.Errorf("unexpected value type for slice: %T", value)
 			}
+		case reflect.Interface:
+			if value == nil {
+				fieldValue.Set(reflect.Zero(fieldType.Type))
+			} else {
+				fieldValue.Set(reflect.ValueOf(value))
+			}
 		}
 	}
 	return nil

@@ -38,48 +38,44 @@ func parseMap(value reflect.Value, data map[string]any) error {
 	return nil
 }
 
-func parseValue(fieldVal reflect.Value, v any) error {
+func parseValue(fieldVal reflect.Value, item any) error {
 	switch fieldVal.Kind() {
 	case reflect.String:
-		str, ok := v.(string)
+		str, ok := item.(string)
 		if !ok {
 			return errors.New("failed to parse string")
 		}
 		fieldVal.SetString(str)
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-		n, err := toInt64Reflect(v)
+		n, err := toInt64Reflect(item)
 		if err != nil {
 			return err
 		}
 		fieldVal.SetInt(n)
 	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-		n, err := toUint64Reflect(v)
+		n, err := toUint64Reflect(item)
 		if err != nil {
 			return err
 		}
 		fieldVal.SetUint(uint64(n))
 	case reflect.Float32, reflect.Float64:
-		n, err := toFloat64Reflect(v)
+		n, err := toFloat64Reflect(item)
 		if err != nil {
 			return err
 		}
 		fieldVal.SetFloat(n)
 	case reflect.Bool:
-		b, ok := v.(bool)
-		if !ok {
-			return errors.New("failed to parse bool")
-		}
-		fieldVal.SetBool(b)
+		fieldVal.SetBool(toBoolReflect(item))
 	case reflect.Struct:
-		if subData, ok := v.(map[string]any); ok {
+		if subData, ok := item.(map[string]any); ok {
 			if err := JsonToStruct(convertToJSONString(subData), fieldVal.Addr().Interface()); err != nil {
 				return err
 			}
 		} else {
-			return fmt.Errorf("unexpected value type for struct: %T", v)
+			return fmt.Errorf("unexpected value type for struct: %T", item)
 		}
 	case reflect.Slice:
-		if arr, ok := v.([]any); ok {
+		if arr, ok := item.([]any); ok {
 			elemType := fieldVal.Type().Elem()
 			sliceVal := reflect.MakeSlice(fieldVal.Type(), len(arr), len(arr))
 			for i, elem := range arr {
@@ -91,10 +87,10 @@ func parseValue(fieldVal reflect.Value, v any) error {
 			}
 			fieldVal.Set(sliceVal)
 		} else {
-			return fmt.Errorf("unexpected value type for slice: %T", v)
+			return fmt.Errorf("unexpected value type for slice: %T", item)
 		}
 	case reflect.Map:
-		if mapData, ok := v.(map[string]any); ok {
+		if mapData, ok := item.(map[string]any); ok {
 			mapType := fieldVal.Type()
 			if fieldVal.IsNil() {
 				fieldVal.Set(reflect.MakeMap(mapType))
@@ -113,7 +109,13 @@ func parseValue(fieldVal reflect.Value, v any) error {
 				mapVal.SetMapIndex(keyVal, elemVal)
 			}
 		} else {
-			return fmt.Errorf("unexpected value type for map: %T", v)
+			return fmt.Errorf("unexpected value type for map: %T", item)
+		}
+	case reflect.Interface:
+		if item == nil {
+			fieldVal.Set(reflect.Zero(fieldVal.Type()))
+		} else {
+			fieldVal.Set(reflect.ValueOf(item))
 		}
 	default:
 		return fmt.Errorf("unsupported kind: %s", fieldVal.Kind())
