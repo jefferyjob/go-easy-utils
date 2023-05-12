@@ -3,7 +3,6 @@ package jsonUtil
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"reflect"
 )
 
@@ -45,43 +44,22 @@ func parseSlice(fieldValue reflect.Value, subData []any) error {
 		} else {
 			// 否则，将项目转换为适当的类型并设置元素值
 			switch elem.Kind() {
-			case reflect.String:
-				elem.SetString(toStringReflect(item))
-			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-				val, err := toInt64Reflect(item)
+			case reflect.String, reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64,
+				reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64,
+				reflect.Float32, reflect.Float64, reflect.Bool:
+				err := parsePrimitiveValue(elem, item)
 				if err != nil {
-					log.Printf("toInt64Reflect err:%s \n", err)
 					return err
 				}
-				elem.SetInt(val)
-			case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-				val, err := toUint64Reflect(item)
-				if err != nil {
-					log.Printf("toUint64Reflect err:%s \n", err)
-					return err
-				}
-				elem.SetUint(val)
-			case reflect.Float32, reflect.Float64:
-				val, err := toFloat64Reflect(item)
-				if err != nil {
-					log.Printf("toFloat64Reflect err:%s \n", err)
-					return err
-				}
-				elem.SetFloat(val)
-			case reflect.Bool:
-				val := toBoolReflect(item)
-				elem.SetBool(val)
 			default:
 				return fmt.Errorf("unsupported slice element type: %s", elemType.String())
 			}
 		}
 
-		// 将元素附加到切片
-		slice = reflect.Append(slice, elem)
+		slice = reflect.Append(slice, elem) // 将元素附加到切片
 	}
 
-	// 将切片值设置为目标字段
-	fieldValue.Set(slice)
+	fieldValue.Set(slice) // 将切片值设置为目标字段
 
 	return nil
 }
