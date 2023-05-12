@@ -25,6 +25,8 @@
 ## v1.2.0
 - `JsonToStruct` 支持基本数据类型中定义 `interface{}`
 - `JsonToStruct` 支持基本数据类型中定义 `any`
+- 优化 `parsePrimitiveValue` 的 `string` 转义兼容
+- 优化 `parsePrimitiveValue` 的 `bool` 转义兼容
 
 ## v2.0.0
 - 项目全面支持泛型和any
@@ -39,3 +41,5 @@
 ## v2.1.0
 - `JsonToStruct` 支持基本数据类型中定义 `interface{}`
 - `JsonToStruct` 支持基本数据类型中定义 `any`
+- 优化 `parsePrimitiveValue` 的 `string` 转义兼容
+- 优化 `parsePrimitiveValue` 的 `bool` 转义兼容
