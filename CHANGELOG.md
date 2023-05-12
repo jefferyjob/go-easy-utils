@@ -18,6 +18,14 @@
 - `sliceUtil` More methods have been added to the package (#11)
 - Some formal parameters in the project are more standardized in naming (#10)
 
+## v1.1.1
+- Fixed the data type inconsistency parsing error in `slice` in `JsonToStruct` (#36)
+- `JsonToStruct` supports parsing of `map` data type (#36)
+
+## v1.2.0
+- `JsonToStruct` supports `interface{}` defined in basic data types (#39)
+- `JsonToStruct` supports `any` defined in primitive data types (#39)
+
 ## v2.0.0
 - The project fully supports generics and any (#19)
 - Added `mathUtil` package (#22)
@@ -27,3 +35,7 @@
 ## v2.0.1
 - Fixed the data type inconsistency parsing error in `slice` in `JsonToStruct` (#37)
 - `JsonToStruct` supports parsing of `map` data type (#37)
+
+## v2.1.0
+- `JsonToStruct` supports `interface{}` defined in basic data types
+- `JsonToStruct` supports `any` defined in primitive data types
