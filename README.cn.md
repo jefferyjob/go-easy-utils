@@ -17,7 +17,7 @@
 ## 快速开始
 **安装**
 ```bash
-go get github.com/jefferyjob/go-easy-utils@v1.1.1
+go get github.com/jefferyjob/go-easy-utils@v1.2.0
 ```
 **使用Demo**
 ```go

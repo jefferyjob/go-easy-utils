@@ -17,7 +17,7 @@ This is a general data type processing tool class based on Go language, which he
 ## Quick Start
 **Install**
 ```bash
-go get github.com/jefferyjob/go-easy-utils@v1.1.1
+go get github.com/jefferyjob/go-easy-utils@v1.2.0
 ```
 **Use Demo**
 ```go
