@@ -21,3 +21,7 @@
 ## v1.1.1
 - Fixed the data type inconsistency parsing error in `slice` in `JsonToStruct` (#36)
 - `JsonToStruct` supports parsing of `map` data type (#36)
+
+## v1.2.0
+- `JsonToStruct` supports `interface{}` defined in basic data types
+- `JsonToStruct` supports `any` defined in primitive data types
