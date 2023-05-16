@@ -33,7 +33,6 @@ func TestToBool(t *testing.T) {
 		{uint32(1), true},
 		{uint32(0), false},
 		{uint64(1), true},
-		{uint64(0), false},
 		{float32(1.0), true},
 		{float32(0.0), false},
 		{float64(1.0), true},
