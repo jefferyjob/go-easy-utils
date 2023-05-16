@@ -17,6 +17,7 @@ func TestAnyToUint(t *testing.T) {
 		{-5, 0, go_easy_utils.ErrUnsignedInt},
 		{"20", 20, nil},
 		{1.5, 1, nil},
+		{2.5, 2, nil},
 		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
