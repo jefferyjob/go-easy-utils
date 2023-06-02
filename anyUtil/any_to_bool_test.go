@@ -23,6 +23,7 @@ func TestToBool(t *testing.T) {
 		{int32(1), true},
 		{int32(0), false},
 		{int64(1), true},
+		{int64(100), true},
 		{int64(0), false},
 		{uint(1), true},
 		{uint(0), false},
