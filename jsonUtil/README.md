@@ -1,26 +1,28 @@
 # jsonUtil
 
 ## Introduce
-JsonToStruct is a method that parses a JSON string into a struct. This method accepts two parameters:
-- jsonData: the JSON string to be parsed  
-- result: a pointer to an instance of a struct used to store the parsed data
-The method uses reflection to parse the struct and extracts the corresponding values from the JSON based on the fields defined in the struct and their corresponding JSON tags. If a field in the struct is a nested struct, it recursively parses the nested struct and stores the result in the parent struct.  
 
-This method can handle basic data types such as strings, integers, floating-point numbers, booleans, as well as nested structs and slices. If a value in the JSON string cannot be converted to the target type, the method will return an error.  
+JsonToStruct converts JSON data to a Go structure.
+Parameters:
+- jsonData: A string containing the JSON data.
+- val: A pointer to the structure variable to be filled.
 
+Returns:
+- error: If conversion fails or an error occurs, the corresponding error is returned. If successful, nil is returned.
 
-<details>
-<summary>简体中文</summary>
-JsonToStruct 是一个将JSON字符串解析为结构体的方法。这个方法接受两个参数:  
-
-- jsonData：待解析的JSON字符串  
-- result：用于存储解析后数据的结构体实例的指针  
-
-该方法使用了反射机制来解析结构体，并根据结构体中定义的字段和对应的json标签从JSON中提取对应的值。如果结构体的字段是一个嵌套的结构体，它将递归解析嵌套的结构体，并将结果存储在父结构体中。 
-
-该方法可以处理基本数据类型，如字符串、整数、浮点数、布尔值以及嵌套的结构体和切片。如果JSON字符串中的值无法转换为目标类型，该方法将返回一个错误。  
-</details>
-
+Functionality:
+- Checks if the val parameter is a non-nil pointer type, returning ErrPoint if it is not. 
+- Parses jsonData into a map[string]any variable called data. 
+- Retrieves the value and type of the structure pointed to by val using reflection. 
+- Iterates through the fields of the structure:
+- Retrieves the field's type, name, and value. 
+- Gets the JSON tag for the field. 
+- Performs the appropriate handling if a key-value pair corresponding to the JSON tag exists in data:
+- If the field is a primitive type (string, integer, float, boolean), parses it into the corresponding type's value.
+- If the field is a struct type, recursively calls the JsonToStruct function to convert the sub-structure to JSON.
+- If the field is a map type, uses the parseMap function to convert the sub-map to JSON.
+- If the field is a slice type, uses the parseSlice function to convert the sub-slice to JSON.
+- If the field is an interface type, sets the value to nil or the corresponding value.
 
 ## Install
 
@@ -39,9 +41,7 @@ import (
 ## Functions
 
 ```go
-// JsonToStruct Parses JSON into a specified structure pointer
-// 将JSON解析为指定的结构体指针
-func JsonToStruct(jsonData string, result any) error
+func JsonToStruct(jsonData string, val any) error
 ```
 
 ## Demo
@@ -87,7 +87,7 @@ func TestJsonToStructDemo2(t *testing.T) {
 		Interests []string `json:"interests"`
 	}
 
-	jsonData2 := `{
+	jsonData := `{
             "name": "Bob",
             "age": "25",
             "address": {
@@ -98,7 +98,7 @@ func TestJsonToStructDemo2(t *testing.T) {
         }`
 
 	var person Person
-	err := JsonToStruct(jsonData2, &person)
+	err := JsonToStruct(jsonData, &person)
 	if err != nil {
 		fmt.Println(err)
 		return
