@@ -1,18 +1,13 @@
 # jsonUtil
 
 ## Introduce
-
-<details>
-<summary>English</summary>
-JsonToStruct is a method that parses a JSON string into a struct. This method accepts two parameters:  
-
+JsonToStruct is a method that parses a JSON string into a struct. This method accepts two parameters:
 - jsonData: the JSON string to be parsed  
-- result: a pointer to an instance of a struct used to store the parsed data  
-
+- result: a pointer to an instance of a struct used to store the parsed data
 The method uses reflection to parse the struct and extracts the corresponding values from the JSON based on the fields defined in the struct and their corresponding JSON tags. If a field in the struct is a nested struct, it recursively parses the nested struct and stores the result in the parent struct.  
 
 This method can handle basic data types such as strings, integers, floating-point numbers, booleans, as well as nested structs and slices. If a value in the JSON string cannot be converted to the target type, the method will return an error.  
-</details>
+
 
 <details>
 <summary>简体中文</summary>
@@ -57,10 +52,10 @@ func JsonToStruct(jsonData string, result any) error
 // is_use is defined as bool, the value of json is int
 func TestDemo1(t *testing.T) {
     jsonData := `{
-            "name": "make",
-            "age": "22",
-            "is_use": "1"
-        }`
+        "name": "make",
+        "age": "22",
+        "is_use": "1"
+    }`
     
     var people struct {
         Name  string `json:"name,omitempty"`
@@ -93,14 +88,14 @@ func TestJsonToStructDemo2(t *testing.T) {
 	}
 
 	jsonData2 := `{
-        "name": "Bob",
-        "age": "25",
-        "address": {
-            "city": "Shanghai",
-            "country": "China"
-        },
-        "interests": ["reading", "swimming"]
-    }`
+            "name": "Bob",
+            "age": "25",
+            "address": {
+                "city": "Shanghai",
+                "country": "China"
+            },
+            "interests": ["reading", "swimming"]
+        }`
 
 	var person Person
 	err := JsonToStruct(jsonData2, &person)
