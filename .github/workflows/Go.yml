@@ -7,7 +7,7 @@ on:
     branches: [master,main,v1,dev]
 
 jobs:
-  build:
+  linux-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,6 +16,11 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: 1.18
+
+      - name: GO Env
+        run: |
+          go version
+          go env
 
       - name: Build
         run: go build -v ./...
