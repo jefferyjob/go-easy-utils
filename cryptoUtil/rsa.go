@@ -9,19 +9,6 @@ import (
 )
 
 // GenerateRSAKeys 生成RSA私钥和公钥
-//
-//	func GenerateRSAKeys() (*rsa.PrivateKey, *rsa.PublicKey, error) {
-//		// 生成私钥
-//		privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
-//		if err != nil {
-//			return nil, nil, err
-//		}
-//
-//		// 从私钥中提取公钥
-//		publicKey := &privateKey.PublicKey
-//
-//		return privateKey, publicKey, nil
-//	}
 func GenerateRSAKeys() (string, string, error) {
 	// 生成私钥
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
@@ -31,8 +18,6 @@ func GenerateRSAKeys() (string, string, error) {
 
 	// 从私钥中提取公钥
 	publicKey := &privateKey.PublicKey
-
-	//return privateKey, publicKey, nil
 
 	// 将私钥转换为PEM格式
 	privateKeyBytes := x509.MarshalPKCS1PrivateKey(privateKey)
@@ -55,15 +40,6 @@ func GenerateRSAKeys() (string, string, error) {
 }
 
 // EncryptRSA RSA加密数据
-//
-//	func EncryptRSA(publicKey *rsa.PublicKey, plaintext []byte) ([]byte, error) {
-//		ciphertext, err := rsa.EncryptPKCS1v15(rand.Reader, publicKey, plaintext)
-//		if err != nil {
-//			return nil, err
-//		}
-//
-//		return ciphertext, nil
-//	}
 func EncryptRSA(publicKeyStr string, message []byte) ([]byte, error) {
 	// 解码公钥
 	publicKeyBlock, _ := pem.Decode([]byte(publicKeyStr))
@@ -93,15 +69,6 @@ func EncryptRSA(publicKeyStr string, message []byte) ([]byte, error) {
 }
 
 // DecryptRSA RSA解密数据
-//
-//	func DecryptRSA(privateKey *rsa.PrivateKey, ciphertext []byte) ([]byte, error) {
-//		plaintext, err := rsa.DecryptPKCS1v15(rand.Reader, privateKey, ciphertext)
-//		if err != nil {
-//			return nil, err
-//		}
-//
-//		return plaintext, nil
-//	}
 func DecryptRSA(privateKeyStr string, ciphertext []byte) ([]byte, error) {
 	// 解码私钥
 	privateKeyBlock, _ := pem.Decode([]byte(privateKeyStr))
