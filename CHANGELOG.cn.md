@@ -43,3 +43,7 @@
 - `JsonToStruct` 支持基本数据类型中定义 `any`
 - 优化 `parsePrimitiveValue` 的 `string` 转义兼容
 - 优化 `parsePrimitiveValue` 的 `bool` 转义兼容
+
+## v2.1.1
+- 优化 makefile 文件帮助信息的展示
+- 增加单元测试代码

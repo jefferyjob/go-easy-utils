@@ -43,3 +43,7 @@
 - `JsonToStruct` supports `any` defined in primitive data types  (#41)
 - Optimize `string` escape compatibility of `parsePrimitiveValue`  (#43)
 - Optimize `parsePrimitiveValue`'s `bool` escape compatibility  (#43)
+
+## v2.1.1
+- Optimize the display of makefile help information (#53)
+- Add unit test code (#52)
