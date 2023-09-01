@@ -2,12 +2,12 @@ name: Go
 
 on:
   push:
-    branches: [master,main,v1,dev]
+    branches: [ "main", "v1", "dev" ]
   pull_request:
-    branches: [master,main,v1,dev]
+    branches: [ "main", "v1", "dev" ]
 
 jobs:
-  linux-test:
+  linux-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
