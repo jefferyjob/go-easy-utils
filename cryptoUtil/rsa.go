@@ -10,13 +10,11 @@ import (
 
 // GenerateRSAKeys 生成RSA私钥和公钥
 func GenerateRSAKeys() (string, string, error) {
-	// 生成私钥
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
 		return "", "", err
 	}
 
-	// 从私钥中提取公钥
 	publicKey := &privateKey.PublicKey
 
 	// 将私钥转换为PEM格式
