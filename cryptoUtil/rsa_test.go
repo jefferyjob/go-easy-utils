@@ -1,13 +1,54 @@
 package cryptoUtil
 
 import (
+	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"errors"
 	"reflect"
 	"testing"
 )
 
+// 测试 rsa.GenerateKey 生产失败
+func TestGenerateRSAKeysError(t *testing.T) {
+	// 保存原始的 rand.Reader
+	originalRandReader := rand.Reader
+
+	// 替换全局的 rand.Reader 为一个模拟错误的 Reader
+	rand.Reader = &badRandomReader{}
+
+	// 恢复原始的 rand.Reader
+	defer func() {
+		rand.Reader = originalRandReader
+	}()
+
+	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
+
+	// 检查返回的错误是否符合预期
+	expectedErr := errors.New("fake error")
+	if err == nil || err.Error() != expectedErr.Error() {
+		t.Errorf("Expected error '%v' but got '%v'", expectedErr, err)
+	}
+
+	// 检查返回的 PEM 字符串是否为空
+	if privateKeyPEM != "" {
+		t.Error("Expected empty private key PEM string")
+	}
+
+	if publicKeyPEM != "" {
+		t.Error("Expected empty public key PEM string")
+	}
+}
+
+// 伪造一个读取器，用来模拟产生错误的情况
+type badRandomReader struct{}
+
+func (r *badRandomReader) Read([]byte) (int, error) {
+	return 0, errors.New("fake error")
+}
+
+// 测试RAS公钥和私钥生成
 func TestGenerateRSAKeys(t *testing.T) {
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {
