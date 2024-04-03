@@ -1,7 +1,6 @@
 package anyUtil
 
 import (
-	"github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"reflect"
 	"strconv"
@@ -16,7 +15,7 @@ func AnyToUint(i any) (uint, error) {
 
 	// uint 兼容32位和64位系统
 	if uint64(uint(v)) != v {
-		return 0, go_easy_utils.ErrValOut
+		return 0, ErrValOut
 	}
 
 	return uint(v), nil
@@ -29,7 +28,7 @@ func AnyToUint8(i any) (uint8, error) {
 		return 0, err
 	}
 	if value > math.MaxUint8 {
-		return 0, go_easy_utils.ErrValOut
+		return 0, ErrValOut
 	}
 	return uint8(value), nil
 }
@@ -41,7 +40,7 @@ func AnyToUint16(i any) (uint16, error) {
 		return 0, err
 	}
 	if value > math.MaxUint16 {
-		return 0, go_easy_utils.ErrValOut
+		return 0, ErrValOut
 	}
 	return uint16(value), nil
 }
@@ -53,7 +52,7 @@ func AnyToUint32(i any) (uint32, error) {
 		return 0, err
 	}
 	if value > math.MaxUint32 {
-		return 0, go_easy_utils.ErrValOut
+		return 0, ErrValOut
 	}
 	return uint32(value), nil
 }
@@ -78,26 +77,26 @@ func AnyToUint64(i any) (uint64, error) {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		intValue := v.Int()
 		if intValue < 0 {
-			return 0, go_easy_utils.ErrUnsignedInt
+			return 0, ErrUnsignedInt
 		}
 		return uint64(intValue), nil
 	case reflect.Float32, reflect.Float64:
 		floatValue := v.Float()
 		if floatValue < 0 {
-			return 0, go_easy_utils.ErrUnsignedInt
+			return 0, ErrUnsignedInt
 		}
 		return uint64(floatValue), nil
 	case reflect.Complex64, reflect.Complex128:
 		realValue := real(v.Complex())
 		if realValue < 0 {
-			return 0, go_easy_utils.ErrUnsignedInt
+			return 0, ErrUnsignedInt
 		}
 		return uint64(realValue), nil
 	case reflect.String:
 		strValue := v.String()
 		uintValue, err := strconv.ParseUint(strValue, 10, 64)
 		if err != nil {
-			return 0, go_easy_utils.ErrSyntax
+			return 0, ErrSyntax
 		}
 		return uintValue, nil
 	case reflect.Bool:
@@ -107,6 +106,6 @@ func AnyToUint64(i any) (uint64, error) {
 			return 0, nil
 		}
 	default:
-		return 0, go_easy_utils.ErrType
+		return 0, ErrType
 	}
 }

@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	"github.com/jefferyjob/go-easy-utils/v2"
 	"testing"
 )
 
@@ -125,7 +124,7 @@ func TestToUint64(t *testing.T) {
 		{
 			name:      "Test invalid string",
 			input:     "not a number",
-			wantError: go_easy_utils.ErrSyntax,
+			wantError: ErrSyntax,
 		},
 		{
 			name:      "Test nil pointer",
@@ -146,7 +145,7 @@ func TestToUint64(t *testing.T) {
 		{
 			name:      "Test invalid type",
 			input:     make(chan int),
-			wantError: go_easy_utils.ErrType,
+			wantError: ErrType,
 		},
 	}
 
