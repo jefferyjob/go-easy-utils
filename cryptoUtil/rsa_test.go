@@ -77,6 +77,13 @@ func TestEncryptRSAError(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected error but got ciphertext: %v", ciphertext)
 	}
+
+	// 测试 EncryptRSA 函数在解析公钥失败时是否返回错误
+	invalidKeyPEM := "invalid_key_pem"
+	_, err = EncryptRSA(invalidKeyPEM, plaintext)
+	if err == nil {
+		t.Error("Expected error but got nil")
+	}
 }
 
 func TestDecryptRSAError(t *testing.T) {
@@ -86,6 +93,13 @@ func TestDecryptRSAError(t *testing.T) {
 	plaintext, err := DecryptRSA(invalidPrivateKey, ciphertext)
 	if err == nil {
 		t.Errorf("Expected error but got plaintext: %v", plaintext)
+	}
+
+	// 测试 DecryptRSA 函数在解析私钥失败时是否返回错误
+	invalidKeyPEM := "invalid_key_pem"
+	_, err = DecryptRSA(invalidKeyPEM, ciphertext)
+	if err == nil {
+		t.Error("Expected error but got nil")
 	}
 }
 
