@@ -60,6 +60,6 @@ func main() {
 
 ## Sponsorship and support
 
-`GoEasyUtils` Thank JetBrains for their support
+`go-easy-utils` Thank JetBrains for their support
 
 <a href="https://www.jetbrains.com"><img src="https://raw.githubusercontent.com/panjf2000/illustrations/master/jetbrains/jetbrains-variant-4.png" height="100" alt="JetBrains"/></a>
