@@ -1,14 +1,21 @@
 package cryptoUtil
 
 import (
+	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
-	"reflect"
 	"testing"
 )
+
+// 伪造一个读取器，用来模拟产生错误的情况
+type badRandomReader struct{}
+
+func (r *badRandomReader) Read([]byte) (int, error) {
+	return 0, errors.New("fake error")
+}
 
 // 测试 rsa.GenerateKey 生产失败
 func TestGenerateRSAKeysError(t *testing.T) {
@@ -41,22 +48,24 @@ func TestGenerateRSAKeysError(t *testing.T) {
 	}
 }
 
-// 伪造一个读取器，用来模拟产生错误的情况
-type badRandomReader struct{}
-
-func (r *badRandomReader) Read([]byte) (int, error) {
-	return 0, errors.New("fake error")
-}
-
-// 测试RAS公钥和私钥生成
 func TestGenerateRSAKeys(t *testing.T) {
+	// 测试 GenerateRSAKeys 是否能够正常工作
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {
 		t.Errorf("GenerateRSAKeys() error = %v", err)
 		return
 	}
 
-	// 解码私钥 PEM 格式
+	// 检查返回的 PEM 字符串是否有效
+	if privateKeyPEM == "" {
+		t.Error("Expected non-empty private key PEM string")
+	}
+
+	if publicKeyPEM == "" {
+		t.Error("Expected non-empty public key PEM string")
+	}
+
+	// 尝试解析生成的私钥
 	block, _ := pem.Decode([]byte(privateKeyPEM))
 	if block == nil || block.Type != "RSA PRIVATE KEY" {
 		t.Errorf("Invalid private key PEM")
@@ -68,7 +77,7 @@ func TestGenerateRSAKeys(t *testing.T) {
 		return
 	}
 
-	// 解码公钥 PEM 格式
+	// 尝试解析生成的公钥
 	block, _ = pem.Decode([]byte(publicKeyPEM))
 	if block == nil || block.Type != "RSA PUBLIC KEY" {
 		t.Errorf("Invalid public key PEM")
@@ -86,37 +95,94 @@ func TestGenerateRSAKeys(t *testing.T) {
 	}
 
 	// 比较生成的密钥与解析的密钥
-	if !reflect.DeepEqual(privateKey.Public(), rsaPublicKey) {
+	if !privateKey.PublicKey.Equal(rsaPublicKey) {
 		t.Errorf("Generated private key does not match parsed public key")
 		return
 	}
 }
 
+func TestEncryptRSAError(t *testing.T) {
+	// 测试 EncryptRSA 函数在提供无效的公钥时是否返回错误
+	plaintext := []byte("Hello, RSA!")
+	invalidPublicKey := "invalid_public_key"
+	ciphertext, err := EncryptRSA(invalidPublicKey, plaintext)
+	if err == nil {
+		t.Errorf("Expected error but got ciphertext: %v", ciphertext)
+	}
+
+	// 测试 EncryptRSA 函数在解析公钥失败时是否返回错误
+	invalidKeyPEM := "invalid_key_pem"
+	_, err = EncryptRSA(invalidKeyPEM, plaintext)
+	if err == nil {
+		t.Error("Expected error but got nil")
+	}
+}
+
+// 验证加密和解密后的数据是否一致
 func TestRSAEncryptionAndDecryption(t *testing.T) {
-	// 生成RSA密钥对
-	privateKey, publicKey, err := GenerateRSAKeys()
+	// 生成 RSA 密钥对
+	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {
-		t.Errorf("Failed to generate RSA keys: %s", err)
-		return
+		t.Fatalf("Failed to generate RSA keys: %s", err)
 	}
 
 	// 加密数据
 	plaintext := []byte("Hello, RSA!")
-	ciphertext, err := EncryptRSA(publicKey, plaintext)
+	ciphertext, err := EncryptRSA(publicKeyPEM, plaintext)
 	if err != nil {
-		t.Errorf("Failed to encrypt data: %s", err)
-		return
+		t.Fatalf("Failed to encrypt data: %s", err)
 	}
 
 	// 解密数据
-	decryptedText, err := DecryptRSA(privateKey, ciphertext)
+	decryptedText, err := DecryptRSA(privateKeyPEM, ciphertext)
 	if err != nil {
-		t.Errorf("Failed to decrypt data: %s", err)
-		return
+		t.Fatalf("Failed to decrypt data: %s", err)
 	}
 
 	// 检查解密后的数据是否与原始数据一致
-	if string(decryptedText) != string(plaintext) {
-		t.Errorf("Decrypted text does not match the original plaintext")
+	if !bytes.Equal(decryptedText, plaintext) {
+		t.Fatal("Decrypted text does not match the original plaintext")
+	}
+}
+
+// 验证 DecryptRSA 方法
+func TestDecryptRSA(t *testing.T) {
+	privateKeyPEM, _, _ := GenerateRSAKeys()
+	privateKeyBlock, _ := pem.Decode([]byte(privateKeyPEM))
+	if privateKeyBlock == nil {
+		t.Fatal("Failed to parse private key")
+	}
+
+	privateKey, err := x509.ParsePKCS1PrivateKey(privateKeyBlock.Bytes)
+	if err != nil {
+		t.Fatalf("Error parsing private key: %s", err)
+	}
+
+	message := []byte("Hello, World!")
+
+	ciphertext, err := rsa.EncryptPKCS1v15(rand.Reader, &privateKey.PublicKey, message)
+	if err != nil {
+		t.Fatalf("Error encrypting message: %s", err)
+	}
+
+	// Test decryption with correct private key
+	plaintext, err := DecryptRSA(privateKeyPEM, ciphertext)
+	if err != nil {
+		t.Fatalf("Error decrypting ciphertext: %s", err)
+	}
+	if string(plaintext) != string(message) {
+		t.Fatalf("Decrypted message doesn't match original message")
+	}
+
+	// Test decryption with incorrect private key
+	_, err = DecryptRSA("InvalidPrivateKey", ciphertext)
+	if err == nil {
+		t.Fatal("Expected error decrypting with invalid private key")
+	}
+
+	// Test decryption with incorrect ciphertext
+	_, err = DecryptRSA(privateKeyPEM, []byte("InvalidCiphertext"))
+	if err == nil {
+		t.Fatal("Expected error decrypting invalid ciphertext")
 	}
 }

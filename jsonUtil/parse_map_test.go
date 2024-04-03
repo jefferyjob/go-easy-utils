@@ -70,6 +70,18 @@ func TestParseValue(t *testing.T) {
 		t.Errorf("parseValue 结果不匹配:\n期望值: %v\n实际值: %v", expectedSliceValue, sliceValue)
 	}
 
+	// 测试解析接口
+	var interfaceValue interface{}
+	err = parseValue(reflect.ValueOf(&interfaceValue).Elem(), "test")
+	if err != nil {
+		t.Errorf("parseValue 失败: %s", err)
+	}
+
+	expectedInterfaceValue := "test"
+	if !reflect.DeepEqual(interfaceValue, expectedInterfaceValue) {
+		t.Errorf("parseValue 结果不匹配:\n期望值: %v\n实际值: %v", expectedInterfaceValue, interfaceValue)
+	}
+
 	// 测试不支持的类型
 	var unsupportedValue complex64
 	err = parseValue(reflect.ValueOf(&unsupportedValue).Elem(), 3.14)

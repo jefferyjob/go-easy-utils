@@ -27,3 +27,4 @@ go.work
 .project
 .DS_Store
 .vscode
+.fleet
