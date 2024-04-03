@@ -2,7 +2,6 @@ package anyUtil
 
 import (
 	"errors"
-	"github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"testing"
 )
@@ -32,7 +31,7 @@ func TestAnyToInt(t *testing.T) {
 		{input: float32(123.45), expected: 123, err: nil},
 		{input: float64(123.45), expected: 123, err: nil},
 		{input: "123", expected: 123, err: nil},
-		{input: "abc", expected: 0, err: go_easy_utils.ErrSyntax},
+		{input: "abc", expected: 0, err: ErrSyntax},
 	}
 
 	for _, tc := range testCases {
@@ -83,13 +82,13 @@ func TestAnyToInt8(t *testing.T) {
 			name:     "positive integer out of range",
 			input:    128,
 			expected: 0,
-			err:      go_easy_utils.ErrValOut,
+			err:      ErrValOut,
 		},
 		{
 			name:     "negative integer out of range",
 			input:    -129,
 			expected: 0,
-			err:      go_easy_utils.ErrValOut,
+			err:      ErrValOut,
 		},
 		{
 			name:     "float",
@@ -107,13 +106,13 @@ func TestAnyToInt8(t *testing.T) {
 			name:     "string out of range",
 			input:    "128",
 			expected: 0,
-			err:      go_easy_utils.ErrValOut,
+			err:      ErrValOut,
 		},
 		{
 			name:     "invalid string",
 			input:    "invalid",
 			expected: 0,
-			err:      go_easy_utils.ErrSyntax,
+			err:      ErrSyntax,
 		},
 	}
 
@@ -159,8 +158,8 @@ func TestAnyToInt16(t *testing.T) {
 		{float32(123.45), 123, nil},
 		{float64(123.45), 123, nil},
 		{"12345", 12345, nil},
-		{math.MinInt16 - 1, 0, go_easy_utils.ErrValOut},
-		{"not a number", 0, go_easy_utils.ErrSyntax},
+		{math.MinInt16 - 1, 0, ErrValOut},
+		{"not a number", 0, ErrSyntax},
 	}
 
 	for _, tt := range tests {
@@ -184,13 +183,13 @@ func TestAnyToInt32(t *testing.T) {
 	}{
 		{int(123), 123, nil},
 		{int64(2147483647), 2147483647, nil},
-		{int64(2147483648), 0, go_easy_utils.ErrValOut},
+		{int64(2147483648), 0, ErrValOut},
 		{int64(-2147483648), -2147483648, nil},
-		{int64(-2147483649), 0, go_easy_utils.ErrValOut},
+		{int64(-2147483649), 0, ErrValOut},
 		{float64(123.45), 123, nil},
 		{"123", 123, nil},
-		{"-2147483649", 0, go_easy_utils.ErrValOut},
-		{struct{}{}, 0, go_easy_utils.ErrType},
+		{"-2147483649", 0, ErrValOut},
+		{struct{}{}, 0, ErrType},
 	}
 
 	for _, testCase := range testCases {
