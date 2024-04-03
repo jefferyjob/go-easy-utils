@@ -10,8 +10,15 @@ import (
 	"testing"
 )
 
-// 测试 rsa.GenerateKey 生产失败
-func TestGenerateRSAKeysError(t *testing.T) {
+// 伪造一个读取器，用来模拟产生错误的情况
+type badRandomReader struct{}
+
+func (r *badRandomReader) Read([]byte) (int, error) {
+	return 0, errors.New("fake error")
+}
+
+// 测试RSA公钥和私钥生成
+func TestGenerateRSAKeys(t *testing.T) {
 	// 保存原始的 rand.Reader
 	originalRandReader := rand.Reader
 
@@ -41,15 +48,8 @@ func TestGenerateRSAKeysError(t *testing.T) {
 	}
 }
 
-// 伪造一个读取器，用来模拟产生错误的情况
-type badRandomReader struct{}
-
-func (r *badRandomReader) Read([]byte) (int, error) {
-	return 0, errors.New("fake error")
-}
-
-// 测试RAS公钥和私钥生成
-func TestGenerateRSAKeys(t *testing.T) {
+// 测试 RSA 加密和解密功能
+func TestRSAEncryptionAndDecryption(t *testing.T) {
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {
 		t.Errorf("GenerateRSAKeys() error = %v", err)
@@ -90,26 +90,17 @@ func TestGenerateRSAKeys(t *testing.T) {
 		t.Errorf("Generated private key does not match parsed public key")
 		return
 	}
-}
-
-func TestRSAEncryptionAndDecryption(t *testing.T) {
-	// 生成RSA密钥对
-	privateKey, publicKey, err := GenerateRSAKeys()
-	if err != nil {
-		t.Errorf("Failed to generate RSA keys: %s", err)
-		return
-	}
 
 	// 加密数据
 	plaintext := []byte("Hello, RSA!")
-	ciphertext, err := EncryptRSA(publicKey, plaintext)
+	ciphertext, err := EncryptRSA(publicKeyPEM, plaintext)
 	if err != nil {
 		t.Errorf("Failed to encrypt data: %s", err)
 		return
 	}
 
 	// 解密数据
-	decryptedText, err := DecryptRSA(privateKey, ciphertext)
+	decryptedText, err := DecryptRSA(privateKeyPEM, ciphertext)
 	if err != nil {
 		t.Errorf("Failed to decrypt data: %s", err)
 		return
