@@ -47,3 +47,7 @@
 ## v2.1.1
 - Optimize the display of makefile help information (#53)
 - Add unit test code (#52)
+
+## v2.1.2
+- `cryptoUtil` package supports RAS encryption method (#62)
+- `mathUtil` package unit test optimization (#63)
