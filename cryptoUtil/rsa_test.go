@@ -118,23 +118,7 @@ func TestEncryptRSAError(t *testing.T) {
 	}
 }
 
-func TestDecryptRSAError(t *testing.T) {
-	// 测试 DecryptRSA 函数在提供无效的私钥时是否返回错误
-	ciphertext := []byte("fake_ciphertext")
-	invalidPrivateKey := "invalid_private_key"
-	plaintext, err := DecryptRSA(invalidPrivateKey, ciphertext)
-	if err == nil {
-		t.Errorf("Expected error but got plaintext: %v", plaintext)
-	}
-
-	// 测试 DecryptRSA 函数在解析私钥失败时是否返回错误
-	invalidKeyPEM := "invalid_key_pem"
-	_, err = DecryptRSA(invalidKeyPEM, ciphertext)
-	if err == nil {
-		t.Error("Expected error but got nil")
-	}
-}
-
+// 验证加密和解密后的数据是否一致
 func TestRSAEncryptionAndDecryption(t *testing.T) {
 	// 生成 RSA 密钥对
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
@@ -158,5 +142,47 @@ func TestRSAEncryptionAndDecryption(t *testing.T) {
 	// 检查解密后的数据是否与原始数据一致
 	if !bytes.Equal(decryptedText, plaintext) {
 		t.Fatal("Decrypted text does not match the original plaintext")
+	}
+}
+
+// 验证 DecryptRSA 方法
+func TestDecryptRSA(t *testing.T) {
+	privateKeyPEM, _, _ := GenerateRSAKeys()
+	privateKeyBlock, _ := pem.Decode([]byte(privateKeyPEM))
+	if privateKeyBlock == nil {
+		t.Fatal("Failed to parse private key")
+	}
+
+	privateKey, err := x509.ParsePKCS1PrivateKey(privateKeyBlock.Bytes)
+	if err != nil {
+		t.Fatalf("Error parsing private key: %s", err)
+	}
+
+	message := []byte("Hello, World!")
+
+	ciphertext, err := rsa.EncryptPKCS1v15(rand.Reader, &privateKey.PublicKey, message)
+	if err != nil {
+		t.Fatalf("Error encrypting message: %s", err)
+	}
+
+	// Test decryption with correct private key
+	plaintext, err := DecryptRSA(privateKeyPEM, ciphertext)
+	if err != nil {
+		t.Fatalf("Error decrypting ciphertext: %s", err)
+	}
+	if string(plaintext) != string(message) {
+		t.Fatalf("Decrypted message doesn't match original message")
+	}
+
+	// Test decryption with incorrect private key
+	_, err = DecryptRSA("InvalidPrivateKey", ciphertext)
+	if err == nil {
+		t.Fatal("Expected error decrypting with invalid private key")
+	}
+
+	// Test decryption with incorrect ciphertext
+	_, err = DecryptRSA(privateKeyPEM, []byte("InvalidCiphertext"))
+	if err == nil {
+		t.Fatal("Expected error decrypting invalid ciphertext")
 	}
 }
