@@ -14,7 +14,8 @@ func AnyToUint(i any) (uint, error) {
 	}
 
 	// uint 兼容32位和64位系统
-	if uint64(uint(v)) != v {
+	res := uint(v)
+	if uint64(res) != v {
 		return 0, ErrValOut
 	}
 
