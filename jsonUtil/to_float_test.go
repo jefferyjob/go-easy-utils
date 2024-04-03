@@ -1,7 +1,6 @@
 package jsonUtil
 
 import (
-	go_easy_utils "github.com/jefferyjob/go-easy-utils/v2"
 	"reflect"
 	"testing"
 )
@@ -44,8 +43,8 @@ func TestToFloat64(t *testing.T) {
 		{true, 1, nil},
 		{false, 0, nil},
 		{(*bool)(nil), 0, nil},
-		{make(chan int), 0, go_easy_utils.ErrType},
-		{"abc", 0, go_easy_utils.ErrSyntax},
+		{make(chan int), 0, ErrType},
+		{"abc", 0, ErrSyntax},
 	}
 
 	for _, tc := range testCases {
@@ -90,7 +89,7 @@ func TestToFloat64Pointer(t *testing.T) {
 			name:          "invalid string input",
 			input:         stringPtr("abc"),
 			expectedValue: 0,
-			expectedError: go_easy_utils.ErrSyntax,
+			expectedError: ErrSyntax,
 		},
 		{
 			name:          "valid string input",
@@ -186,7 +185,7 @@ func TestToFloat64Pointer(t *testing.T) {
 			name:          "unsupported input type",
 			input:         "unsupported",
 			expectedValue: 0,
-			expectedError: go_easy_utils.ErrSyntax,
+			expectedError: ErrSyntax,
 		},
 	}
 

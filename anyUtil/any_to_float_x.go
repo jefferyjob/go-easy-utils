@@ -1,7 +1,6 @@
 package anyUtil
 
 import (
-	"github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"reflect"
 	"strconv"
@@ -14,7 +13,7 @@ func AnyToFloat32(i any) (float32, error) {
 		return 0, err
 	}
 	if f64 < -math.MaxFloat32 || f64 > math.MaxFloat32 {
-		return 0, go_easy_utils.ErrValOut
+		return 0, ErrValOut
 	}
 	return float32(f64), nil
 }
@@ -39,7 +38,7 @@ func AnyToFloat64(i any) (float64, error) {
 	case reflect.String:
 		floatValue, err := strconv.ParseFloat(v.String(), 64)
 		if err != nil {
-			return 0, go_easy_utils.ErrSyntax
+			return 0, ErrSyntax
 		}
 		return floatValue, nil
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -55,6 +54,6 @@ func AnyToFloat64(i any) (float64, error) {
 			return 0, nil
 		}
 	default:
-		return 0, go_easy_utils.ErrType
+		return 0, ErrType
 	}
 }
