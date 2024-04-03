@@ -80,9 +80,8 @@ func AnyToInt64(i any) (int64, error) {
 		if err != nil {
 			return 0, ErrSyntax
 		}
-		// int 兼容32位和64位系统
-		targetVal := int(intValue)
-		if int64(targetVal) != intValue {
+		// 检查转换后的结果是否在 int64 范围内
+		if intValue > (1<<63)-1 || intValue < -(1<<63) {
 			return 0, ErrValOut
 		}
 		return intValue, nil
