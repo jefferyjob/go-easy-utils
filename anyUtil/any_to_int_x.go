@@ -80,6 +80,11 @@ func AnyToInt64(i any) (int64, error) {
 		if err != nil {
 			return 0, ErrSyntax
 		}
+		// int 兼容32位和64位系统
+		targetVal := int(intValue)
+		if int64(targetVal) != intValue {
+			return 0, ErrValOut
+		}
 		return intValue, nil
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 		return v.Int(), nil
