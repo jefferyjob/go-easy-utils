@@ -1,6 +1,7 @@
 package jsonUtil
 
 import (
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"reflect"
 	"strconv"
 )
@@ -26,7 +27,7 @@ func toFloat64(i any) (float64, error) {
 	case string:
 		floatValue, err := strconv.ParseFloat(v, 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return floatValue, nil
 	case uint:
@@ -66,7 +67,7 @@ func toFloat64(i any) (float64, error) {
 	//case *string:
 	//	floatValue, err := strconv.ParseFloat(*v, 64)
 	//	if err != nil {
-	//		return 0, ErrSyntax
+	//		return 0, go_easy_utils.ErrSyntax
 	//	}
 	//	return floatValue, nil
 	//case *uint:
@@ -100,7 +101,7 @@ func toFloat64(i any) (float64, error) {
 	//		return 0, nil
 	//	}
 	default:
-		return 0, ErrType
+		return 0, go_easy_utils.ErrType
 	}
 }
 
@@ -126,7 +127,7 @@ func toFloat64Reflect(i any) (float64, error) {
 		}
 		floatValue, err := strconv.ParseFloat(v.String(), 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return floatValue, nil
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -144,6 +145,6 @@ func toFloat64Reflect(i any) (float64, error) {
 	//case reflect.Ptr, reflect.Chan, reflect.Func, reflect.Interface, reflect.Map, reflect.Slice:
 	//	return 0, nil
 	default:
-		return 0, ErrType
+		return 0, go_easy_utils.ErrType
 	}
 }

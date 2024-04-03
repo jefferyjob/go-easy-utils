@@ -1,6 +1,7 @@
 package anyUtil
 
 import (
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"reflect"
 	"testing"
 )
@@ -13,11 +14,11 @@ func TestAnyToUint(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{-5, 0, ErrUnsignedInt},
+		{-5, 0, go_easy_utils.ErrUnsignedInt},
 		{"20", 20, nil},
 		{1.5, 1, nil},
 		{2.5, 2, nil},
-		{make(chan int), 0, ErrType},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -38,10 +39,10 @@ func TestAnyToUint8(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{300, 0, ErrValOut},
+		{300, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
-		{make(chan int), 0, ErrType},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -62,10 +63,10 @@ func TestAnyToUint16(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{70000, 0, ErrValOut},
+		{70000, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
-		{make(chan int), 0, ErrType},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -86,10 +87,10 @@ func TestAnyToUint32(t *testing.T) {
 		err    error
 	}{
 		{10, 10, nil},
-		{5000000000, 0, ErrValOut},
+		{5000000000, 0, go_easy_utils.ErrValOut},
 		{"20", 20, nil},
 		{1.5, 1, nil},
-		{make(chan int), 0, ErrType},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	// Test loop
@@ -114,37 +115,37 @@ func TestAnyToUint64(t *testing.T) {
 		{
 			name:      "Test -float32",
 			input:     float32(-0.1),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test -float64",
 			input:     float64(-0.2),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test -int",
 			input:     int(-1),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test -int8",
 			input:     int8(-2),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test -int16",
 			input:     int16(-3),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test -int32",
 			input:     int32(-4),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test -int64",
 			input:     int64(-5),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:  "Test uint",
@@ -219,7 +220,7 @@ func TestAnyToUint64(t *testing.T) {
 		{
 			name:      "Test invalid string",
 			input:     "not a number",
-			wantError: ErrSyntax,
+			wantError: go_easy_utils.ErrSyntax,
 		},
 		{
 			name:      "Test nil pointer",
@@ -250,12 +251,12 @@ func TestAnyToUint64(t *testing.T) {
 		{
 			name:      "test -complex",
 			input:     complex(-1, -1),
-			wantError: ErrUnsignedInt,
+			wantError: go_easy_utils.ErrUnsignedInt,
 		},
 		{
 			name:      "Test invalid type",
 			input:     make(chan int),
-			wantError: ErrType,
+			wantError: go_easy_utils.ErrType,
 		},
 	}
 
