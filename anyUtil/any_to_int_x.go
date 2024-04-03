@@ -1,6 +1,7 @@
 package anyUtil
 
 import (
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"reflect"
 	"strconv"
@@ -15,7 +16,7 @@ func AnyToInt(i any) (int, error) {
 
 	// int 兼容32位和64位系统
 	if int64(int(v)) != v {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 
 	return int(v), nil
@@ -28,7 +29,7 @@ func AnyToInt8(i any) (int8, error) {
 		return 0, err
 	}
 	if value < math.MinInt8 || value > math.MaxInt8 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return int8(value), nil
 }
@@ -40,7 +41,7 @@ func AnyToInt16(i any) (int16, error) {
 		return 0, err
 	}
 	if value < math.MinInt16 || value > math.MaxInt16 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return int16(value), nil
 }
@@ -52,7 +53,7 @@ func AnyToInt32(i any) (int32, error) {
 		return 0, err
 	}
 	if value < math.MinInt32 || value > math.MaxInt32 {
-		return 0, ErrValOut
+		return 0, go_easy_utils.ErrValOut
 	}
 	return int32(value), nil
 }
@@ -77,7 +78,7 @@ func AnyToInt64(i any) (int64, error) {
 	case reflect.String:
 		intValue, err := strconv.ParseInt(v.String(), 10, 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return intValue, nil
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -95,6 +96,6 @@ func AnyToInt64(i any) (int64, error) {
 			return 0, nil
 		}
 	default:
-		return 0, ErrType
+		return 0, go_easy_utils.ErrType
 	}
 }

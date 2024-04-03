@@ -1,6 +1,7 @@
 package jsonUtil
 
 import (
+	"github.com/jefferyjob/go-easy-utils/v2"
 	"reflect"
 	"strconv"
 )
@@ -45,7 +46,7 @@ func toInt64(i any) (int64, error) {
 	case string:
 		intValue, err := strconv.ParseInt(v, 10, 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return intValue, nil
 	case int:
@@ -96,7 +97,7 @@ func toInt64(i any) (int64, error) {
 	//	}
 	//	intValue, err := strconv.ParseInt(*v, 10, 64)
 	//	if err != nil {
-	//		return 0, ErrSyntax
+	//		return 0, go_easy_utils.ErrSyntax
 	//	}
 	//	return intValue, nil
 	//case *int:
@@ -110,7 +111,7 @@ func toInt64(i any) (int64, error) {
 	//case *int64:
 	//	return *v, nil
 	default:
-		return 0, ErrType
+		return 0, go_easy_utils.ErrType
 	}
 }
 
@@ -136,7 +137,7 @@ func toInt64Reflect(i any) (int64, error) {
 		}
 		intValue, err := strconv.ParseInt(v.String(), 10, 64)
 		if err != nil {
-			return 0, ErrSyntax
+			return 0, go_easy_utils.ErrSyntax
 		}
 		return intValue, nil
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
@@ -154,6 +155,6 @@ func toInt64Reflect(i any) (int64, error) {
 			return 0, nil
 		}
 	default:
-		return 0, ErrType
+		return 0, go_easy_utils.ErrType
 	}
 }

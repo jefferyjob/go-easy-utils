@@ -1,6 +1,7 @@
 package anyUtil
 
 import (
+	go_easy_utils "github.com/jefferyjob/go-easy-utils/v2"
 	"math"
 	"testing"
 )
@@ -29,8 +30,8 @@ func TestAnyToFloat32(t *testing.T) {
 		{uint32(32), 32, nil},
 		{uint64(64), 64, nil},
 		{"3.14", 3.14, nil},
-		{math.MaxFloat64, 0, ErrValOut},
-		{make(chan int), 0, ErrType},
+		{math.MaxFloat64, 0, go_easy_utils.ErrValOut},
+		{make(chan int), 0, go_easy_utils.ErrType},
 	}
 
 	for _, test := range tests {
@@ -78,8 +79,8 @@ func TestAnyToFloat64(t *testing.T) {
 		{complex128(1 + 2i), 1, nil},
 		{&iPtr, 90, nil},
 		{(*int)(nil), 0, nil},
-		{"abc", 0, ErrSyntax},
-		{[]int{}, 0, ErrType},
+		{"abc", 0, go_easy_utils.ErrSyntax},
+		{[]int{}, 0, go_easy_utils.ErrType},
 	}
 
 	for _, test := range tests {
