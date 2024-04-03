@@ -1,7 +1,7 @@
 package cryptoUtil
 
 import (
-	"crypto/rand"
+	"bytes"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
@@ -90,40 +90,27 @@ func TestDecryptRSAError(t *testing.T) {
 }
 
 func TestRSAEncryptionAndDecryption(t *testing.T) {
-	// 保存原始的 rand.Reader
-	originalRandReader := rand.Reader
-
-	// 替换全局的 rand.Reader 为一个模拟错误的 Reader
-	rand.Reader = &badRandomReader{}
-
-	// 恢复原始的 rand.Reader
-	defer func() {
-		rand.Reader = originalRandReader
-	}()
-
+	// 生成 RSA 密钥对
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {
-		t.Errorf("GenerateRSAKeys() error = %v", err)
-		return
+		t.Fatalf("Failed to generate RSA keys: %s", err)
 	}
 
 	// 加密数据
 	plaintext := []byte("Hello, RSA!")
 	ciphertext, err := EncryptRSA(publicKeyPEM, plaintext)
 	if err != nil {
-		t.Errorf("Failed to encrypt data: %s", err)
-		return
+		t.Fatalf("Failed to encrypt data: %s", err)
 	}
 
 	// 解密数据
 	decryptedText, err := DecryptRSA(privateKeyPEM, ciphertext)
 	if err != nil {
-		t.Errorf("Failed to decrypt data: %s", err)
-		return
+		t.Fatalf("Failed to decrypt data: %s", err)
 	}
 
 	// 检查解密后的数据是否与原始数据一致
-	if string(decryptedText) != string(plaintext) {
-		t.Errorf("Decrypted text does not match the original plaintext")
+	if !bytes.Equal(decryptedText, plaintext) {
+		t.Fatal("Decrypted text does not match the original plaintext")
 	}
 }
