@@ -51,3 +51,7 @@
 ## v2.1.2
 - `cryptoUtil` package supports RAS encryption method (#62)
 - `mathUtil` package unit test optimization (#63)
+
+## v2.1.3
+- error codes are migrated to their respective packages (#67)
+- Add unit test method of cryptoUtil package (#68)
