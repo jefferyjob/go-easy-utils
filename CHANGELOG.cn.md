@@ -51,3 +51,7 @@
 ## v2.1.2
 - `cryptoUtil` 包支持RAS加密方法
 - `mathUtil` 包单元测试优化
+
+## v2.1.3
+- error code 迁移到各自的包下
+- 增加 cryptoUtil 包的单元测试方法
