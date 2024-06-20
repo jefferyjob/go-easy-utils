@@ -37,4 +37,10 @@ func SumSlice(slice []T) T
 
 // Unique 移除slice中重复的值
 func UniqueSlice(slice []T) []T
+
+// SliceToMap 切片转字典
+func SliceToMap[T any, K comparable](items []T, keyFunc func(T) K) map[K]T
+
+// ExtractKeys 字段提取
+func ExtractKeys[T any, K comparable](items []T, keyFunc func(T) K) []K
 ```
