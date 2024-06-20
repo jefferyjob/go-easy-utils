@@ -55,3 +55,7 @@
 ## v2.1.3
 - error code 迁移到各自的包下
 - 增加 cryptoUtil 包的单元测试方法
+
+## v2.2.0
+- 开发新方法 ExtractKeys 切片字段提取
+- 开发新方法 SliceToMap 切片转map

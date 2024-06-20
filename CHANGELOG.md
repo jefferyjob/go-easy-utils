@@ -55,3 +55,7 @@
 ## v2.1.3
 - error codes are migrated to their respective packages (#67)
 - Add unit test method of cryptoUtil package (#68)
+
+## v2.2.0
+- Developed a new method ExtractKeys to extract slice fields (#74)
+- Developed a new method SliceToMap to convert slices to maps (#74)
