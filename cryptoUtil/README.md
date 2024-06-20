@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-go get -u github.com/jefferyjob/go-easy-utils/cryptoUtil
+go get -u github.com/jefferyjob/go-easy-utils/v2/cryptoUtil
 ```
 
 ## Import

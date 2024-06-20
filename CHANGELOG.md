@@ -59,3 +59,6 @@
 ## v2.2.0
 - Developed a new method ExtractKeys to extract slice fields (#74)
 - Developed a new method SliceToMap to convert slices to maps (#74)
+
+## v2.2.1
+- Known issues in optimization documentation
