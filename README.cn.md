@@ -188,6 +188,21 @@ func SumSlice(slice []T) T
 
 // Unique 移除slice中重复的值
 func UniqueSlice(slice []T) []T
+
+// SliceToMap 切片转字典
+func SliceToMap[T any, K comparable](items []T, keyFunc func(T) K) map[K]T
+
+// ExtractKeys 字段提取
+func ExtractKeys[T any, K comparable](items []T, keyFunc func(T) K) []K
+
+// Diff 计算差集
+func Diff[T comparable](s []T, slices ...[]T) []T
+
+// SymmetricDiff 计算对称差集
+func SymmetricDiff[T comparable](slices ...[]T) []T
+
+// Intersect 计算交集
+func Intersect[T comparable](slices ...[]T) []T
 ```
 
 ### mapUtil map类型处理
