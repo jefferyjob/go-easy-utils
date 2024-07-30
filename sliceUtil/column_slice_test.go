@@ -5,22 +5,6 @@ import (
 	"testing"
 )
 
-//func TestColumnSliceDemo(t *testing.T) {
-//	type Person struct {
-//		Name string
-//		Age  int
-//	}
-//	people := []Person{
-//		{"Alice", 18},
-//		{"Bob", 20},
-//		{"Charlie", 22},
-//	}
-//
-//	// 获取年龄列
-//	ages := ColumnSlice(people, "Age")
-//	fmt.Println(ages) // 输出：[18 20 22]
-//}
-
 func TestColumnSlice(t *testing.T) {
 	type Person struct {
 		Name string

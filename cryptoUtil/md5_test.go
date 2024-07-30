@@ -1,32 +1,37 @@
 package cryptoUtil
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestMd5(t *testing.T) {
 	testCases := []struct {
-		input  string
-		output string
+		name     string
+		input    string
+		expected string
 	}{
 		{
-			input:  "",
-			output: "d41d8cd98f00b204e9800998ecf8427e",
+			name:     "空字符串",
+			input:    "",
+			expected: "d41d8cd98f00b204e9800998ecf8427e",
 		},
 		{
-			input:  "test",
-			output: "098f6bcd4621d373cade4e832627b4f6",
+			name:     "字符串",
+			input:    "test",
+			expected: "098f6bcd4621d373cade4e832627b4f6",
 		},
 		{
-			input:  "hello world",
-			output: "5eb63bbbe01eeed093cb22bb8f5acdc3",
+			name:     "带空格的字符串",
+			input:    "hello world",
+			expected: "5eb63bbbe01eeed093cb22bb8f5acdc3",
 		},
 	}
 
 	for _, tc := range testCases {
-		result := Md5(tc.input)
-		if result != tc.output {
-			t.Errorf("Md5(%q) = %q; want %q", tc.input, result, tc.output)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := Md5(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }

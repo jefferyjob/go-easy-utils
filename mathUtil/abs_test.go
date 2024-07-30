@@ -1,6 +1,8 @@
 package mathUtil
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestAbsInt64(t *testing.T) {
 	var input int64 = -12

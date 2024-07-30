@@ -7,6 +7,7 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -15,6 +16,37 @@ type badRandomReader struct{}
 
 func (r *badRandomReader) Read([]byte) (int, error) {
 	return 0, errors.New("fake error")
+}
+
+func TestGenerateRSAKeys(t *testing.T) {
+	testCases := []struct {
+		name           string
+		before         func(t *testing.T)
+		after          func(t *testing.T)
+		wantPrivateKey bool
+		wantPublicKey  bool
+		wantErr        error
+	}{
+		{
+			name:           "生成成功",
+			before:         func(t *testing.T) {},
+			after:          func(t *testing.T) {},
+			wantPrivateKey: true,
+			wantPublicKey:  true,
+			wantErr:        nil,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			tc.before(t)
+
+			privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
+			assert.Equal(t, tc.wantErr, err)
+			assert.Equal(t, tc.wantPrivateKey, privateKeyPEM != "")
+			assert.Equal(t, tc.wantPublicKey, publicKeyPEM != "")
+		})
+	}
 }
 
 // 测试 rsa.GenerateKey 生产失败
@@ -48,7 +80,7 @@ func TestGenerateRSAKeysError(t *testing.T) {
 	}
 }
 
-func TestGenerateRSAKeys(t *testing.T) {
+func TestGenerateRSAKeys2(t *testing.T) {
 	// 测试 GenerateRSAKeys 是否能够正常工作
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {

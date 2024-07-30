@@ -1,42 +1,78 @@
 package floatUtil
 
 import (
-	"math"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestFloat32ToStr(t *testing.T) {
-	var f float32 = 3.14159
-	want := "3.14159"
-	got := Float32ToStr(f)
-	if got != want {
-		t.Errorf("Float32ToStr(%v) = %v; want %v", f, got, want)
+	testCases := []struct {
+		name     string
+		input    float32
+		expected string
+	}{
+		{"一位小数", float32(3.1), "3.1"},
+		{"多位小数", float32(3.122), "3.122"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Float32ToStr(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestFloat64ToStr(t *testing.T) {
-	var f float64 = 3.14159
-	want := "3.14159"
-	got := Float64ToStr(f)
-	if got != want {
-		t.Errorf("Float64ToStr(%v) = %v; want %v", f, got, want)
+	testCases := []struct {
+		name     string
+		input    float64
+		expected string
+	}{
+		{"一位小数", float64(3.1), "3.1"},
+		{"多位小数", float64(3.122), "3.122"},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Float64ToStr(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestFloat32ToFloat64(t *testing.T) {
-	var f float32 = 3.14159
-	want := 3.14159
-	got := Float32ToFloat64(f)
-	if math.Abs(got-want) > 1e-6 {
-		t.Errorf("Float32ToFloat64(%v) = %v; want %v", f, got, want)
+	testCases := []struct {
+		name     string
+		input    float32
+		expected float64
+	}{
+		{"一位小数", float32(3.1), float64(3.1)},
+		{"多位小数", float32(3.122), float64(3.122)},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Float32ToFloat64(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestFloat64ToFloat32(t *testing.T) {
-	var f float64 = 3.14159
-	want := float32(3.14159)
-	got := Float64ToFloat32(f)
-	if math.Abs(float64(got)-float64(want)) > 1e-6 {
-		t.Errorf("Float64ToFloat32(%v) = %v; want %v", f, got, want)
+	testCases := []struct {
+		name     string
+		input    float64
+		expected float32
+	}{
+		{"一位小数", float64(3.1), float32(3.1)},
+		{"多位小数", float64(3.122), float32(3.122)},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Float64ToFloat32(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
