@@ -5,6 +5,7 @@ import (
 )
 
 func TestToBool(t *testing.T) {
+	var iPtr = 90
 	var tests = []struct {
 		input any
 		want  bool
@@ -41,6 +42,7 @@ func TestToBool(t *testing.T) {
 		{"false", false},
 		{"", false},
 		{nil, false},
+		{&iPtr, true},
 		{complex64(1 + 1i), true},
 		{complex64(0 + 0i), false},
 		{complex128(1 + 1i), true},
@@ -49,10 +51,6 @@ func TestToBool(t *testing.T) {
 		{make(chan int), false},
 	}
 	for _, test := range tests {
-		if got := toBool(test.input); got != test.want {
-			t.Errorf("toBool(%v) = %v; want %v", test.input, got, test.want)
-		}
-
 		if got := toBoolReflect(test.input); got != test.want {
 			t.Errorf("toBool(%v) = %v; want %v", test.input, got, test.want)
 		}

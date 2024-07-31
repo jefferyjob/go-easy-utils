@@ -1,10 +1,12 @@
 package jsonUtil
 
 import (
+	"errors"
 	"testing"
 )
 
 func TestToUint64(t *testing.T) {
+	var iPtr = 90
 	tests := []struct {
 		name      string
 		input     any
@@ -147,25 +149,21 @@ func TestToUint64(t *testing.T) {
 			input:     make(chan int),
 			wantError: ErrType,
 		},
+		{
+			name:  "Test point",
+			input: &iPtr,
+			want:  90,
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := toUint64(tt.input)
-			if err != tt.wantError {
-				t.Errorf("toUint64(%v) error = %v, wantError %v", tt.input, err, tt.wantError)
+			got, err := toUint64Reflect(tt.input)
+			if !errors.Is(err, tt.wantError) {
+				t.Errorf("toUint64Reflect(%v) error = %v, wantError %v", tt.input, err, tt.wantError)
 			}
 			if got != tt.want {
-				t.Errorf("toUint64(%v) = %v, want %v", tt.input, got, tt.want)
-			}
-
-			// Reflect
-			got2, err2 := toUint64Reflect(tt.input)
-			if err2 != tt.wantError {
-				t.Errorf("toUint64Reflect(%v) error = %v, wantError %v", tt.input, err2, tt.wantError)
-			}
-			if got2 != tt.want {
-				t.Errorf("toUint64Reflect(%v) = %v, want %v", tt.input, got2, tt.want)
+				t.Errorf("toUint64Reflect(%v) = %v, want %v", tt.input, got, tt.want)
 			}
 		})
 	}

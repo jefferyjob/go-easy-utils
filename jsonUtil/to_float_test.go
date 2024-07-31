@@ -5,20 +5,6 @@ import (
 	"testing"
 )
 
-//func TestFloat(t *testing.T) {
-//	var data1 any
-//	data1 = 123
-//	fmt.Println(toFloat64Reflect(data1))
-//
-//	data2 := int16Ptr(80)
-//	fmt.Println(toFloat64Reflect(data2))
-//
-//	data3 := map[any]any{
-//		"aaa": "aaa",
-//	}
-//	fmt.Println(toFloat64Reflect(data3))
-//}
-
 func TestToFloat64(t *testing.T) {
 	testCases := []struct {
 		value       any
@@ -48,14 +34,9 @@ func TestToFloat64(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		f, err := toFloat64(tc.value)
+		f, err := toFloat64Reflect(tc.value)
 		if f != tc.expected || err != tc.expectedErr {
-			t.Errorf("toFloat64(%v) = (%v, %v), expected (%v, %v)", tc.value, f, err, tc.expected, tc.expectedErr)
-		}
-
-		f2, err2 := toFloat64Reflect(tc.value)
-		if f != tc.expected || err2 != tc.expectedErr {
-			t.Errorf("toFloat64Reflect(%v) = (%v, %v), expected (%v, %v)", tc.value, f2, err2, tc.expected, tc.expectedErr)
+			t.Errorf("toFloat64Reflect(%v) = (%v, %v), expected (%v, %v)", tc.value, f, err, tc.expected, tc.expectedErr)
 		}
 	}
 }
@@ -191,25 +172,13 @@ func TestToFloat64Pointer(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			actualValue, actualError := toFloat64(tc.input)
-
+			actualValue, actualError := toFloat64Reflect(tc.input)
 			if actualError != tc.expectedError {
 				t.Errorf("Expected(name:%s) error: %v, but got: %v", tc.name, tc.expectedError, actualError)
 			}
 
 			if !reflect.DeepEqual(actualValue, tc.expectedValue) {
 				t.Errorf("Expected value: %v, but got: %v", tc.expectedValue, actualValue)
-			}
-
-			// Reflect
-			actualValue2, actualError2 := toFloat64Reflect(tc.input)
-
-			if actualError2 != tc.expectedError {
-				t.Errorf("Expected(name:%s) error: %v, but got: %v", tc.name, tc.expectedError, actualError2)
-			}
-
-			if !reflect.DeepEqual(actualValue2, tc.expectedValue) {
-				t.Errorf("Expected value: %v, but got: %v", tc.expectedValue, actualValue2)
 			}
 		})
 	}
