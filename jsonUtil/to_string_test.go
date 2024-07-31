@@ -1,6 +1,9 @@
 package jsonUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestToString(t *testing.T) {
 	var iPar = "point"
@@ -29,12 +32,12 @@ func TestToString(t *testing.T) {
 		{"complex64", complex64(1 + 2i), "(1+2i)"},
 		{"complex128", complex128(3 + 4i), "(3+4i)"},
 		{"chan", make(chan int), ""},
+		{"int nil", (*int)(nil), ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := toStringReflect(tt.value); got != tt.want {
-				t.Errorf("ToString() = %v, want %v", got, tt.want)
-			}
+			got := toStringReflect(tt.value)
+			assert.Equal(t, tt.want, got)
 		})
 	}
 }

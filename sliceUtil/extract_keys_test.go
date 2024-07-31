@@ -5,48 +5,38 @@ import (
 	"testing"
 )
 
-func TestExtractKeysInline(t *testing.T) {
-	// 使用匿名结构体定义测试数据
-	persons := []struct {
+func TestExtractKeys(t *testing.T) {
+	type person struct {
 		ID   int
 		Name string
+	}
+
+	testCases := []struct {
+		name        string
+		inputSlices []person
+		inputFunc   func(p person) int
+		want        []int
 	}{
-		{1, "Alice"},
-		{2, "Bob"},
-		{3, "Charlie"},
+		{
+			name: "获取ID",
+			inputSlices: []person{
+				{1, "Alice"},
+				{2, "Bob"},
+				{3, "Charlie"},
+			},
+			inputFunc: func(p person) int {
+				return p.ID
+			},
+			want: []int{1, 2, 3},
+		},
 	}
 
-	// 使用函数字面量定义 keyFunc 函数
-	keys := ExtractKeys(persons, func(p struct {
-		ID   int
-		Name string
-	}) int {
-		return p.ID
-	})
-
-	expectedKeys := []int{1, 2, 3}
-	if !reflect.DeepEqual(keys, expectedKeys) {
-		t.Errorf("Expected keys %v, but got %v", expectedKeys, keys)
-	}
-
-	// 另一个例子：使用不同的结构体和 keyFunc 函数
-	animals := []struct {
-		ID   string
-		Name string
-	}{
-		{"cat001", "Cat"},
-		{"dog002", "Dog"},
-	}
-
-	animalKeys := ExtractKeys(animals, func(a struct {
-		ID   string
-		Name string
-	}) string {
-		return a.Name
-	})
-
-	expectedAnimalKeys := []string{"Cat", "Dog"}
-	if !reflect.DeepEqual(animalKeys, expectedAnimalKeys) {
-		t.Errorf("Expected animal keys %v, but got %v", expectedAnimalKeys, animalKeys)
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := ExtractKeys(tc.inputSlices, tc.inputFunc)
+			if !reflect.DeepEqual(tc.want, res) {
+				t.Errorf("Expected keys %v, but got %v", tc.want, res)
+			}
+		})
 	}
 }

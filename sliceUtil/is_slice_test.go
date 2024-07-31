@@ -1,24 +1,50 @@
 package sliceUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestIsSlice(t *testing.T) {
-	var tests = []struct {
+	testCases := []struct {
+		name  string
 		input any
 		want  bool
 	}{
-		{[]int{1, 1, 3}, true},
-		{[]any{1, 2, "a"}, true},
-		{[]map[string]any{
-			{"1": 1},
-			{"c": 89},
-		}, true},
-		{"1234", false},
-		{make(chan int), false},
+		{
+			name:  "slice of int",
+			input: []int{1, 1, 3},
+			want:  true,
+		},
+		{
+			name:  "slice of any",
+			input: []any{1, 2, "a"},
+			want:  true,
+		},
+		{
+			name: "slice of map",
+			input: []map[string]any{
+				{"1": 1},
+				{"c": 89},
+			},
+			want: true,
+		},
+		{
+			name:  "string",
+			input: "1234",
+			want:  false,
+		},
+		{
+			name:  "channel",
+			input: make(chan int),
+			want:  false,
+		},
 	}
-	for _, test := range tests {
-		if got := IsSlice(test.input); got != test.want {
-			t.Errorf("IsSlice(%v) = %v; want %v", test.input, got, test.want)
-		}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := IsSlice(tc.input)
+			assert.Equal(t, tc.want, got)
+		})
 	}
 }

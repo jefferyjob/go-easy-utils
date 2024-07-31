@@ -2,6 +2,7 @@ package anyUtil
 
 import (
 	"errors"
+	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
 )
@@ -216,12 +217,11 @@ func TestAnyToInt64(t *testing.T) {
 		{name: "struct", input: struct{ Name string }{Name: "test"}, expected: 0, err: ErrType},
 	}
 
-	for _, test := range testCases {
-		t.Run(test.name, func(t *testing.T) {
-			res, err := AnyToInt64(test.input)
-			if res != test.expected || !errors.Is(err, test.err) {
-				t.Errorf("AnyToInt64(%v) = (%d, %v); want (%d, %v)", test.input, res, err, test.expected, test.err)
-			}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res, err := AnyToInt64(tc.input)
+			assert.Equal(t, tc.err, err)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }

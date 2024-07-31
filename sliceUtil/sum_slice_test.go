@@ -1,6 +1,7 @@
 package sliceUtil
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -25,14 +26,27 @@ func TestSumIntSlice(t *testing.T) {
 			input:    []int{1, 2, 3, 4, 5},
 			expected: 15,
 		},
+		{
+			name:     "Negative Numbers",
+			input:    []int{-1, -2, -3},
+			expected: -6,
+		},
+		{
+			name:     "Mix of Positive and Negative",
+			input:    []int{1, -2, 3, -4, 5},
+			expected: 3,
+		},
+		{
+			name:     "Large Numbers",
+			input:    []int{1000000000, 2000000000, 3000000000},
+			expected: 6000000000,
+		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			result := SumSlice(tc.input)
-			if result != tc.expected {
-				t.Errorf("Expected %d but got %d", tc.expected, result)
-			}
+			assert.Equal(t, tc.expected, result)
 		})
 	}
 }
@@ -63,9 +77,7 @@ func TestSumInt8Slice(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			result := SumSlice(tc.input)
-			if result != tc.expected {
-				t.Errorf("Expected %d but got %d", tc.expected, result)
-			}
+			assert.Equal(t, tc.expected, result)
 		})
 	}
 }
@@ -82,12 +94,10 @@ func TestSumInt16Slice(t *testing.T) {
 		{"multiple element slice", []int16{1, 2, 3}, 6},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := SumSlice(tt.slice)
-			if got != tt.want {
-				t.Errorf("SumInt16Slice(%v) = %v, want %v", tt.slice, got, tt.want)
-			}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := SumSlice(tc.slice)
+			assert.Equal(t, tc.want, res)
 		})
 	}
 }
@@ -106,10 +116,8 @@ func TestSumInt32Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumSlice(tt.slice)
-			if got != tt.want {
-				t.Errorf("SumInt32Slice(%v) = %v, want %v", tt.slice, got, tt.want)
-			}
+			res := SumSlice(tt.slice)
+			assert.Equal(t, tt.want, res)
 		})
 	}
 }
@@ -128,10 +136,8 @@ func TestSumInt64Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumSlice(tt.slice)
-			if got != tt.want {
-				t.Errorf("SumInt64Slice(%v) = %v, want %v", tt.slice, got, tt.want)
-			}
+			res := SumSlice(tt.slice)
+			assert.Equal(t, tt.want, res)
 		})
 	}
 }
@@ -150,10 +156,8 @@ func TestSumFloat32Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumSlice(tt.slice)
-			if got != tt.want {
-				t.Errorf("SumFloat32Slice(%v) = %v, want %v", tt.slice, got, tt.want)
-			}
+			res := SumSlice(tt.slice)
+			assert.Equal(t, tt.want, res)
 		})
 	}
 }
@@ -172,10 +176,8 @@ func TestSumFloat64Slice(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := SumSlice(tt.slice)
-			if got != tt.want {
-				t.Errorf("SumFloat64Slice(%v) = %v, want %v", tt.slice, got, tt.want)
-			}
+			res := SumSlice(tt.slice)
+			assert.Equal(t, tt.want, res)
 		})
 	}
 }

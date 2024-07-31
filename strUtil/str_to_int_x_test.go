@@ -1,131 +1,112 @@
 package strUtil
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestStrToInt(t *testing.T) {
-	// Test cases
 	testCases := []struct {
+		name     string
 		input    string
 		expected int
 	}{
-		{"0", 0},
-		{"1", 1},
-		{"-1", -1},
-		{"invalid", 0},
+		{"零", "0", 0},
+		{"正数", "1", 1},
+		{"负数", "-1", -1},
+		{"无效输入", "invalid", 0},
 	}
 
-	// Test loop
 	for _, tc := range testCases {
-		// Call the function
-		got := StrToInt(tc.input)
-
-		// Check the result
-		if got != tc.expected {
-			t.Errorf("Unexpected result: StrToInt(%v) = %v, expected %v", tc.input, got, tc.expected)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := StrToInt(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestStrToInt8(t *testing.T) {
-	// Test cases
 	testCases := []struct {
+		name     string
 		input    string
 		expected int8
 	}{
-		{"0", 0},
-		{"1", 1},
-		{"-1", -1},
-		{"invalid", 0},
+		{"零", "0", 0},
+		{"正数", "1", 1},
+		{"负数", "-1", -1},
+		{"无效输入", "invalid", 0},
 	}
 
-	// Test loop
 	for _, tc := range testCases {
-		// Call the function
-		got := StrToInt8(tc.input)
-
-		// Check the result
-		if got != tc.expected {
-			t.Errorf("Unexpected result: StrToInt8(%v) = %v, expected %v", tc.input, got, tc.expected)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := StrToInt8(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestStrToInt16(t *testing.T) {
-	// Test cases
 	testCases := []struct {
+		name     string
 		input    string
 		expected int16
 	}{
-		{"0", 0},
-		{"1", 1},
-		{"-1", -1},
-		{"invalid", 0},
+		{"零", "0", 0},
+		{"正数", "1", 1},
+		{"负数", "-1", -1},
+		{"无效输入", "invalid", 0},
 	}
 
-	// Test loop
 	for _, tc := range testCases {
-		// Call the function
-		got := StrToInt16(tc.input)
-
-		// Check the result
-		if got != tc.expected {
-			t.Errorf("Unexpected result: StrToInt16(%v) = %v, expected %v", tc.input, got, tc.expected)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := StrToInt16(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestStrToInt32(t *testing.T) {
-	// Test cases
 	testCases := []struct {
+		name     string
 		input    string
 		expected int32
 	}{
-		{"0", 0},
-		{"1", 1},
-		{"-1", -1},
-		{"invalid", 0},
+		{"零", "0", 0},
+		{"正数", "1", 1},
+		{"负数", "-1", -1},
+		{"无效输入", "invalid", 0},
 	}
 
-	// Test loop
 	for _, tc := range testCases {
-		// Call the function
-		got := StrToInt32(tc.input)
-
-		// Check the result
-		if got != tc.expected {
-			t.Errorf("Unexpected result: StrToInt32(%v) = %v, expected %v", tc.input, got, tc.expected)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := StrToInt32(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestStrToInt64(t *testing.T) {
-	// Test cases
 	testCases := []struct {
+		name     string
 		input    string
 		expected int64
 	}{
-		{"0", 0},
-		{"1", 1},
-		{"-1", -1},
-		{"9223372036854775807", 9223372036854775807},
-		{"-9223372036854775808", -9223372036854775808},
-		{"2147483647", 2147483647},
-		{"-2147483648", -2147483648},
-		{"invalid", 0},
-		{"9223372036854775808", 0},
-		{"-9223372036854775809", 0},
+		{"零", "0", 0},
+		{"正数", "1", 1},
+		{"负数", "-1", -1},
+		{"最大正数", "9223372036854775807", 9223372036854775807},
+		{"最小负数", "-9223372036854775808", -9223372036854775808},
+		{"32位最大正数", "2147483647", 2147483647},
+		{"32位最小负数", "-2147483648", -2147483648},
+		{"无效输入", "invalid", 0},
+		{"超出最大值", "9223372036854775808", 0},
+		{"超出最小值", "-9223372036854775809", 0},
 	}
 
-	// Test loop
 	for _, tc := range testCases {
-		// Call the function
-		got := StrToInt64(tc.input)
-
-		// Check the result
-		if got != tc.expected {
-			t.Errorf("Unexpected result: StrToInt64(%v) = %v, expected %v", tc.input, got, tc.expected)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := StrToInt64(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }

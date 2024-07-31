@@ -12,10 +12,8 @@ var (
 	ErrNotMap = errors.New("cannot parse map, value is not a map")
 	// ErrNotSlice 不是Slice类型
 	ErrNotSlice = errors.New("cannot parse slice, value is not a slice")
-	// ErrSyntax indicates that a value does not have the right syntax for the target type
-	// 指示值不具有目标类型的正确语法
+	// ErrSyntax 指示值不具有目标类型的正确语法
 	ErrSyntax = strconv.ErrSyntax
-	// ErrType indicates that a value does not have the right syntax for the target type
-	// 指示值不具有目标类型的正确语法
+	// ErrType 指示值不具有目标类型的正确语法
 	ErrType = errors.New("unsupported type")
 )

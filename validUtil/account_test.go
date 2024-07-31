@@ -1,25 +1,29 @@
 package validUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestIsEmail(t *testing.T) {
 	tests := []struct {
+		name  string
 		input string
 		want  bool
 	}{
-		{"test@example.com", true},
-		{"abc@def.com", true},
-		{"123@456.com", true},
-		{"test@.com", false},
-		{"test@com", false},
-		{"test@example", false},
+		{"合法邮箱", "test@example.com", true},
+		{"合法邮箱", "abc@def.com", true},
+		{"合法邮箱", "123@456.com", true},
+		{"非法邮箱", "test@.com", false},
+		{"非法邮箱", "test@com", false},
+		{"非法邮箱", "test@example", false},
 	}
 
-	for _, tt := range tests {
-		got := IsEmail(tt.input)
-		if got != tt.want {
-			t.Errorf("IsEmail(%q) = %v, want %v", tt.input, got, tt.want)
-		}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsEmail(tc.input)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }
 
@@ -35,9 +39,8 @@ func TestIsJSON(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			if result := IsJSON(tc.input); result != tc.expected {
-				t.Errorf("expected %v, but got %v", tc.expected, result)
-			}
+			res := IsJSON(tc.input)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
@@ -58,11 +61,10 @@ func TestIsQQ(t *testing.T) {
 		{"test8", "a1234567", false},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			if output := IsQQ(test.input); output != test.expected {
-				t.Errorf("Input: %s, Expected: %v, Output: %v", test.input, test.expected, output)
-			}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsQQ(tc.input)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
@@ -82,11 +84,10 @@ func TestIsWeChat(t *testing.T) {
 		{"test7", "a-b-c-d-e-f-g-h-i-j", true},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			if output := IsWeChat(test.input); output != test.expected {
-				t.Errorf("Input: %s, Expected: %v, Output: %v", test.input, test.expected, output)
-			}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsWeChat(tc.input)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
@@ -108,42 +109,42 @@ func TestIsWeibo(t *testing.T) {
 		{"test9", "a_b_c_d_e_f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_", false},
 	}
 
-	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			if output := IsWeibo(test.input); output != test.expected {
-				t.Errorf("Input: %s, Expected: %v, Output: %v", test.input, test.expected, output)
-			}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsWeibo(tc.input)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
 
 func TestIsPassword(t *testing.T) {
 	testCases := []struct {
-		password string
+		name     string
+		input    string
 		expected bool
 	}{
-		{"", false},
-		{"aBc12", false},
-		{"abcdef", false},
-		{"123456", false},
-		{"ab@1", false},
-		{"abcdefg", false},
-		{"ab1", false},
-		{"aBc12#", true},
-		{"Abc123!@#", true},
-		{"1234567Abcdefghijk#", true},
-		{"_abc_123", true},
-		{"_abc_123!", true},
-		{"!@#$%^&*()", false},
-		{"!@#$%^&*()Aa123", true},
-		{"12345678901234567890", false},
-		{"1234567890123456789A", false},
+		{"空密码", "", false},
+		{"短混合", "aBc12", false},
+		{"全小写", "abcdef", false},
+		{"全数字", "123456", false},
+		{"短特殊", "ab@1", false},
+		{"仅字母", "abcdefg", false},
+		{"仅数字", "ab1", false},
+		{"有效短", "aBc12#", true},
+		{"有效长", "Abc123!@#", true},
+		{"长有效", "1234567Abcdefghijk#", true},
+		{"下划线数", "_abc_123", true},
+		{"下划线特", "_abc_123!", true},
+		{"全特殊", "!@#$%^&*()", false},
+		{"特大小写", "!@#$%^&*()Aa123", true},
+		{"超长无大", "12345678901234567890", false},
+		{"超长混合", "1234567890123456789A", false},
 	}
 
 	for _, tc := range testCases {
-		result := IsPassword(tc.password)
-		if result != tc.expected {
-			t.Errorf("Expected %t for password '%s', but got %t", tc.expected, tc.password, result)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsPassword(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }

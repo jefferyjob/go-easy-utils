@@ -1,23 +1,48 @@
 package mathUtil
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestAbsInt64(t *testing.T) {
-	var input int64 = -12
-	var expected int64 = 12
-	res := Abs(input)
-	if res != expected {
-		t.Errorf("abs error")
+	testCases := []struct {
+		name     string
+		input    int64
+		expected int64
+	}{
+		{
+			name:     "负数转绝对值",
+			input:    -12,
+			expected: 12,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Abs(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestAbsFloat32(t *testing.T) {
-	var input float32 = -12.4
-	var expected float32 = 12.4
-	res := Abs(input)
-	if res != expected {
-		t.Errorf("abs error")
+	testCases := []struct {
+		name     string
+		input    float32
+		expected float32
+	}{
+		{
+			name:     "负数转绝对值",
+			input:    -12.4,
+			expected: 12.4,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Abs(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }

@@ -1,21 +1,28 @@
 package validUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestIsPostalCode(t *testing.T) {
-	// Test valid postal codes
-	validCodes := []string{"100000", "200000", "999999"}
-	for _, code := range validCodes {
-		if !IsPostalCode(code) {
-			t.Errorf("%s should be a valid postal code", code)
-		}
+	testCases := []struct {
+		name string
+		code string
+		want bool
+	}{
+		{"有效邮政编码1", "100000", true},
+		{"有效邮政编码2", "200000", true},
+		{"有效邮政编码3", "999999", true},
+		{"无效邮政编码1", "1234567", false},
+		{"无效邮政编码2", "2000000", false},
+		{"无效邮政编码3", "123a56", false},
 	}
 
-	// Test invalid postal codes
-	invalidCodes := []string{"1234567", "2000000", "123a56"}
-	for _, code := range invalidCodes {
-		if IsPostalCode(code) {
-			t.Errorf("%s should be an invalid postal code", code)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsPostalCode(tc.code)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }

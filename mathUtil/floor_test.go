@@ -1,21 +1,48 @@
 package mathUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestFloorFloat32(t *testing.T) {
-	var input float32 = -12.4
-	var expected int = -13
-	res := Floor(input)
-	if res != expected {
-		t.Errorf("floor error %d", res)
+	testCases := []struct {
+		name     string
+		input    float32
+		expected int
+	}{
+		{
+			name:     "负浮点数取整",
+			input:    -12.4,
+			expected: -13,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Floor(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestFloorFloat64(t *testing.T) {
-	var input float64 = 12.4
-	var expected int = 12
-	res := Floor(input)
-	if res != expected {
-		t.Errorf("floor error %d", res)
+	testCases := []struct {
+		name     string
+		input    float64
+		expected int
+	}{
+		{
+			name:     "正浮点数取整",
+			input:    12.4,
+			expected: 12,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := Floor(tc.input)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }

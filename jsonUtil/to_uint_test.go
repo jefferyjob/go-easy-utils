@@ -1,7 +1,7 @@
 package jsonUtil
 
 import (
-	"errors"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -154,17 +154,18 @@ func TestToUint64(t *testing.T) {
 			input: &iPtr,
 			want:  90,
 		},
+		{
+			name:  "nil",
+			input: nil,
+			want:  0,
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := toUint64Reflect(tt.input)
-			if !errors.Is(err, tt.wantError) {
-				t.Errorf("toUint64Reflect(%v) error = %v, wantError %v", tt.input, err, tt.wantError)
-			}
-			if got != tt.want {
-				t.Errorf("toUint64Reflect(%v) = %v, want %v", tt.input, got, tt.want)
-			}
+			assert.Equal(t, tt.wantError, err)
+			assert.Equal(t, tt.want, got)
 		})
 	}
 }
