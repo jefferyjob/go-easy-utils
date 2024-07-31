@@ -14,9 +14,9 @@ func AnyToInt(i any) (int, error) {
 	}
 
 	// int 兼容32位和64位系统
-	if int64(int(v)) != v {
-		return 0, ErrValOut
-	}
+	//if int64(int(v)) != v {
+	//	return 0, ErrValOut
+	//}
 
 	return int(v), nil
 }
