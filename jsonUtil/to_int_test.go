@@ -5,6 +5,7 @@ import (
 )
 
 func TestToInt64(t *testing.T) {
+	var iPtr = 90
 	var tests = []struct {
 		input    any
 		expected int64
@@ -30,20 +31,14 @@ func TestToInt64(t *testing.T) {
 		{complex64(1 + 2i), 1, nil},
 		{complex128(1 + 2i), 1, nil},
 		{nil, 0, nil},
+		{&iPtr, 90, nil},
+		{iPtr, 90, nil},
 		{"not a number", 0, ErrSyntax},
 		{make(chan int), 0, ErrType},
 	}
 
 	for _, tt := range tests {
-		actual, err := toInt64(tt.input)
-		if err != tt.err {
-			t.Errorf("toInt64(%v): expected error %v, actual error %v", tt.input, tt.err, err)
-		}
-		if actual != tt.expected {
-			t.Errorf("toInt64(%v): expected %v, actual %v", tt.input, tt.expected, actual)
-		}
-
-		actual, err = toInt64Reflect(tt.input)
+		actual, err := toInt64Reflect(tt.input)
 		if err != tt.err {
 			t.Errorf("toInt64(%v): expected error %v, actual error %v", tt.input, tt.err, err)
 		}

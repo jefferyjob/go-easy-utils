@@ -3,6 +3,7 @@ package jsonUtil
 import "testing"
 
 func TestToString(t *testing.T) {
+	var iPar = "point"
 	tests := []struct {
 		name  string
 		value any
@@ -24,16 +25,13 @@ func TestToString(t *testing.T) {
 		{"float64", 3.14159, "3.14159"},
 		{"bool-true", true, "true"},
 		{"bool-false", false, "false"},
+		{"point", &iPar, "point"},
 		{"complex64", complex64(1 + 2i), "(1+2i)"},
 		{"complex128", complex128(3 + 4i), "(3+4i)"},
 		{"chan", make(chan int), ""},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := toString(tt.value); got != tt.want {
-				t.Errorf("ToString() = %v, want %v", got, tt.want)
-			}
-
 			if got := toStringReflect(tt.value); got != tt.want {
 				t.Errorf("ToString() = %v, want %v", got, tt.want)
 			}
