@@ -1,12 +1,12 @@
 package cryptoUtil
 
 import (
-	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"errors"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -15,6 +15,37 @@ type badRandomReader struct{}
 
 func (r *badRandomReader) Read([]byte) (int, error) {
 	return 0, errors.New("fake error")
+}
+
+func TestGenerateRSAKeys(t *testing.T) {
+	testCases := []struct {
+		name           string
+		before         func(t *testing.T)
+		after          func(t *testing.T)
+		wantPrivateKey bool
+		wantPublicKey  bool
+		wantErr        error
+	}{
+		{
+			name:           "生成成功",
+			before:         func(t *testing.T) {},
+			after:          func(t *testing.T) {},
+			wantPrivateKey: true,
+			wantPublicKey:  true,
+			wantErr:        nil,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			tc.before(t)
+
+			privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
+			assert.Equal(t, tc.wantErr, err)
+			assert.Equal(t, tc.wantPrivateKey, privateKeyPEM != "")
+			assert.Equal(t, tc.wantPublicKey, publicKeyPEM != "")
+		})
+	}
 }
 
 // 测试 rsa.GenerateKey 生产失败
@@ -48,7 +79,7 @@ func TestGenerateRSAKeysError(t *testing.T) {
 	}
 }
 
-func TestGenerateRSAKeys(t *testing.T) {
+func TestGenerateRSAKeys2(t *testing.T) {
 	// 测试 GenerateRSAKeys 是否能够正常工作
 	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
 	if err != nil {
@@ -101,88 +132,123 @@ func TestGenerateRSAKeys(t *testing.T) {
 	}
 }
 
-func TestEncryptRSAError(t *testing.T) {
-	// 测试 EncryptRSA 函数在提供无效的公钥时是否返回错误
-	plaintext := []byte("Hello, RSA!")
-	invalidPublicKey := "invalid_public_key"
-	ciphertext, err := EncryptRSA(invalidPublicKey, plaintext)
-	if err == nil {
-		t.Errorf("Expected error but got ciphertext: %v", ciphertext)
+func TestEncryptRSA(t *testing.T) {
+	_, pubKeyStr, _ := GenerateRSAKeys()
+
+	testCases := []struct {
+		name         string
+		publicKeyStr string
+		message      []byte
+		expectedErr  bool
+	}{
+		{
+			name:         "正常加密",
+			publicKeyStr: pubKeyStr,
+			message:      []byte("test message"),
+			expectedErr:  false,
+		},
+		{
+			name:         "无效公钥",
+			publicKeyStr: "invalid public key",
+			message:      []byte("test message"),
+			expectedErr:  true,
+		},
+		{
+			name:         "无效公钥格式",
+			publicKeyStr: "-----BEGIN PUBLIC KEY-----\nInvalidKey\n-----END PUBLIC KEY-----",
+			message:      []byte("test message"),
+			expectedErr:  true,
+		},
 	}
 
-	// 测试 EncryptRSA 函数在解析公钥失败时是否返回错误
-	invalidKeyPEM := "invalid_key_pem"
-	_, err = EncryptRSA(invalidKeyPEM, plaintext)
-	if err == nil {
-		t.Error("Expected error but got nil")
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := EncryptRSA(tc.publicKeyStr, tc.message)
+			if tc.expectedErr {
+				assert.Error(t, err)
+				assert.Nil(t, result)
+			} else {
+				assert.NoError(t, err)
+				assert.NotNil(t, result)
+			}
+		})
 	}
 }
 
-// 验证加密和解密后的数据是否一致
-func TestRSAEncryptionAndDecryption(t *testing.T) {
-	// 生成 RSA 密钥对
-	privateKeyPEM, publicKeyPEM, err := GenerateRSAKeys()
-	if err != nil {
-		t.Fatalf("Failed to generate RSA keys: %s", err)
-	}
-
-	// 加密数据
-	plaintext := []byte("Hello, RSA!")
-	ciphertext, err := EncryptRSA(publicKeyPEM, plaintext)
-	if err != nil {
-		t.Fatalf("Failed to encrypt data: %s", err)
-	}
-
-	// 解密数据
-	decryptedText, err := DecryptRSA(privateKeyPEM, ciphertext)
-	if err != nil {
-		t.Fatalf("Failed to decrypt data: %s", err)
-	}
-
-	// 检查解密后的数据是否与原始数据一致
-	if !bytes.Equal(decryptedText, plaintext) {
-		t.Fatal("Decrypted text does not match the original plaintext")
-	}
-}
-
-// 验证 DecryptRSA 方法
 func TestDecryptRSA(t *testing.T) {
-	privateKeyPEM, _, _ := GenerateRSAKeys()
-	privateKeyBlock, _ := pem.Decode([]byte(privateKeyPEM))
-	if privateKeyBlock == nil {
-		t.Fatal("Failed to parse private key")
-	}
+	privateKey, publicKey, _ := GenerateRSAKeys()
 
-	privateKey, err := x509.ParsePKCS1PrivateKey(privateKeyBlock.Bytes)
+	// 使用公钥加密一条消息，以便测试解密
+	message := []byte("test message")
+	ciphertext, err := EncryptRSA(publicKey, message)
 	if err != nil {
-		t.Fatalf("Error parsing private key: %s", err)
+		t.Fatalf("failed to encrypt message: %v", err)
 	}
 
-	message := []byte("Hello, World!")
-
-	ciphertext, err := rsa.EncryptPKCS1v15(rand.Reader, &privateKey.PublicKey, message)
-	if err != nil {
-		t.Fatalf("Error encrypting message: %s", err)
+	testCases := []struct {
+		name          string
+		privateKeyStr string
+		ciphertext    []byte
+		expected      []byte
+		expectedErr   bool
+	}{
+		{
+			name:          "正常解密",
+			privateKeyStr: privateKey,
+			ciphertext:    ciphertext,
+			expected:      message,
+			expectedErr:   false,
+		},
+		{
+			name:          "无效私钥",
+			privateKeyStr: "invalid private key",
+			ciphertext:    ciphertext,
+			expected:      nil,
+			expectedErr:   true,
+		},
+		{
+			name:          "无效私钥格式",
+			privateKeyStr: "-----BEGIN RSA PRIVATE KEY-----\nInvalidKey\n-----END RSA PRIVATE KEY-----",
+			ciphertext:    ciphertext,
+			expected:      nil,
+			expectedErr:   true,
+		},
+		{
+			name:          "无效密文",
+			privateKeyStr: privateKey,
+			ciphertext:    []byte("invalid ciphertext"),
+			expected:      nil,
+			expectedErr:   true,
+		},
+		{
+			name:          "无效私钥数据",
+			privateKeyStr: "-----BEGIN RSA PRIVATE KEY-----\n" + "A" + "\n-----END RSA PRIVATE KEY-----",
+			ciphertext:    ciphertext,
+			expected:      nil,
+			expectedErr:   true,
+		},
+		{
+			name: "不完整的私钥",
+			privateKeyStr: "-----BEGIN RSA PRIVATE KEY-----\n" +
+				"MIICWwIBAAKBgQDEkzKS0u5p6kwl9m0g3g4mMI09S8QOAbW5aBMbDWZ5R0pUtH5h" +
+				"J9mQFt8Uu4FJ8Yc9C5ZiM5F9pV5J2V4SeKk3RbKjFG2iD6rzO/OMrMZ3/1H8n02" +
+				"eZ/D14SvnPBNhYnb8Ysdd4kS8A==\n-----END RSA PRIVATE KEY-----",
+			ciphertext:  ciphertext,
+			expected:    nil,
+			expectedErr: true,
+		},
 	}
 
-	// Test decryption with correct private key
-	plaintext, err := DecryptRSA(privateKeyPEM, ciphertext)
-	if err != nil {
-		t.Fatalf("Error decrypting ciphertext: %s", err)
-	}
-	if string(plaintext) != string(message) {
-		t.Fatalf("Decrypted message doesn't match original message")
-	}
-
-	// Test decryption with incorrect private key
-	_, err = DecryptRSA("InvalidPrivateKey", ciphertext)
-	if err == nil {
-		t.Fatal("Expected error decrypting with invalid private key")
-	}
-
-	// Test decryption with incorrect ciphertext
-	_, err = DecryptRSA(privateKeyPEM, []byte("InvalidCiphertext"))
-	if err == nil {
-		t.Fatal("Expected error decrypting invalid ciphertext")
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			result, err := DecryptRSA(tc.privateKeyStr, tc.ciphertext)
+			if tc.expectedErr {
+				assert.Error(t, err)
+				assert.Nil(t, result)
+			} else {
+				assert.NoError(t, err)
+				assert.Equal(t, tc.expected, result)
+			}
+		})
 	}
 }

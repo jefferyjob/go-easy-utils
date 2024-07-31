@@ -1,42 +1,47 @@
 package validUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestIsAllChinese(t *testing.T) {
 	tests := []struct {
+		name  string
 		input string
 		want  bool
 	}{
-		{"中国人", true},
-		{"abc", false},
-		{"中abc", false},
-		{"", true},
+		{"全中文", "中国人", true},
+		{"全英文", "abc", false},
+		{"中英文混合", "中abc", false},
+		{"空字符串", "", true},
 	}
 
-	for _, tt := range tests {
-		got := IsAllChinese(tt.input)
-		if got != tt.want {
-			t.Errorf("IsAllChinese(%q) = %v, want %v", tt.input, got, tt.want)
-		}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsAllChinese(tc.input)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }
 
 func TestIsContainChinese(t *testing.T) {
 	tests := []struct {
+		name  string
 		input string
 		want  bool
 	}{
-		{"中国人", true},
-		{"abc", false},
-		{"中abc", true},
-		{"", false},
+		{"全中文", "中国人", true},
+		{"全英文", "abc", false},
+		{"中英文混合", "中abc", true},
+		{"空字符串", "", false},
 	}
 
-	for _, tt := range tests {
-		got := IsContainChinese(tt.input)
-		if got != tt.want {
-			t.Errorf("IsContainChinese(%q) = %v, want %v", tt.input, got, tt.want)
-		}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsContainChinese(tc.input)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }
 
@@ -53,9 +58,8 @@ func TestIsChineseName(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			if result := IsChineseName(tc.input); result != tc.expected {
-				t.Errorf("expected %v, but got %v", tc.expected, result)
-			}
+			res := IsChineseName(tc.input)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }
@@ -72,9 +76,8 @@ func TestIsEnglishName(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			if result := IsEnglishName(tc.input); result != tc.expected {
-				t.Errorf("expected %v, but got %v", tc.expected, result)
-			}
+			res := IsEnglishName(tc.input)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }

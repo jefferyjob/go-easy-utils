@@ -1,273 +1,237 @@
 package anyUtil
 
 import (
-	"reflect"
+	"github.com/stretchr/testify/assert"
+	"math"
 	"testing"
 )
 
 func TestAnyToUint(t *testing.T) {
-	// Test cases
-	tests := []struct {
-		input  any
-		output uint
-		err    error
+	iPtr := 90
+	testCases := []struct {
+		name     string
+		input    any
+		expected uint
+		err      error
 	}{
-		{10, 10, nil},
-		{-5, 0, ErrUnsignedInt},
-		{"20", 20, nil},
-		{1.5, 1, nil},
-		{2.5, 2, nil},
-		{make(chan int), 0, ErrType},
+		// 测试整数输入
+		{name: "number", input: 42, expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: int64(42), expected: 42, err: nil},
+		{name: "int32", input: int32(42), expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: uint64(42), expected: 42, err: nil},
+		{name: "int32", input: uint32(42), expected: 42, err: nil},
+		{name: "uint", input: uint(42), expected: 42, err: nil},
+		{name: "iPtr", input: &iPtr, expected: 90, err: nil},
+
+		// 测试浮点数输入
+		{name: "float64", input: float64(42.0), expected: 42, err: nil},
+		{name: "float32", input: float32(42.0), expected: 42, err: nil},
+		{name: "float64_小数点", input: float64(42.5), expected: 42, err: nil},
+
+		// 测试非数值类型
+		{name: "string", input: "rand string", expected: 0, err: ErrSyntax},
+		{name: "nil", input: nil, expected: 0, err: nil},
+
+		// 布尔
+		{name: "true", input: true, expected: 1, err: nil},
+		{name: "false", input: false, expected: 0, err: nil},
+
+		// 空指针
+		{name: "nil point", input: (*int)(nil), expected: 0, err: nil},
+
+		// complex
+		{name: "complex128", input: complex(3.14, 1.59), expected: 3, err: nil},
+		{name: "complex64", input: complex(float32(2.71), float32(1.41)), expected: 2, err: nil},
+
+		// 其他
+		{name: "struct", input: struct{ Name string }{Name: "test"}, expected: 0, err: ErrType},
+
+		{
+			name:     "Value within uint range (32-bit)",
+			input:    uint32(4294967295), // Maximum value for uint32 (32-bit)
+			expected: uint(4294967295),
+			err:      nil,
+		},
+		{
+			name:     "Value within uint range (64-bit)",
+			input:    uint64(18446744073709551615), // Maximum value for uint64 (64-bit)
+			expected: uint(18446744073709551615),   // This is an edge case for a 64-bit system
+			err:      nil,
+		},
 	}
 
-	// Test loop
-	for _, test := range tests {
-		result, err := AnyToUint(test.input)
-		if result != test.output || !reflect.DeepEqual(err, test.err) {
-			t.Errorf("AnyToUint(%v) = (%v, %v), expected (%v, %v)",
-				test.input, result, err, test.output, test.err)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res, err := AnyToUint(tc.input)
+			assert.Equal(t, tc.err, err)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestAnyToUint8(t *testing.T) {
-	// Test cases
-	tests := []struct {
-		input  any
-		output uint8
-		err    error
+	testCases := []struct {
+		name     string
+		input    any
+		expected uint8
+		err      error
 	}{
-		{10, 10, nil},
-		{300, 0, ErrValOut},
-		{"20", 20, nil},
-		{1.5, 1, nil},
-		{make(chan int), 0, ErrType},
+		// 测试整数输入
+		{name: "number", input: 42, expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: int64(42), expected: 42, err: nil},
+		{name: "int32", input: int32(42), expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: uint64(42), expected: 42, err: nil},
+		{name: "int32", input: uint32(42), expected: 42, err: nil},
+		{name: "uint", input: uint(42), expected: 42, err: nil},
+
+		// 测试浮点数输入
+		{name: "float64", input: float64(42.0), expected: 42, err: nil},
+		{name: "float32", input: float32(42.0), expected: 42, err: nil},
+		{name: "float64_小数点", input: float64(42.5), expected: 42, err: nil},
+
+		// 测试非数值类型
+		{name: "string", input: "rand string", expected: 0, err: ErrSyntax},
+		{name: "nil", input: nil, expected: 0, err: nil},
+
+		// 溢出
+		{name: "MaxUint8", input: math.MaxUint8 + 1, expected: 0, err: ErrValOut},
 	}
 
-	// Test loop
-	for _, test := range tests {
-		result, err := AnyToUint8(test.input)
-		if result != test.output || !reflect.DeepEqual(err, test.err) {
-			t.Errorf("AnyToUint8(%v) = (%v, %v), expected (%v, %v)",
-				test.input, result, err, test.output, test.err)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res, err := AnyToUint8(tc.input)
+			assert.Equal(t, tc.err, err)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestAnyToUint16(t *testing.T) {
-	// Test cases
-	tests := []struct {
-		input  any
-		output uint16
-		err    error
+	testCases := []struct {
+		name     string
+		input    any
+		expected uint16
+		err      error
 	}{
-		{10, 10, nil},
-		{70000, 0, ErrValOut},
-		{"20", 20, nil},
-		{1.5, 1, nil},
-		{make(chan int), 0, ErrType},
+		// 测试整数输入
+		{name: "number", input: 42, expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: int64(42), expected: 42, err: nil},
+		{name: "int32", input: int32(42), expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: uint64(42), expected: 42, err: nil},
+		{name: "int32", input: uint32(42), expected: 42, err: nil},
+		{name: "uint", input: uint(42), expected: 42, err: nil},
+
+		// 测试浮点数输入
+		{name: "float64", input: float64(42.0), expected: 42, err: nil},
+		{name: "float32", input: float32(42.0), expected: 42, err: nil},
+		{name: "float64_小数点", input: float64(42.5), expected: 42, err: nil},
+
+		// 测试非数值类型
+		{name: "string", input: "rand string", expected: 0, err: ErrSyntax},
+		{name: "nil", input: nil, expected: 0, err: nil},
+
+		// 溢出
+		{name: "MaxUint16", input: math.MaxUint16 + 1, expected: 0, err: ErrValOut},
 	}
 
-	// Test loop
-	for _, test := range tests {
-		result, err := AnyToUint16(test.input)
-		if result != test.output || !reflect.DeepEqual(err, test.err) {
-			t.Errorf("AnyToUint16(%v) = (%v, %v), expected (%v, %v)",
-				test.input, result, err, test.output, test.err)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res, err := AnyToUint16(tc.input)
+			assert.Equal(t, tc.err, err)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestAnyToUint32(t *testing.T) {
-	// Test cases
-	tests := []struct {
-		input  any
-		output uint32
-		err    error
+	testCases := []struct {
+		name     string
+		input    any
+		expected uint32
+		err      error
 	}{
-		{10, 10, nil},
-		{5000000000, 0, ErrValOut},
-		{"20", 20, nil},
-		{1.5, 1, nil},
-		{make(chan int), 0, ErrType},
+		// 测试整数输入
+		{name: "number", input: 42, expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: int64(42), expected: 42, err: nil},
+		{name: "int32", input: int32(42), expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: uint64(42), expected: 42, err: nil},
+		{name: "int32", input: uint32(42), expected: 42, err: nil},
+		{name: "uint", input: uint(42), expected: 42, err: nil},
+
+		// 测试浮点数输入
+		{name: "float64", input: float64(42.0), expected: 42, err: nil},
+		{name: "float32", input: float32(42.0), expected: 42, err: nil},
+		{name: "float64_小数点", input: float64(42.5), expected: 42, err: nil},
+
+		// 测试非数值类型
+		{name: "string", input: "rand string", expected: 0, err: ErrSyntax},
+		{name: "nil", input: nil, expected: 0, err: nil},
+
+		// 溢出
+		{name: "MaxUint32", input: math.MaxUint32 + 1, expected: 0, err: ErrValOut},
 	}
 
-	// Test loop
-	for _, test := range tests {
-		result, err := AnyToUint32(test.input)
-		if result != test.output || !reflect.DeepEqual(err, test.err) {
-			t.Errorf("AnyToUint32(%v) = (%v, %v), expected (%v, %v)",
-				test.input, result, err, test.output, test.err)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res, err := AnyToUint32(tc.input)
+			assert.Equal(t, tc.err, err)
+			assert.Equal(t, tc.expected, res)
+		})
 	}
 }
 
 func TestAnyToUint64(t *testing.T) {
-	iPtr := 90
-
-	tests := []struct {
-		name      string
-		input     any
-		want      uint64
-		wantError error
+	testCases := []struct {
+		name     string
+		input    any
+		expected uint64
+		err      error
 	}{
-		{
-			name:      "Test -float32",
-			input:     float32(-0.1),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test -float64",
-			input:     float64(-0.2),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test -int",
-			input:     int(-1),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test -int8",
-			input:     int8(-2),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test -int16",
-			input:     int16(-3),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test -int32",
-			input:     int32(-4),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test -int64",
-			input:     int64(-5),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:  "Test uint",
-			input: uint(12),
-			want:  12,
-		},
-		{
-			name:  "Test uint8",
-			input: uint8(42),
-			want:  42,
-		},
-		{
-			name:  "Test uint16",
-			input: uint16(42),
-			want:  42,
-		},
-		{
-			name:  "Test uint32",
-			input: uint32(42),
-			want:  42,
-		},
-		{
-			name:  "Test uint64",
-			input: uint64(42),
-			want:  42,
-		},
-		{
-			name:  "Test int8",
-			input: int8(42),
-			want:  42,
-		},
-		{
-			name:  "Test int16",
-			input: int16(42),
-			want:  42,
-		},
-		{
-			name:  "Test int32",
-			input: int32(42),
-			want:  42,
-		},
-		{
-			name:  "Test int64",
-			input: int64(42),
-			want:  42,
-		},
-		{
-			name:  "Test float32",
-			input: float32(42.0),
-			want:  42,
-		},
-		{
-			name:  "Test float64",
-			input: float64(42.0),
-			want:  42,
-		},
-		{
-			name:  "Test complex64",
-			input: complex64(complex(42, 0)),
-			want:  42,
-		},
-		{
-			name:  "Test complex128",
-			input: complex128(complex(42, 0)),
-			want:  42,
-		},
-		{
-			name:  "Test string",
-			input: "42",
-			want:  42,
-		},
-		{
-			name:      "Test invalid string",
-			input:     "not a number",
-			wantError: ErrSyntax,
-		},
-		{
-			name:      "Test nil pointer",
-			input:     (*int)(nil),
-			want:      0,
-			wantError: nil,
-		},
-		{
-			name:  "Test bool true",
-			input: true,
-			want:  1,
-		},
-		{
-			name:  "Test bool false",
-			input: false,
-			want:  0,
-		},
-		{
-			name:  "Test int point",
-			input: &iPtr,
-			want:  90,
-		},
-		{
-			name:  "Test nil",
-			input: nil,
-			want:  0,
-		},
-		{
-			name:      "test -complex",
-			input:     complex(-1, -1),
-			wantError: ErrUnsignedInt,
-		},
-		{
-			name:      "Test invalid type",
-			input:     make(chan int),
-			wantError: ErrType,
-		},
+		// 测试整数输入
+		{name: "number", input: 42, expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: int64(42), expected: 42, err: nil},
+		{name: "int32", input: int32(42), expected: 42, err: nil},
+		{name: "int", input: int(42), expected: 42, err: nil},
+		{name: "int64", input: uint64(42), expected: 42, err: nil},
+		{name: "int32", input: uint32(42), expected: 42, err: nil},
+		{name: "uint", input: uint(42), expected: 42, err: nil},
+
+		// 测试浮点数输入
+		{name: "float64", input: float64(42.0), expected: 42, err: nil},
+		{name: "float32", input: float32(42.0), expected: 42, err: nil},
+		{name: "float64_小数点", input: float64(42.5), expected: 42, err: nil},
+
+		// 测试非数值类型
+		{name: "string", input: "rand string", expected: 0, err: ErrSyntax},
+		{name: "nil", input: nil, expected: 0, err: nil},
+
+		// complex
+		{name: "complex128", input: complex(3.14, 1.59), expected: 3, err: nil},
+		{name: "complex64", input: complex(float32(2.71), float32(1.41)), expected: 2, err: nil},
+
+		// 其他
+		{name: "struct", input: struct{ Name string }{Name: "test"}, expected: 0, err: ErrType},
+
+		// 小于0
+		{name: "int < 0", input: int(-8), expected: 0, err: ErrUnsignedInt},
+		{name: "float < 0", input: float64(-8), expected: 0, err: ErrUnsignedInt},
+		{name: "complex128", input: complex(-3.14, -1.59), expected: 0, err: ErrUnsignedInt},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := AnyToUint64(tt.input)
-			if err != tt.wantError {
-				t.Errorf("toUint64(%v) error = %v, wantError %v", tt.input, err, tt.wantError)
-			}
-			if got != tt.want {
-				t.Errorf("toUint64(%v) = %v, want %v", tt.input, got, tt.want)
-			}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res, err := AnyToUint64(tc.input)
+			assert.Equal(t, tc.err, err)
+			assert.Equal(t, tc.expected, res)
 		})
 	}
 }

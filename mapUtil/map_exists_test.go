@@ -1,36 +1,76 @@
 package mapUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
-func TestMapValueExists(t *testing.T) {
-	m := map[string]string{
-		"foo": "bar",
-		"baz": "123",
+func TestMapKeyExists(t *testing.T) {
+	testCases := []struct {
+		name     string
+		inputMap map[string]string
+		inputKey string
+		wantRes  bool
+	}{
+		{
+			name: "存在",
+			inputMap: map[string]string{
+				"for": "jack",
+				"bar": "123",
+			},
+			inputKey: "for",
+			wantRes:  true,
+		},
+		{
+			name: "不存在",
+			inputMap: map[string]string{
+				"for": "jack",
+				"bar": "123",
+			},
+			inputKey: "tom",
+			wantRes:  false,
+		},
 	}
-	if !MapValueExists(m, "bar") {
-		t.Errorf("expected MapValueExists to return true for value 'bar'")
-	}
-	if !MapValueExists(m, "123") {
-		t.Errorf("expected MapValueExists to return true for value 123")
-	}
-	if MapValueExists(m, "non-existent") {
-		t.Errorf("expected MapValueExists to return false for value 'non-existent'")
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := MapKeyExists(tc.inputMap, tc.inputKey)
+			assert.Equal(t, tc.wantRes, res)
+		})
 	}
 }
 
-func TestMapKeyExists(t *testing.T) {
-	m := map[string]any{
-		"foo": "bar",
-		"baz": 123,
-		"qux": []int{1, 2, 3},
+func TestMapValueExists(t *testing.T) {
+	testCases := []struct {
+		name       string
+		inputMap   map[string]string
+		inputValue string
+		wantRes    bool
+	}{
+		{
+			name: "存在",
+			inputMap: map[string]string{
+				"for": "jack",
+				"bar": "123",
+			},
+			inputValue: "jack",
+			wantRes:    true,
+		},
+		{
+			name: "不存在",
+			inputMap: map[string]string{
+				"for": "jack",
+				"bar": "123",
+			},
+			inputValue: "tom",
+			wantRes:    false,
+		},
 	}
-	if !MapKeyExists(m, "foo") {
-		t.Errorf("expected MapKeyExists to return true for key 'foo'")
-	}
-	if !MapKeyExists(m, "baz") {
-		t.Errorf("expected MapKeyExists to return true for key 'baz'")
-	}
-	if MapKeyExists(m, "non-existent") {
-		t.Errorf("expected MapKeyExists to return false for key 'non-existent'")
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := MapValueExists(tc.inputMap, tc.inputValue)
+			assert.Equal(t, tc.wantRes, res)
+		})
 	}
 }

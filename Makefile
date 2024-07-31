@@ -16,6 +16,7 @@ bench: ## 运行基准测试
 
 .PHONY:doc
 doc: ## 启动文档服务器
+	# go install golang.org/x/tools/cmd/godoc@latest
 	godoc -http=:6060 -play -index
 
 .PHONY:cover

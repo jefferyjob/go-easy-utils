@@ -1,39 +1,47 @@
 package sliceUtil
 
 import (
-	"reflect"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-func TestUniqueSlice(t *testing.T) {
-	// 测试整型切片去重
-	s1 := []int{1, 2, 3, 2, 4, 4, 5}
-	s1 = UniqueSlice(s1)
-	if !reflect.DeepEqual(s1, []int{1, 2, 3, 4, 5}) {
-		t.Errorf("UniqueSlice(%v) = %v, expected %v", s1, s1, []int{1, 2, 3, 4, 5})
+func TestUniqueSliceString(t *testing.T) {
+	testCases := []struct {
+		name string
+		in   []string
+		want []string
+	}{
+		{
+			name: "字符串切片去重",
+			in:   []string{"a", "b", "c", "b", "d", "d", "e"},
+			want: []string{"a", "b", "c", "d", "e"},
+		},
 	}
 
-	// 测试字符串切片去重
-	s2 := []string{"a", "b", "c", "b", "d", "d", "e"}
-	s2 = UniqueSlice(s2)
-	if !reflect.DeepEqual(s2, []string{"a", "b", "c", "d", "e"}) {
-		t.Errorf("UniqueSlice(%v) = %v, expected %v", s2, s2, []string{"a", "b", "c", "d", "e"})
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := UniqueSlice(tc.in)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }
 
 func TestUniqueSliceInt(t *testing.T) {
-	cases := []struct {
-		in, want []int
+	testCases := []struct {
+		name string
+		in   []int
+		want []int
 	}{
-		{[]int{1, 2, 3, 2, 1}, []int{1, 2, 3}},
-		{[]int{1, 1, 1, 1}, []int{1}},
-		{[]int{1, 2, 3, 4}, []int{1, 2, 3, 4}},
-		{[]int{}, []int{}},
+		{name: "重复元素", in: []int{1, 2, 3, 2, 1}, want: []int{1, 2, 3}},
+		{name: "所有元素相同", in: []int{1, 1, 1, 1}, want: []int{1}},
+		{name: "无重复元素", in: []int{1, 2, 3, 4}, want: []int{1, 2, 3, 4}},
+		{name: "空切片", in: []int{}, want: []int{}},
 	}
-	for _, c := range cases {
-		got := UniqueSlice(c.in)
-		if !reflect.DeepEqual(got, c.want) {
-			t.Errorf("UniqueSliceInt(%v) == %v, want %v", c.in, got, c.want)
-		}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := UniqueSlice(tc.in)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }

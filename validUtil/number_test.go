@@ -1,24 +1,27 @@
 package validUtil
 
 import (
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
 func TestIsNumber(t *testing.T) {
 	testCases := []struct {
+		name  string
 		input string
 		want  bool
 	}{
-		{"123", true},
-		{"1a2b3", false},
-		{"0", true},
-		{"", false},
-		{" ", false},
+		{"纯数字", "123", true},
+		{"含字母", "1a2b3", false},
+		{"单个数字", "0", true},
+		{"空字符串", "", false},
+		{"空格", " ", false},
 	}
+
 	for _, tc := range testCases {
-		got := IsNumber(tc.input)
-		if got != tc.want {
-			t.Errorf("IsNumber(%q) = %v; want %v", tc.input, got, tc.want)
-		}
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsNumber(tc.input)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }

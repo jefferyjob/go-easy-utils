@@ -1,9 +1,9 @@
 package validUtil
 
 import (
+	"fmt"
 	"regexp"
 	"strconv"
-	"time"
 )
 
 // IsIDCard 验证身份证号(18或15位)
@@ -20,34 +20,25 @@ func IsIDCard(str string) bool {
 
 // IsIDCard18 验证18位身份证号
 func IsIDCard18(id string) bool {
-	// 18位身份证号码正则表达式，根据规则来编写
 	regExp := "^[1-9]\\d{5}(19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$"
-	// 利用正则表达式匹配身份证号码
-	match, err := regexp.MatchString(regExp, id)
-	if err != nil {
-		// 匹配过程出错，返回false
+	if match, _ := regexp.MatchString(regExp, id); !match {
 		return false
 	}
-	if !match {
-		// 身份证号码不符合规则，返回false
-		return false
-	}
-	// 解析身份证号码中的年、月、日
-	year, _ := strconv.Atoi(id[6:10])
-	month, _ := strconv.Atoi(id[10:12])
-	day, _ := strconv.Atoi(id[12:14])
-	// 判断年份是否合法
-	if year < 1900 || year > time.Now().Year() {
-		return false
-	}
-	// 判断月份是否合法
-	if month < 1 || month > 12 {
-		return false
-	}
-	// 判断日期是否合法
-	if day < 1 || day > 31 {
-		return false
-	}
+
+	// 判断身份证中 年、月、日 是否合法
+	//year, _ := strconv.Atoi(id[6:10])
+	//month, _ := strconv.Atoi(id[10:12])
+	//day, _ := strconv.Atoi(id[12:14])
+	//if year < 1900 || year > time.Now().Year() {
+	//	return false
+	//}
+	//if month < 1 || month > 12 {
+	//	return false
+	//}
+	//if day < 1 || day > 31 {
+	//	return false
+	//}
+
 	// 对身份证号码的最后一位进行校验
 	// 根据身份证号码的规则，最后一位可能是数字0-9，也可能是字符X（表示10）
 	// 将字符X转换成数字10进行校验
@@ -96,6 +87,7 @@ func IsIDCard15(idCard string) bool {
 
 	// 将身份证号前两位转换成省份代码
 	provinceCode, err := strconv.Atoi(idCard[:2])
+	fmt.Println(provinceCode)
 	if err != nil || provinceCode < 11 || provinceCode > 91 {
 		return false
 	}

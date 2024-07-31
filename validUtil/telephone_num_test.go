@@ -1,47 +1,55 @@
 package validUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestIsMobile(t *testing.T) {
 	type test struct {
+		name  string
 		input string
 		want  bool
 	}
+
 	tests := []test{
-		{input: "15812345678", want: true},
-		{input: "15912345678", want: true},
-		{input: "17012345678", want: true},
-		{input: "17112345678", want: true},
-		{input: "17212345678", want: true},
-		{input: "18912345678", want: true},
-		{input: "29012345678", want: false},
-		{input: "11111111111", want: false},
-		{input: "09212345678", want: false},
+		{"有效号码1", "15812345678", true},
+		{"有效号码2", "15912345678", true},
+		{"有效号码3", "17012345678", true},
+		{"有效号码4", "17112345678", true},
+		{"有效号码5", "17212345678", true},
+		{"有效号码6", "18912345678", true},
+		{"无效号码1", "29012345678", false},
+		{"无效号码2", "11111111111", false},
+		{"无效号码3", "09212345678", false},
 	}
 
-	for _, tt := range tests {
-		t.Run(tt.input, func(t *testing.T) {
-			if got := IsMobile(tt.input); got != tt.want {
-				t.Errorf("IsMobile(%s) = %v, want %v", tt.input, got, tt.want)
-			}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsMobile(tc.input)
+			assert.Equal(t, tc.want, res)
 		})
 	}
 }
 
 func TestIsTelephone(t *testing.T) {
-	// Test valid telephone numbers
-	validNumbers := []string{"010-12345678", "02112345678", "075512345678"}
-	for _, num := range validNumbers {
-		if !IsTelephone(num) {
-			t.Errorf("%s should be a valid telephone number", num)
-		}
+	testCases := []struct {
+		name  string
+		input string
+		want  bool
+	}{
+		{"有效号码1", "010-12345678", true},
+		{"有效号码2", "02112345678", true},
+		{"有效号码3", "075512345678", true},
+		{"无效号码1", "12345678", false},
+		{"无效号码2", "010-1234-5678", false},
+		{"无效号码3", "0515123456a", false},
 	}
 
-	// Test invalid telephone numbers
-	invalidNumbers := []string{"12345678", "010-1234-5678", "0515123456a"}
-	for _, num := range invalidNumbers {
-		if IsTelephone(num) {
-			t.Errorf("%s should be an invalid telephone number", num)
-		}
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			res := IsTelephone(tc.input)
+			assert.Equal(t, tc.want, res)
+		})
 	}
 }

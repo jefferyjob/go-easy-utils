@@ -1,6 +1,9 @@
 package byteUtil
 
-import "testing"
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
 
 func TestBytesToStr(t *testing.T) {
 	tests := []struct {
@@ -14,9 +17,7 @@ func TestBytesToStr(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := BytesToStr(tt.data)
-			if got != tt.expected {
-				t.Errorf("BytesToStr(%v) = %v, want %v", tt.data, got, tt.expected)
-			}
+			assert.Equal(t, tt.expected, got)
 		})
 	}
 }
