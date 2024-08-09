@@ -62,3 +62,15 @@
 
 ## v2.2.1
 - 优化文档中存在的已知问题
+
+## v2.2.2
+- feat: 增加了集合方法 差集、对称差集、交集 [#77](https://github.com/jefferyjob/go-easy-utils/pull/77)
+- feat: 文档补充  [#78](https://github.com/jefferyjob/go-easy-utils/pull/78)
+- 优化var定义 in [#79](https://github.com/jefferyjob/go-easy-utils/pull/79)
+
+## v2.2.3
+- jsonUtil 优化var定义 [#80](https://github.com/jefferyjob/go-easy-utils/pull/80)
+
+## v2.2.4
+- 单元测试覆盖率提升 #81](https://github.com/jefferyjob/go-easy-utils/pull/81)
+- Dependabot 计划间隔每周 [#82](https://github.com/jefferyjob/go-easy-utils/pull/82)

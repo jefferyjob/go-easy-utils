@@ -62,3 +62,15 @@
 
 ## v2.2.1
 - Known issues in optimization documentation
+
+## v2.2.2
+- feat: Added set methods difference, symmetric difference, intersection [#77](https://github.com/jefferyjob/go-easy-utils/pull/77)
+- feat: Documentation supplement [#78](https://github.com/jefferyjob/go-easy-utils/pull/78)
+- Optimize var definition in [#79](https://github.com/jefferyjob/go-easy-utils/pull/79)
+
+## v2.2.3
+- jsonUtil optimizes var definition [#80](https://github.com/jefferyjob/go-easy-utils/pull/80)
+
+## v2.2.4
+- Improved unit test coverage #81](https://github.com/jefferyjob/go-easy-utils/pull/81)
+- Dependabot scheduled every week [#82](https://github.com/jefferyjob/go-easy-utils/pull/82)
