@@ -1,5 +1,3 @@
-# 版本更新记录
-
 ## v2.2.4
 - 单元测试覆盖率提升 [#81](https://github.com/jefferyjob/go-easy-utils/pull/81)
 - Dependabot 计划间隔每周 [#82](https://github.com/jefferyjob/go-easy-utils/pull/82)
