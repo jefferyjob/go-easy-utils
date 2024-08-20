@@ -63,3 +63,6 @@ func main() {
 `go-easy-utils` Thank JetBrains for their support
 
 <a href="https://www.jetbrains.com"><img src="https://raw.githubusercontent.com/panjf2000/illustrations/master/jetbrains/jetbrains-variant-4.png" height="100" alt="JetBrains"/></a>
+
+## License
+This library is licensed under the Apache-2.0. See the LICENSE file for details.
