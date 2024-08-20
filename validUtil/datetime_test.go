@@ -33,6 +33,7 @@ func TestIsDate(t *testing.T) {
 		{"日期超出月份天数", "2021-04-31", false},
 		{"合法12月31日", "2021-12-31", true},
 		{"日期多余部分", "2021-12-31-extra", false},
+		{"错误年份为负数", "-1-12-31", false},
 	}
 
 	for _, tc := range testCases {
