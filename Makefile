@@ -1,4 +1,4 @@
-HONY:build
+.PHONY:build
 build: ## 编译项目
 	go build -v ./...
 
