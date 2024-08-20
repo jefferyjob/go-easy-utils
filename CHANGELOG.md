@@ -3,6 +3,7 @@
 - Dependabot scheduled every week [#82](https://github.com/jefferyjob/go-easy-utils/pull/82)
 - feature: update issue template [#83](https://github.com/jefferyjob/go-easy-utils/pull/83)
 - Update to issue question form [#84](https://github.com/jefferyjob/go-easy-utils/pull/84)
+- Optimizing the IsDate method  [#85](https://github.com/jefferyjob/go-easy-utils/pull/85)
 
 ## v2.2.3
 - jsonUtil optimizes var definition [#80](https://github.com/jefferyjob/go-easy-utils/pull/80)

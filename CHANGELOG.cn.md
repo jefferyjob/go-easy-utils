@@ -3,6 +3,7 @@
 - Dependabot 计划间隔每周 [#82](https://github.com/jefferyjob/go-easy-utils/pull/82)
 - 功能：更新问题模板 [#83](https://github.com/jefferyjob/go-easy-utils/pull/83)
 - 更新问题表单 [#84](https://github.com/jefferyjob/go-easy-utils/pull/84)
+- 优化IsDate方法  [#85](https://github.com/jefferyjob/go-easy-utils/pull/85)
 
 ## v2.2.3
 - `jsonUtil` 优化 var 定义 [#80](https://github.com/jefferyjob/go-easy-utils/pull/80)
