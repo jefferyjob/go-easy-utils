@@ -20,16 +20,10 @@ func IsDate(str string) bool {
 	}
 
 	parts := strings.Split(str, "-")
-	year, err := strconv.Atoi(parts[0])
-	if err != nil {
-		return false
-	}
-	month, err := strconv.Atoi(parts[1])
-	if err != nil || !isValidMonth(month) {
-		return false
-	}
-	day, err := strconv.Atoi(parts[2])
-	if err != nil || !isValidDay(day, month, year) {
+	year, _ := strconv.Atoi(parts[0])
+	month, _ := strconv.Atoi(parts[1])
+	day, _ := strconv.Atoi(parts[2])
+	if !isValidMonth(month) || !isValidDay(day, month, year) {
 		return false
 	}
 
