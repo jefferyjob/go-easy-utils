@@ -1,3 +1,6 @@
+
+- codecov：Test Analytics [#86](https://github.com/jefferyjob/go-easy-utils/pull/86)
+
 ## v2.2.4
 - Improved unit test coverage [#81](https://github.com/jefferyjob/go-easy-utils/pull/81)
 - Dependabot scheduled every week [#82](https://github.com/jefferyjob/go-easy-utils/pull/82)
