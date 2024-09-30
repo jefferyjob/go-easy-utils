@@ -1,16 +1,19 @@
 # jsonUtil
 
+[English](README.md) | 简体中文
+
 ## 介绍
 
 JsonToStruct 将 JSON 数据转换为 Go 结构。
-参数：
+
+**参数：**
 - jsonData：包含 JSON 数据的字符串。
 - val：指向要填充的结构变量的指针。
 
-返回：
+**返回：**
 - error：如果转换失败或发生错误，则返回相应的错误。如果成功，则返回 nil。
 
-功能：
+**功能：**
 - 检查 val 参数是否为非零指针类型，如果不是，则返回 ErrPoint。
 - 将 jsonData 解析为名为 data 的 map[string]any 变量。
 - 使用反射检索 val 指向的结构的值和类型。
