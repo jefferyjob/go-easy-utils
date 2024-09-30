@@ -1,5 +1,6 @@
 
 - codecov：Test Analytics [#86](https://github.com/jefferyjob/go-easy-utils/pull/86)
+- Optimize jsonUtil documentation [#87](https://github.com/jefferyjob/go-easy-utils/pull/87)
 
 ## v2.2.4
 - Improved unit test coverage [#81](https://github.com/jefferyjob/go-easy-utils/pull/81)
