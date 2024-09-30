@@ -1,16 +1,19 @@
 # jsonUtil
 
+English | [简体中文](README.cn.md)
+
 ## Introduce
 
 JsonToStruct converts JSON data to a Go structure.
-Parameters:
+
+**Parameters:**
 - jsonData: A string containing the JSON data.
 - val: A pointer to the structure variable to be filled.
 
-Returns:
+**Returns:**
 - error: If conversion fails or an error occurs, the corresponding error is returned. If successful, nil is returned.
 
-Functionality:
+**Functionality:**
 - Checks if the val parameter is a non-nil pointer type, returning ErrPoint if it is not. 
 - Parses jsonData into a map[string]any variable called data. 
 - Retrieves the value and type of the structure pointed to by val using reflection. 
