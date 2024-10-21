@@ -1,6 +1,7 @@
 
 - codecov：测试分析 [#86](https://github.com/jefferyjob/go-easy-utils/pull/86)
 - 优化jsonUtil文档 [#87](https://github.com/jefferyjob/go-easy-utils/pull/87)
+- 优化jsonUtil工具基础数据类型转义文件 [#88](https://github.com/jefferyjob/go-easy-utils/pull/88)
 
 ## v2.2.4
 - 单元测试覆盖率提升 [#81](https://github.com/jefferyjob/go-easy-utils/pull/81)
