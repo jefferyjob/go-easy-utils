@@ -1,11 +1,83 @@
 package jsonUtil
 
 import (
+	"encoding/json"
+	"errors"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
 )
 
 func TestParseMap(t *testing.T) {
+	tests := []struct {
+		name       string
+		inputValue func() reflect.Value
+		inputData  func() map[string]any
+		wantErr    error
+	}{
+		{
+			name: "正常的map解析",
+			inputValue: func() reflect.Value {
+				var result map[string]any
+				return reflect.ValueOf(&result).Elem()
+			},
+			inputData: func() map[string]any {
+				jsonData := `{
+					"Foo":"hello",
+					"Bar":42
+				}`
+				var data map[string]any
+				err := json.Unmarshal([]byte(jsonData), &data)
+				require.NoError(t, err)
+
+				return map[string]any{
+					"Foo": "hello",
+					"Bar": 42,
+				}
+			},
+		},
+		//{
+		//	name: "正常的map解析",
+		//	inputValue: func() reflect.Value {
+		//		var result map[string]any
+		//		return reflect.ValueOf(&result).Elem()
+		//	},
+		//	inputData: map[string]any{
+		//		"Foo": "hello",
+		//		"Bar": 42,
+		//	},
+		//},
+		//{
+		//	name: "非Map数据类型",
+		//	inputValue: func() reflect.Value {
+		//		return reflect.ValueOf(42)
+		//	},
+		//	inputData: map[string]any{"Foo": "hello", "Bar": 42},
+		//	wantErr:   ErrNotMap,
+		//},
+		//{
+		//	name: "Map嵌套",
+		//	inputValue: func() reflect.Value {
+		//		return reflect.New(reflect.TypeOf(map[string]any{})).Elem()
+		//	},
+		//	inputData: map[string]any{
+		//		"nested": map[string]any{
+		//			"subKey": "subValue",
+		//		},
+		//	},
+		//},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := parseMap(tt.inputValue(), tt.inputData())
+			assert.Equal(t, tt.wantErr, err)
+		})
+	}
+}
+
+func TestParseMap3(t *testing.T) {
 	type TestData struct {
 		Foo string
 		Bar int
@@ -87,5 +159,46 @@ func TestParseValue(t *testing.T) {
 	err = parseValue(reflect.ValueOf(&unsupportedValue).Elem(), 3.14)
 	if err == nil {
 		t.Errorf("parseValue 对于不支持的类型应该失败")
+	}
+}
+
+func TestParseMap2(t *testing.T) {
+	tests := []struct {
+		name      string
+		input     map[string]any
+		output    reflect.Value
+		expectErr error
+	}{
+		{
+			name:      "Non-Map Value",
+			input:     map[string]any{"key": "value"},
+			output:    reflect.ValueOf("non-map value"),
+			expectErr: ErrNotMap,
+		},
+		{
+			name:      "Map with Primitive Values",
+			input:     map[string]any{"key1": "value1", "key2": 123},
+			output:    reflect.New(reflect.TypeOf(map[string]any{})).Elem(),
+			expectErr: nil,
+		},
+		{
+			name: "Map with Nested Map",
+			input: map[string]any{
+				"nested": map[string]any{
+					"subKey": "subValue",
+				},
+			},
+			output:    reflect.New(reflect.TypeOf(map[string]any{})).Elem(),
+			expectErr: nil,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := parseMap(tt.output, tt.input)
+			if !errors.Is(err, tt.expectErr) {
+				t.Errorf("expected error %v, got %v", tt.expectErr, err)
+			}
+		})
 	}
 }

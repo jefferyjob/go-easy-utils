@@ -38,32 +38,56 @@ func TestJsonToStructMap1(t *testing.T) {
 }
 
 func TestJsonToStructMap2(t *testing.T) {
-	data := `
+	var exampleVal struct {
+		MapInt    map[string]int    `json:"mapInt"`
+		MapString map[string]string `json:"mapString"`
+		MapBool   map[string]bool   `json:"mapBool"`
+		MapStruct map[string]struct {
+			S1 string `json:"s1"`
+			S2 int64  `json:"s2"`
+		} `json:"mapStruct"`
+		MapMap map[string]map[string]int32 `json:"mapMap"`
+		Uid    int                         `json:"uid"`
+	}
+
+	exampleJson := `
 	{
-		"uid": 43015653,
-		"foll": {
-			"boy": {
-				"t1": "v1",
-				"t2": "v2"
-			},
-			"girl": {
-				"t1": "v1",
-				"t2": "v2"
-			}
+	  "mapInt": {
+		"key1": 1,
+		"key2": 2
+	  },
+	  "mapString": {
+		"key1": "value1",
+		"key2": "value2"
+	  },
+	  "mapBool": {
+		"key1": true,
+		"key2": false
+	  },
+	  "mapStruct": {
+		"key1": {
+		  "s1": "string_value1",
+		  "s2": 12345
+		},
+		"key2": {
+		  "s1": "string_value2",
+		  "s2": 67890
 		}
-	}
-	`
-	type Val struct {
-		T1 string `json:"t1"`
-		T2 string `json:"t2"`
-	}
+	  },
+	  "mapMap": {
+		"key1": {
+		  "subkey1": 10,
+		  "subkey2": 20
+		},
+		"key2": {
+		  "subkey1": 30,
+		  "subkey2": 40
+		}
+	  },
+	  "uid": 123
+	}`
 
-	var target struct {
-		Uid  int            `json:"uid"`
-		Foll map[string]Val `json:"foll"`
-	}
-
-	err := JsonToStruct(data, &target)
+	err := JsonToStruct(exampleJson, &exampleVal)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
