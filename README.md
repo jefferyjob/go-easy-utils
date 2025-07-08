@@ -16,7 +16,7 @@ This is a general data type processing tool class based on Go language, which he
 ## Quick Start
 **Install**
 ```bash
-go get -u github.com/jefferyjob/go-easy-utils/v2
+go get -u github.com/jefferyjob/go-easy-utils/v3
 ```
 
 **Use Demo**
@@ -25,12 +25,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/jefferyjob/go-easy-utils/v2/sliceUtil"
+	"github.com/jefferyjob/go-easy-utils/v3/slicex"
 )
 
 func main() {
 	var slice = []string{"this", "is", "go", "easy", "utils"}
-	chunkSlice := sliceUtil.ChunkSlice(slice, 2)
+	chunkSlice := slicex.ChunkSlice(slice, 2)
 	fmt.Printf("%v", chunkSlice)
 }
 ```
@@ -39,26 +39,20 @@ func main() {
 
 | Package name | Function Outline                                                                          | Document             |
 |--------------| ----------------------------------------------------------------------------------------- |----------------------|
-| anyUtil      | Convert any type of data to the specified type                                            | [README](anyUtil)    |
-| byteUtil     | Conversion of byte array                                                                  | [README](byteUtil)   |
-| cryptoUtil   | Various encryption processing                                                             | [README](cryptoUtil) |
-| emojiUtil    | Decoding and encoding of emoji expression                                                 | [README](emojiUtil)  |
-| floatUtil    | Floating-point data processing                                                            | [README](floatUtil)  |
-| intUtil      | Numerical data processing                                                                 | [README](intUtil)    |
-| jsonUtil     | Json data conversion, support weak type conversion                                        | [README](jsonUtil)   |
-| mapUtil      | Map type data processing                                                                  | [README](mapUtil)    |
-| mathUtil     | The Math function can handle values within the range of integers and floats.              | [README](mathUtil)   |
-| randUtil     | Random number generation, including: number, string, byte array                           | [README](randUtil)   |
-| sliceUtil    | Slice processing (grouping, summation, transformation, merging, etc.)                     | [README](sliceUtil)  |
-| strUtil      | String conversion processing                                                              | [README](strUtil)    |
-| validUtil    | Common data verification, such as: Chinese, English, name, ID number, phone number, email | [README](validUtil)  |
+| anyx         | Convert any type of data to the specified type                                            | [README](anyx)    |
+| bytex        | Conversion of byte array                                                                  | [README](bytex)   |
+| cryptox      | Various encryption processing                                                             | [README](cryptox) |
+| emojix       | Decoding and encoding of emoji expression                                                 | [README](emojix)  |
+| floatx       | Floating-point data processing                                                            | [README](floatx)  |
+| intx         | Numerical data processing                                                                 | [README](intUtil)    |
+| jsonx        | Json data conversion, support weak type conversion                                        | [README](jsonx)   |
+| mapx         | Map type data processing                                                                  | [README](mapx)    |
+| mathx        | The Math function can handle values within the range of integers and floats.              | [README](mathx)   |
+| randx        | Random number generation, including: number, string, byte array                           | [README](randUtil)   |
+| slicex       | Slice processing (grouping, summation, transformation, merging, etc.)                     | [README](slicex)  |
+| strx         | String conversion processing                                                              | [README](strx)    |
+| validx       | Common data verification, such as: Chinese, English, name, ID number, phone number, email | [README](validx)  |
 
-
-## Sponsorship and support
-
-`go-easy-utils` Thank JetBrains for their support
-
-<a href="https://www.jetbrains.com"><img src="https://raw.githubusercontent.com/panjf2000/illustrations/master/jetbrains/jetbrains-variant-4.png" height="100" alt="JetBrains"/></a>
 
 ## License
 This library is licensed under the Apache-2.0. See the LICENSE file for details.
