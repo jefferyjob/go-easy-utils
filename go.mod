@@ -1,4 +1,4 @@
-module github.com/jefferyjob/go-easy-utils/v2
+module github.com/jefferyjob/go-easy-utils/v3
 
 go 1.24
 
