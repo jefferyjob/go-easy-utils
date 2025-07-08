@@ -15,13 +15,9 @@ This is a general data type processing tool class based on Go language, which he
 
 ## Quick Start
 **Install**
-
-Use users with `Go1.18` and above, it is recommended to install `v2.x.x`. Because `v2.x.x` app rewritten most functions of `Go1.18`
 ```bash
 go get -u github.com/jefferyjob/go-easy-utils/v2
 ```
-
-Users who use versions below `Go1.18`, please use [v1.x](https://github.com/jefferyjob/go-easy-utils/tree/v1) version
 
 **Use Demo**
 ```go
