@@ -29,9 +29,9 @@ import (
 )
 
 func main() {
-	var slice = []string{"this", "is", "go", "easy", "utils"}
-	chunkSlice := slicex.ChunkSlice(slice, 2)
-	fmt.Printf("%v", chunkSlice)
+	var s = []string{"this", "is", "go", "easy", "utils"}
+	c := slicex.Chunk(s, 2)
+	fmt.Printf("%v", c)
 }
 ```
 

@@ -58,7 +58,7 @@ func TestToBool(t *testing.T) {
 	}
 }
 
-func TestToBool(t *testing.T) {
+func TestToBool2(t *testing.T) {
 	iPtr := 90
 	testCases := []struct {
 		name  string
