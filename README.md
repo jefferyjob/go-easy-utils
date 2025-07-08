@@ -19,8 +19,6 @@ This is a general data type processing tool class based on Go language, which he
 go get -u github.com/jefferyjob/go-easy-utils/v2
 ```
 
-Users who use versions below `Go1.18`, please use [v1.x](https://github.com/jefferyjob/go-easy-utils/tree/v1) version
-
 **Use Demo**
 ```go
 package main
