@@ -30,7 +30,7 @@ func TestJsonToStructMap1(t *testing.T) {
 		Followed map[string]map[string]bool `json:"followed"`
 	}
 
-	err := JsonToStruct(data, &target)
+	err := ToStruct(data, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -63,7 +63,7 @@ func TestJsonToStructMap2(t *testing.T) {
 		Foll map[string]Val `json:"foll"`
 	}
 
-	err := JsonToStruct(data, &target)
+	err := ToStruct(data, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return

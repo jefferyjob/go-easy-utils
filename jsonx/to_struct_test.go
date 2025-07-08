@@ -23,7 +23,7 @@ func TestDemo1(t *testing.T) {
 		IsUse bool   `json:"is_use"`
 	}
 
-	if err := JsonToStruct(jsonData, &people); err != nil {
+	if err := ToStruct(jsonData, &people); err != nil {
 		fmt.Println(err)
 		return
 	}
@@ -56,7 +56,7 @@ func TestJsonToStructDemo2(t *testing.T) {
     }`
 
 	var person Person
-	err := JsonToStruct(jsonData2, &person)
+	err := ToStruct(jsonData2, &person)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -97,7 +97,7 @@ func BenchmarkJsonToStruct(b *testing.B) {
 		IsUse bool   `json:"is_use"`
 	}
 	for i := 0; i < b.N; i++ {
-		err := JsonToStruct(jsonData, &people)
+		err := ToStruct(jsonData, &people)
 		if err != nil {
 			fmt.Println("err:", err)
 			return
@@ -112,7 +112,7 @@ func TestJsonToStructErrJson(t *testing.T) {
 		Name string `json:"name"`
 	}
 	var people People
-	err := JsonToStruct(jsonData, &people)
+	err := ToStruct(jsonData, &people)
 	if err == nil {
 		t.Errorf("err %s", err)
 		return
@@ -131,7 +131,7 @@ func TestJsonToStructErrResult(t *testing.T) {
 		Age   int    `json:"age"`
 		IsUse bool   `json:"is_use"`
 	}
-	err := JsonToStruct(jsonData, people)
+	err := ToStruct(jsonData, people)
 	if err == nil {
 		t.Errorf("err %s", err)
 		return
@@ -154,7 +154,7 @@ func TestJsonToStructEmptyValue(t *testing.T) {
 		Num    float64 `json:"num"`
 		Status bool    `json:"status"`
 	}
-	err := JsonToStruct(jsonData, &people)
+	err := ToStruct(jsonData, &people)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -171,7 +171,7 @@ func TestJsonToStructErrInt(t *testing.T) {
 		Name string `json:"name,omitempty"`
 		Age  int    `json:"age"`
 	}
-	err := JsonToStruct(jsonData, people)
+	err := ToStruct(jsonData, people)
 	if err == nil {
 		t.Errorf("err %s", err)
 		return
@@ -188,7 +188,7 @@ func TestJsonToStructErrUint(t *testing.T) {
 		Name string `json:"name,omitempty"`
 		Age  uint   `json:"age"`
 	}
-	err := JsonToStruct(jsonData, people)
+	err := ToStruct(jsonData, people)
 	if err == nil {
 		t.Errorf("err %s", err)
 		return
@@ -205,7 +205,7 @@ func TestJsonToStructErrFloat(t *testing.T) {
 		Name string  `json:"name,omitempty"`
 		Age  float64 `json:"age"`
 	}
-	err := JsonToStruct(jsonData, people)
+	err := ToStruct(jsonData, people)
 	if err == nil {
 		t.Errorf("err %s", err)
 		return
@@ -228,7 +228,7 @@ func TestJsonToStructNestErrInt(t *testing.T) {
 		Address Address `json:"address"`
 	}
 	people := &Person{}
-	err := JsonToStruct(jsonData, people)
+	err := ToStruct(jsonData, people)
 	if err == nil {
 		t.Errorf("err %s", err)
 		return
@@ -279,7 +279,7 @@ func TestJsonToStructMoreNest(t *testing.T) {
 	}
 
 	var resultPerson Person
-	err := JsonToStruct(jsonData, &resultPerson)
+	err := ToStruct(jsonData, &resultPerson)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -371,7 +371,7 @@ func TestJsonToStructMoreNest2(t *testing.T) {
 	}
 
 	var res Target
-	err := JsonToStruct(jsonData, &res)
+	err := ToStruct(jsonData, &res)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -429,7 +429,7 @@ func TestJsonToStructAny1(t *testing.T) {
 		Age  uint        `json:"age"`
 	}
 	var target Target
-	err := JsonToStruct(jsonData, &target)
+	err := ToStruct(jsonData, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -447,7 +447,7 @@ func TestJsonToStructAny2(t *testing.T) {
 		Age  uint `json:"age"`
 	}
 	var target Target
-	err := JsonToStruct(jsonData, &target)
+	err := ToStruct(jsonData, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -463,7 +463,7 @@ func TestJsonToStructAny3(t *testing.T) {
 		Name []interface{} `json:"name"`
 	}
 	var target Target
-	err := JsonToStruct(jsonData, &target)
+	err := ToStruct(jsonData, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -479,7 +479,7 @@ func TestJsonToStructAny4(t *testing.T) {
 		Name []any `json:"name"`
 	}
 	var target Target
-	err := JsonToStruct(jsonData, &target)
+	err := ToStruct(jsonData, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -499,7 +499,7 @@ func TestJsonToStructAny5(t *testing.T) {
 		Name map[string]interface{} `json:"name"`
 	}
 	var target Target
-	err := JsonToStruct(jsonData, &target)
+	err := ToStruct(jsonData, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return
@@ -518,7 +518,7 @@ func TestJsonToStructAny6(t *testing.T) {
 		Name map[string]any `json:"name"`
 	}
 	var target Target
-	err := JsonToStruct(jsonData, &target)
+	err := ToStruct(jsonData, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return

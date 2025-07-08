@@ -16,7 +16,7 @@ func TestJsonToStructSlice1(t *testing.T) {
 		Fids []string `json:"fids"`
 	}
 
-	err := JsonToStruct(data, &target)
+	err := ToStruct(data, &target)
 	if err != nil {
 		t.Errorf("err %s", err)
 		return

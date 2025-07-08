@@ -2,7 +2,7 @@ package jsonx
 
 import "fmt"
 
-func ExampleJsonToStruct() {
+func ExampleToStruct() {
 	jsonData := `{
 		"name": "make",
 		"age": "22",
@@ -15,7 +15,7 @@ func ExampleJsonToStruct() {
 		IsUse bool   `json:"is_use"`
 	}
 
-	if err := JsonToStruct(jsonData, &people); err != nil {
+	if err := ToStruct(jsonData, &people); err != nil {
 		fmt.Println(err)
 		return
 	}
