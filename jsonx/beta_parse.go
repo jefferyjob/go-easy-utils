@@ -1,4 +1,4 @@
-package jsonxbeta
+package jsonx
 
 import (
 	"fmt"

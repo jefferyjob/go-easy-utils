@@ -1,4 +1,4 @@
-package jsonxbeta
+package jsonx
 
 import (
 	"fmt"
@@ -18,9 +18,9 @@ type tmS1 struct {
 	MapBool map[bool]float64 `json:"mapBool"`
 }
 
-func TestMap1(t *testing.T) {
+func TestMap1Beta(t *testing.T) {
 	var s tmS1
-	err := ToStruct(tmJ1, &s)
+	err := ToStructBeta(tmJ1, &s)
 	require.NoError(t, err)
 
 	fmt.Printf("%+v\n", s)

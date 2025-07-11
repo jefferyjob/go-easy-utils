@@ -1,4 +1,4 @@
-package jsonxbeta
+package jsonx
 
 import (
 	"encoding/json"
@@ -81,9 +81,9 @@ type Address struct {
 	Postcode int    `json:"postcode"`
 }
 
-func TestToStruct1(t *testing.T) {
+func TestToStruct1Beta(t *testing.T) {
 	s := &S1{}
-	err := ToStruct(Json1, s)
+	err := ToStructBeta(Json1, s)
 	require.NoError(t, err)
 	fmt.Printf("%+v\n", s)
 
