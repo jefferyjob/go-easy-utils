@@ -1,4 +1,4 @@
-# mathUtil
+# mathx
 
 ## Install
 

@@ -1,4 +1,4 @@
-# strUtil
+# strx
 
 ## Install
 

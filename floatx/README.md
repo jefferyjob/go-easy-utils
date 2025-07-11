@@ -1,4 +1,4 @@
-# floatUtil
+# floatx
 
 ## Install
 
