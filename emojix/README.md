@@ -1,4 +1,4 @@
-# emoji表情包
+# emojix
 
 ## Install
 

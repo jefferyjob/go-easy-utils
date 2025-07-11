@@ -1,4 +1,4 @@
-# sliceUtil
+# slicex
 
 ## Install
 
