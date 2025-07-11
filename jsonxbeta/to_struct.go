@@ -17,7 +17,7 @@ func ToStruct(jsonStr string, target any) error {
 	// 判断必须是指针
 	rv := reflect.ValueOf(target)
 	if rv.Kind() != reflect.Ptr || rv.Elem().Kind() != reflect.Struct {
-		return fmt.Errorf("result 必须是指向 struct 的指针")
+		return ErrPoint
 	}
 
 	// 递归赋值到结构体中
