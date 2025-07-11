@@ -1,4 +1,4 @@
-package jsonxbeta
+package jsonx
 
 import (
 	"fmt"
@@ -18,9 +18,9 @@ type tsS1 struct {
 	Age  int    `json:"age"`
 }
 
-func TestStruct1(t *testing.T) {
+func TestStruct1Beta(t *testing.T) {
 	var s tsS1
-	err := ToStruct(tsJ1, &s)
+	err := ToStructBeta(tsJ1, &s)
 	require.NoError(t, err)
 
 	fmt.Printf("%+v\n", s)
