@@ -1,6 +1,12 @@
+# v3.0.0
+- 全新升级到v3.0.0版本，包名和方法名全面优化，更加简洁 [#94](https://github.com/jefferyjob/go-easy-utils/pull/94)
 
+# v2.3.0
+- Go版本升级到1.24 [#91](https://github.com/jefferyjob/go-easy-utils/pull/91)
 - codecov：测试分析 [#86](https://github.com/jefferyjob/go-easy-utils/pull/86)
 - 优化jsonUtil文档 [#87](https://github.com/jefferyjob/go-easy-utils/pull/87)
+- 支持ExtractKeys和ExtractValues方法 [#92](https://github.com/jefferyjob/go-easy-utils/pull/92)
+- 文档更新 [#93](https://github.com/jefferyjob/go-easy-utils/pull/93)
 
 ## v2.2.4
 - 单元测试覆盖率提升 [#81](https://github.com/jefferyjob/go-easy-utils/pull/81)
