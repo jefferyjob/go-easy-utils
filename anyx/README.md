@@ -57,5 +57,8 @@ func ToUint32(i any) (uint32, error)
 func ToUint64(i any) (uint64, error)
 
 // ToBool 将给定的值转换为bool
-func ToBool(i any) bool 
+func ToBool(i any) bool
+
+// Ternary 三元运算符
+func Ternary[T any](expr bool, a, b T) T 
 ```
