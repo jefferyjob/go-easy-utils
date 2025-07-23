@@ -60,5 +60,5 @@ func ToUint64(i any) (uint64, error)
 func ToBool(i any) bool
 
 // Ternary 三元运算符
-func Ternary[T any](expr bool, a, b T) T 
+func Ternary(expr bool, a, b T) T 
 ```

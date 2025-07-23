@@ -48,5 +48,8 @@ func ToUint32(v string) uint32
 func ToUint64(v string) uint64
 
 // ToBytes 字符串转字节数组
-func ToBytes(v string) []byte 
+func ToBytes(v string) []byte
+
+// Cut 删除 s 中出现的 sub 字符串
+func Cut(s, sub string, n ...int) string
 ```

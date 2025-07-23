@@ -39,17 +39,17 @@ func Sum(slice []T) T
 func Unique(slice []T) []T
 
 // ToMap 切片转map
-func ToMap[T any, K comparable](items []T, keyFunc func(T) K) map[K]T
+func ToMap(items []T, keyFunc func(T) K) map[K]T
 
 // Pluck 字段提取
-func Pluck[T any, K comparable](items []T, keyFunc func(T) K) []K
+func Pluck(items []T, keyFunc func(T) K) []K
 
 // Diff 计算差集
-func Diff[T comparable](s []T, slices ...[]T) []T
+func Diff(s []T, slices ...[]T) []T
 
 // SymmetricDiff 计算对称差集
-func SymmetricDiff[T comparable](slices ...[]T) []T
+func SymmetricDiff(slices ...[]T) []T
 
 // Intersect 计算交集
-func Intersect[T comparable](slices ...[]T) []T
+func Intersect(slices ...[]T) []T
 ```

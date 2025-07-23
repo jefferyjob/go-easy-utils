@@ -24,8 +24,8 @@ func KeyExists((m map[T]T2, key T)) bool
 func ValueExists(m map[T2]T, value T) bool
 
 // Keys 提取的所有键
-func Keys[K comparable, V any](m map[K]V) []K
+func Keys(m map[K]V) []K
 
 // Values 提取的所有值
-func Values[K comparable, V any](m map[K]V) []V
+func Values(m map[K]V) []V
 ```
