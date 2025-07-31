@@ -52,4 +52,7 @@ func SymmetricDiff(slices ...[]T) []T
 
 // Intersect 计算交集
 func Intersect(slices ...[]T) []T
+
+// Filter 返回符合 f 的元素组成的新切片
+func Filter(s []T, f func(T) bool) []T 
 ```
