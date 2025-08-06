@@ -1,6 +1,6 @@
 # go-easy-utils
 
-[![Go](https://img.shields.io/badge/Go->=1.24-green)](https://go.dev)
+[![Go](https://img.shields.io/badge/Go->=1.20-green)](https://go.dev)
 [![Release](https://img.shields.io/github/v/release/jefferyjob/go-easy-utils.svg)](https://github.com/jefferyjob/go-easy-utils/releases)
 [![Action](https://github.com/jefferyjob/go-easy-utils/actions/workflows/go.yml/badge.svg)](https://github.com/jefferyjob/go-easy-utils/actions/workflows/go.yml)
 [![Report](https://goreportcard.com/badge/github.com/jefferyjob/go-easy-utils)](https://goreportcard.com/report/github.com/jefferyjob/go-easy-utils)
