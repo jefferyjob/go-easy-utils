@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "main", "v1", "dev" ]
 
+env:
+  CGO_ENABLED: 1
+  CGO_LDFLAGS: -no-pie
+
 jobs:
   linux-build:
     runs-on: ubuntu-latest
