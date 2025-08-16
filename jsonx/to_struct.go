@@ -6,8 +6,8 @@ import (
 	"reflect"
 )
 
-// ToStructBeta JSON转结构体
-func ToStructBeta(jsonStr string, target any) error {
+// ToStruct JSON转结构体
+func ToStruct(jsonStr string, target any) error {
 	// 将 JSON 解成 map[string]any
 	var raw map[string]any
 	if err := json.Unmarshal([]byte(jsonStr), &raw); err != nil {

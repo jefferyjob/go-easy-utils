@@ -20,7 +20,7 @@ type tmS1 struct {
 
 func TestMap1Beta(t *testing.T) {
 	var s tmS1
-	err := ToStructBeta(tmJ1, &s)
+	err := ToStruct(tmJ1, &s)
 	require.NoError(t, err)
 
 	fmt.Printf("%+v\n", s)

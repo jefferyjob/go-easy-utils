@@ -20,7 +20,7 @@ type tsS1 struct {
 
 func TestStruct1Beta(t *testing.T) {
 	var s tsS1
-	err := ToStructBeta(tsJ1, &s)
+	err := ToStruct(tsJ1, &s)
 	require.NoError(t, err)
 
 	fmt.Printf("%+v\n", s)
