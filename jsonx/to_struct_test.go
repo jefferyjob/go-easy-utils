@@ -83,7 +83,7 @@ type Address struct {
 
 func TestToStruct1Beta(t *testing.T) {
 	s := &S1{}
-	err := ToStructBeta(Json1, s)
+	err := ToStruct(Json1, s)
 	require.NoError(t, err)
 	fmt.Printf("%+v\n", s)
 
