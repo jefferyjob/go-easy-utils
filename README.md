@@ -8,18 +8,18 @@
 [![Doc](https://img.shields.io/badge/go.dev-reference-brightgreen?logo=go&logoColor=white&style=flat)](https://pkg.go.dev/github.com/jefferyjob/go-easy-utils/v3)
 [![License](https://img.shields.io/github/license/jefferyjob/go-easy-utils)](https://github.com/jefferyjob/go-easy-utils/blob/main/LICENSE)
 
-English | [简体中文](README.cn.md)
+[English](README.en.md) | 简体中文
 
-## Introduction
-This is a general data type processing tool class based on Go language, which helps developers process common data types and data operations in business code implementation. It allows you to focus on the implementation of your business code without processing the basic data type conversion and validation functions. The non-intrusive design of the tool library can make your business code easier to read and elegant.
+## 介绍
+这是一个基于 Go 语言开发的通用数据类型处理工具类，帮助开发者在业务代码实现中处理常见的数据类型和数据操作。可以让您专注于您的业务代码的实现，而免去处理基本数据类型转换和验证的功能。该工具库无侵入式的设计可以让您的业务代码更容易阅读和优雅。
 
-## Quick Start
-**Install**
+## 快速开始
+**安装**
 ```bash
 go get -u github.com/jefferyjob/go-easy-utils/v3
 ```
 
-**Use Demo**
+**使用Demo**
 ```go
 package main
 
@@ -35,24 +35,23 @@ func main() {
 }
 ```
 
-## Function list
+## 功能列表
 
-| Package name | Function Outline                                                                          | Document             |
-|--------------| ----------------------------------------------------------------------------------------- |----------------------|
-| anyx         | Convert any type of data to the specified type                                            | [README](anyx)    |
-| bytex        | Conversion of byte array                                                                  | [README](bytex)   |
-| cryptox      | Various encryption processing                                                             | [README](cryptox) |
-| emojix       | Decoding and encoding of emoji expression                                                 | [README](emojix)  |
-| floatx       | Floating-point data processing                                                            | [README](floatx)  |
-| intx         | Numerical data processing                                                                 | [README](intUtil)    |
-| jsonx        | Json data conversion, support weak type conversion                                        | [README](jsonx)   |
-| mapx         | Map type data processing                                                                  | [README](mapx)    |
-| mathx        | The Math function can handle values within the range of integers and floats.              | [README](mathx)   |
-| randx        | Random number generation, including: number, string, byte array                           | [README](randUtil)   |
-| slicex       | Slice processing (grouping, summation, transformation, merging, etc.)                     | [README](slicex)  |
-| strx         | String conversion processing                                                              | [README](strx)    |
-| validx       | Common data verification, such as: Chinese, English, name, ID number, phone number, email | [README](validx)  |
+| 包名      | 函数概要                                                                                  | 文档                 |
+|---------| ----------------------------------------------------------------------------------------- |----------------------|
+| anyx    | 将任意类型的数据转换为指定类型                                                            | [README](anyx)    |
+| bytex   | 字节数组转换                                                                             | [README](bytex)   |
+| cryptox | 各种加密处理                                                                             | [README](cryptox) |
+| emojix  | 表情符号的解码和编码                                                                     | [README](emojix)  |
+| floatx  | 浮点数数据处理                                                                           | [README](floatx)  |
+| intx    | 数值数据处理                                                                           | [README](intUtil)    |
+| jsonx   | JSON 数据转换，支持弱类型转换                                                             | [README](jsonx)   |
+| mapx    | Map 类型数据处理                                                                        | [README](mapx)    |
+| mathx   | 数学函数可以处理整数和浮点数范围内的值                                                     | [README](mathx)   |
+| randx   | 随机数生成，包括：数字、字符串、字节数组                                                   | [README](randUtil)   |
+| slicex  | 切片处理（分组、求和、转换、合并等）                                                       | [README](slicex)  |
+| strx    | 字符串转换处理                                                                           | [README](strx)    |
+| validx  | 常见数据验证，如：中文、英文、姓名、身份证号、电话号码、电子邮件                          | [README](validx)  |
 
-
-## License
-This library is licensed under the Apache-2.0. See the LICENSE file for details.
+## 许可证
+本库采用 Apache-2.0 进行授权。有关详细信息，请参阅 LICENSE 文件。
