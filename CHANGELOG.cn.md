@@ -1,7 +1,18 @@
-# v3.0.0
+## v3.0.2
+- 新增 Cut 功能 [#102](https://github.com/jefferyjob/go-easy-utils/pull/102)
+- 0723 文档更新 [#103](https://github.com/jefferyjob/go-easy-utils/pull/103)
+- 支持 Filter 方法函数 [#104](https://github.com/jefferyjob/go-easy-utils/pull/104)
+
+## v3.0.1
+- 统一包名 [#98](https://github.com/jefferyjob/go-easy-utils/pull/98)
+- 升级依赖 github.com/stretchr/testify：1.9.0 → 1.10.0 [#99](https://github.com/jefferyjob/go-easy-utils/pull/99)
+- 更新文档链接地址 [#100](https://github.com/jefferyjob/go-easy-utils/pull/100)
+- 支持三元运算符 [#101](https://github.com/jefferyjob/go-easy-utils/pull/101)
+
+## v3.0.0
 - 全新升级到v3.0.0版本，包名和方法名全面优化，更加简洁 [#94](https://github.com/jefferyjob/go-easy-utils/pull/94)
 
-# v2.3.0
+## v2.3.0
 - Go版本升级到1.24 [#91](https://github.com/jefferyjob/go-easy-utils/pull/91)
 - codecov：测试分析 [#86](https://github.com/jefferyjob/go-easy-utils/pull/86)
 - 优化jsonUtil文档 [#87](https://github.com/jefferyjob/go-easy-utils/pull/87)

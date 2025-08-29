@@ -1,11 +1,22 @@
-# v3.0.0
+## v3.0.2
+- Feature: Cut [#102](https://github.com/jefferyjob/go-easy-utils/pull/102)
+- Feature: 0723 docs update [#103](https://github.com/jefferyjob/go-easy-utils/pull/103)
+- Support Filter method function [#104](https://github.com/jefferyjob/go-easy-utils/pull/104)
+
+## v3.0.1
+- Unified package names [#98](https://github.com/jefferyjob/go-easy-utils/pull/98)
+- Bump github.com/stretchr/testify from 1.9.0 to 1.10.0 [#99](https://github.com/jefferyjob/go-easy-utils/pull/99)
+- Update the document URL address [#100](https://github.com/jefferyjob/go-easy-utils/pull/100)
+- Ternary operator support [#101](https://github.com/jefferyjob/go-easy-utils/pull/101)
+
+## v3.0.0
 - Newly upgraded to v3.0.0, the package name and method name are fully optimized and more concise [#94](https://github.com/jefferyjob/go-easy-utils/pull/94)
 
-# v2.3.0
+## v2.3.0
 - Go version upgraded to 1.24 [#91](https://github.com/jefferyjob/go-easy-utils/pull/91)
 - codecov: test analysis [#86](https://github.com/jefferyjob/go-easy-utils/pull/86)
 - Optimize jsonUtil documentation [#87](https://github.com/jefferyjob/go-easy-utils/pull/87)
-- Support ExtractKeys and ExtractValues ​​methods [#92](https://github.com/jefferyjob/go-easy-utils/pull/92)
+- Support ExtractKeys and ExtractValues methods [#92](https://github.com/jefferyjob/go-easy-utils/pull/92)
 - Documentation update [#93](https://github.com/jefferyjob/go-easy-utils/pull/93)
 ## v2.2.4
 - Improved unit test coverage [#81](https://github.com/jefferyjob/go-easy-utils/pull/81)
