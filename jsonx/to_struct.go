@@ -2,6 +2,7 @@ package jsonx
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"reflect"
 )
@@ -126,7 +127,7 @@ func assignValue(field reflect.Value, value any, path string) error {
 			field.Set(reflect.ValueOf(value))
 		}
 	default:
-		return fmt.Errorf("%s: 不支持类型 %s", path, field.Kind())
+		return errors.Join(ErrUnsupported, fmt.Errorf("%s: 不支持类型 %s", path, field.Kind()))
 	}
 
 	return nil
