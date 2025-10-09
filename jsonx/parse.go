@@ -13,7 +13,7 @@ func setBool(field reflect.Value, value any, path string) error {
 	case string:
 		b, err := strconv.ParseBool(v)
 		if err != nil {
-			return fmt.Errorf("%s: cannot convert %v to bool", path, v)
+			return fmt.Errorf("%s: cannot convert %v to bool, err: %v", path, v, err)
 		}
 		field.SetBool(b)
 	}

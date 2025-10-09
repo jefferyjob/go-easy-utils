@@ -8,6 +8,8 @@ import (
 var (
 	// ErrPoint 不是指针类型
 	ErrPoint = errors.New("the argument to Result must be a non-nil pointer")
+	// ErrNotBool 不是Bool类型
+	ErrNotBool = errors.New("cannot parse bool, value is not a bool")
 	// ErrNotMap 不是Map类型
 	ErrNotMap = errors.New("cannot parse map, value is not a map")
 	// ErrNotSlice 不是Slice类型
