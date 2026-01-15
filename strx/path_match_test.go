@@ -22,6 +22,16 @@ func ExamplePathMatch() {
 	// false
 }
 
+func Benchmark_MatchPath(b *testing.B) {
+	pattern := "/api/**/users*"
+	path := "/api/admin/system/v1/usersDetail"
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		_ = PathMatch(pattern, path)
+	}
+}
+
 func Test_MatchPath(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -30,6 +40,12 @@ func Test_MatchPath(t *testing.T) {
 		want    bool
 	}{
 		// ========= 精确匹配 =========
+		{
+			name:    "精确路径完全匹配 - 未配置",
+			pattern: "",
+			path:    "",
+			want:    true,
+		},
 		{
 			name:    "精确路径完全匹配",
 			pattern: "/api/users",
@@ -67,6 +83,12 @@ func Test_MatchPath(t *testing.T) {
 			pattern: "/api/user*Test",
 			path:    "/api/userABC123Test",
 			want:    true,
+		},
+		{
+			name:    "段内通配存在后缀但请求段不以该后缀结尾",
+			pattern: "/api/user*Test",
+			path:    "/api/user123Demo",
+			want:    false,
 		},
 
 		// ========= 单层 * =========
@@ -107,6 +129,12 @@ func Test_MatchPath(t *testing.T) {
 			pattern: "/api/**/detail",
 			path:    "/api/detail",
 			want:    false,
+		},
+		{
+			name:    "pattern 末尾仅剩 ** 且匹配至少一层路径",
+			pattern: "/api/**",
+			path:    "/api/users",
+			want:    true,
 		},
 
 		// ========= 组合规则 =========
@@ -178,12 +206,10 @@ func Test_MatchPath(t *testing.T) {
 	}
 }
 
-func Benchmark_MatchPath(b *testing.B) {
-	pattern := "/api/**/users*"
-	path := "/api/admin/system/v1/usersDetail"
+func Test_matchWithStar_noStar(t *testing.T) {
+	ok := matchWithStar("users", "users")
+	require.True(t, ok)
 
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		_ = PathMatch(pattern, path)
-	}
+	ok = matchWithStar("users", "user")
+	require.False(t, ok)
 }
