@@ -213,3 +213,12 @@ func Test_matchWithStar_noStar(t *testing.T) {
 	ok = matchWithStar("users", "user")
 	require.False(t, ok)
 }
+
+func Test_matchSegments_lastDoubleStarMatchesRemaining(t *testing.T) {
+	pSegs := []string{"api", "**"}
+	rSegs := []string{"api", "user", "info"}
+
+	ok := matchSegments(pSegs, rSegs)
+
+	require.True(t, ok)
+}
