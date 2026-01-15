@@ -206,18 +206,30 @@ func Test_MatchPath(t *testing.T) {
 	}
 }
 
+// 本用例用于覆盖 matchWithStar 中「pattern 不包含 *」的分支
+// 即 idx == -1 时，函数应退化为普通字符串全等匹配
 func Test_matchWithStar_noStar(t *testing.T) {
+	// pattern 与 segment 完全一致，应返回 true
 	ok := matchWithStar("users", "users")
 	require.True(t, ok)
 
+	// pattern 与 segment 不一致，应返回 false
 	ok = matchWithStar("users", "user")
 	require.False(t, ok)
 }
 
+// 本用例用于覆盖 matchSegments 中一个“API 层不可达，但内部逻辑可达”的分支：
+// 当 pattern 只剩最后一个 **，且 path 还有剩余 segment 时，应允许匹配成功
+//
+// 该场景无法通过 MatchPath 黑盒测试触达，
+// 必须直接对白盒方法 matchSegments 进行测试
 func Test_matchSegments_lastDoubleStarMatchesRemaining(t *testing.T) {
 	pSegs := []string{"api", "**"}
 	rSegs := []string{"api", "user", "info"}
 
+	// 匹配过程：
+	// api == api → 正常推进
+	// 此时 pattern 只剩最后一个 **，path 还有多层 → 应返回 true
 	ok := matchSegments(pSegs, rSegs)
 
 	require.True(t, ok)
