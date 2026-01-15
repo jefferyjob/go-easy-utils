@@ -52,4 +52,7 @@ func ToBytes(v string) []byte
 
 // Cut 删除 s 中出现的 sub 字符串
 func Cut(s, sub string, n ...int) string
+
+// 判断权限路径模式是否可以匹配实际请求路径
+func PathMatch(pattern, path string) bool
 ```
