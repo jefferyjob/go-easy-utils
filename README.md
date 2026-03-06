@@ -1,4 +1,10 @@
 # go-easy-utils
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: light)" srcset="images/logo.png">
+        <img src="images/logo.png" alt="go-easy-utils" width="700">
+    </picture>
+</p>
 
 [![Go](https://img.shields.io/badge/Go->=1.21-green)](https://go.dev)
 [![Release](https://img.shields.io/github/v/release/jefferyjob/go-easy-utils.svg)](https://github.com/jefferyjob/go-easy-utils/releases)
