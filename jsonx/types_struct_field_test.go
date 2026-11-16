@@ -82,17 +82,46 @@ func TestToStructSkipFields(t *testing.T) {
 		Age     int    `json:"age"`
 		city    string // 未导出字段不可设置，跳过
 		NoTag   string // 无 json tag，跳过
-		Ignored string `json:"-"` // "-" 会被当作字面 key 查找，JSON 中无此 key 则跳过
+		Ignored string `json:"-"` // "-" 表示忽略该字段，即使 JSON 中有 "-" key 也不填充
 	}
 
 	var v s
-	err := ToStruct(`{"name": "Bob", "age": 30, "city": "Shanghai", "NoTag": "x", "extra": "ignored"}`, &v)
+	err := ToStruct(`{"name": "Bob", "age": 30, "city": "Shanghai", "NoTag": "x", "-": "y", "extra": "ignored"}`, &v)
 	require.NoError(t, err)
 	require.Equal(t, "Bob", v.Name)
 	require.Equal(t, 30, v.Age)
 	require.Equal(t, "", v.city)
 	require.Equal(t, "", v.NoTag)
 	require.Equal(t, "", v.Ignored)
+}
+
+func TestToStructTagWithOptions(t *testing.T) {
+	type s struct {
+		A int    `json:"a,omitempty"` // 带选项的 tag 应匹配 "a" 而不是 "a,omitempty"
+		B int    `json:"b,string"`    // string 选项同理
+		C string `json:",omitempty"`  // 逗号前名称为空，与无 tag 字段一致，仅 "" key 可命中
+	}
+
+	var v s
+	err := ToStruct(`{"a": 1, "b": "42"}`, &v)
+	require.NoError(t, err)
+	require.Equal(t, 1, v.A)
+	require.Equal(t, 42, v.B)
+	require.Equal(t, "", v.C)
+}
+
+func TestToStructInterfaceFieldNotAssignable(t *testing.T) {
+	type stringer interface {
+		String() string
+	}
+	type s struct {
+		V stringer `json:"v"`
+	}
+
+	var v s
+	err := ToStruct(`{"v": "x"}`, &v)
+	require.ErrorIs(t, err, ErrUnsupported)
+	require.Contains(t, err.Error(), "无法赋值给接口类型")
 }
 
 func TestToStructNestedErrorPath(t *testing.T) {

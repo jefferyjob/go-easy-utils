@@ -91,3 +91,30 @@ func TestAssignValueUnsupportedKind(t *testing.T) {
 	err := assignValue(f, 1, "ch")
 	require.ErrorIs(t, err, ErrUnsupported)
 }
+
+// parseStringer 用于测试接口字段赋值
+type parseStringer struct{}
+
+func (parseStringer) String() string { return "test" }
+
+func TestAssignValueInterfaceAssignable(t *testing.T) {
+	type stringer interface {
+		String() string
+	}
+	var v stringer
+	f := reflect.ValueOf(&v).Elem()
+	err := assignValue(f, parseStringer{}, "v")
+	require.NoError(t, err)
+	require.Equal(t, "test", v.String())
+}
+
+func TestAssignValueInterfaceNotAssignable(t *testing.T) {
+	type stringer interface {
+		String() string
+	}
+	var v stringer
+	f := reflect.ValueOf(&v).Elem()
+	err := assignValue(f, "plain string", "v")
+	require.ErrorIs(t, err, ErrUnsupported)
+	require.Contains(t, err.Error(), "string 无法赋值给接口类型")
+}

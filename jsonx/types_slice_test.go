@@ -49,7 +49,7 @@ func TestToStructSliceError(t *testing.T) {
 		var v s
 		err := ToStruct(`{"nums": "not-array"}`, &v)
 		require.Error(t, err)
-		require.Contains(t, err.Error(), "不是数组类型")
+		require.Contains(t, err.Error(), "nums: 不是数组类型")
 	})
 
 	t.Run("数组元素解析失败", func(t *testing.T) {
@@ -81,4 +81,51 @@ func TestToStructSliceError(t *testing.T) {
 		require.ErrorIs(t, err, ErrSyntax)
 		require.Contains(t, err.Error(), "friends[0].postcode")
 	})
+
+	t.Run("数组元素溢出", func(t *testing.T) {
+		type s struct {
+			Nums []int8 `json:"nums"`
+		}
+		var v s
+		err := ToStruct(`{"nums": [1, 300]}`, &v)
+		require.ErrorIs(t, err, ErrValOut)
+		require.Contains(t, err.Error(), "nums[1]")
+	})
+}
+
+func TestToStructSlicePointerElements(t *testing.T) {
+	type friend struct {
+		Name string `json:"name"`
+	}
+
+	type s struct {
+		Nums    []*int     `json:"nums"`
+		Names   []*string  `json:"names"`
+		Friends []*friend  `json:"friends"`
+	}
+
+	jsonStr := `{
+		"nums": ["7", 8, null],
+		"names": ["Alice", null],
+		"friends": [{"name": "Bob"}, null]
+	}`
+
+	var v s
+	err := ToStruct(jsonStr, &v)
+	require.NoError(t, err)
+	require.Len(t, v.Nums, 3)
+	require.NotNil(t, v.Nums[0])
+	require.Equal(t, 7, *v.Nums[0])
+	require.NotNil(t, v.Nums[1])
+	require.Equal(t, 8, *v.Nums[1])
+	// null 元素保持 nil 指针
+	require.Nil(t, v.Nums[2])
+
+	require.Len(t, v.Names, 2)
+	require.Equal(t, "Alice", *v.Names[0])
+	require.Nil(t, v.Names[1])
+
+	require.Len(t, v.Friends, 2)
+	require.Equal(t, "Bob", v.Friends[0].Name)
+	require.Nil(t, v.Friends[1])
 }

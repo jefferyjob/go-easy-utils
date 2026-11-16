@@ -7,7 +7,8 @@ import (
 
 var (
 	// ErrPoint 不是指针类型
-	ErrPoint = errors.New("the argument to Result must be a non-nil pointer")
+	// ErrPoint indicates that the argument is not a non-nil pointer to a struct
+	ErrPoint = errors.New("the argument to ToStruct must be a non-nil pointer to a struct")
 
 	// ErrNotBool 不是Bool类型
 	// ErrNotBool = errors.New("cannot parse bool, value is not a bool")
@@ -20,4 +21,8 @@ var (
 	ErrSyntax = strconv.ErrSyntax
 	// ErrUnsupported 不支持的类型
 	ErrUnsupported = errors.New("unsupported type")
+
+	// ErrValOut 指示值超出目标类型可表示的范围
+	// ErrValOut indicates that the value is out of range for the target type
+	ErrValOut = errors.New("value out of range")
 )

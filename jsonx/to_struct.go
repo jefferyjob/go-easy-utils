@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"strings"
 )
 
 // ToStruct JSON转结构体
@@ -39,10 +40,15 @@ func fill(data map[string]any, target reflect.Value, path string) error {
 		structField := targetType.Field(i)
 		jsonTag := structField.Tag.Get("json")
 
-		// 如果 jsonTag 为空或为 "-"，则使用字段名
-		// if jsonTag == "" || jsonTag == "-" {
-		// 	jsonTag = structField.Name
-		// }
+		// json:"-" 表示显式忽略该字段
+		if jsonTag == "-" {
+			continue
+		}
+
+		// tag 可携带选项（如 "name,omitempty"），匹配时只取逗号前的名称部分
+		if idx := strings.Index(jsonTag, ","); idx >= 0 {
+			jsonTag = jsonTag[:idx]
+		}
 
 		// 取对应的值
 		value, ok := data[jsonTag]
@@ -69,6 +75,11 @@ func fill(data map[string]any, target reflect.Value, path string) error {
 
 // setFieldValue 根据字段类型处理普通值或指针值
 func setFieldValue(field reflect.Value, fieldType reflect.Type, value any, path string) error {
+	// JSON null 保持字段原值：指针字段保持 nil，非指针字段保持零值，与 encoding/json 语义一致
+	if value == nil {
+		return nil
+	}
+
 	// 如果是指针类型，则初始化并递归赋值其 Elem()
 	if fieldType.Kind() == reflect.Ptr {
 		// 创建指针指向的类型实例
@@ -120,11 +131,12 @@ func assignValue(field reflect.Value, value any, path string) error {
 		}
 		return fill(subMap, field, path)
 	case reflect.Interface:
-		if value == nil {
-			field.Set(reflect.Zero(field.Type()))
+		// 值的具体类型必须可赋值给目标接口，否则返回错误而不是让 reflect.Set panic
+		rv := reflect.ValueOf(value)
+		if rv.Type().AssignableTo(field.Type()) {
+			field.Set(rv)
 		} else {
-			// 如果是 interface 类型，直接设置值
-			field.Set(reflect.ValueOf(value))
+			return errors.Join(ErrUnsupported, fmt.Errorf("%s: 类型 %s 无法赋值给接口类型 %s", path, rv.Type(), field.Type()))
 		}
 	default:
 		return errors.Join(ErrUnsupported, fmt.Errorf("%s: 不支持类型 %s", path, field.Kind()))
