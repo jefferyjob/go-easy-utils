@@ -56,3 +56,18 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       
+
+  # 32 位平台原生测试：amd64 runner 可直接执行 386 Linux 二进制，
+  # 覆盖 anyx 等包中仅在 32 位架构编译的范围检查分支
+  linux-386-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: 1.21
+
+      - name: Test
+        run: CGO_ENABLED=0 GOARCH=386 go test ./...

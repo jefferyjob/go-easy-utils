@@ -57,7 +57,7 @@ func TestToUint(t *testing.T) {
 		{
 			name:     "Value within uint range",
 			input:    uint64(math.MaxUint), // 64 位平台上为 uint64 最大值，32 位平台上为 uint32 最大值
-			expected: uint(math.MaxUint),  // 与平台 uint 位宽一致的边界值
+			expected: uint(math.MaxUint),   // 与平台 uint 位宽一致的边界值
 			err:      nil,
 		},
 	}

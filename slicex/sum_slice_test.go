@@ -1,6 +1,8 @@
 package slicex
 
 import (
+	"math"
+
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -37,9 +39,10 @@ func TestSumInt(t *testing.T) {
 			expected: 3,
 		},
 		{
-			name:     "Large Numbers",
-			input:    []int{1000000000, 2000000000, 3000000000},
-			expected: 6000000000,
+			// 用 math.MaxInt 构造边界值，编译期自适应平台 int 位宽（32 位架构同样可编译）
+			name:     "Boundary Values",
+			input:    []int{math.MaxInt / 2, math.MaxInt / 2, 1},
+			expected: math.MaxInt,
 		},
 	}
 
