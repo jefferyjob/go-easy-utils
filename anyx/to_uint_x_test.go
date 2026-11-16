@@ -55,9 +55,9 @@ func TestToUint(t *testing.T) {
 			err:      nil,
 		},
 		{
-			name:     "Value within uint range (64-bit)",
-			input:    uint64(18446744073709551615), // Maximum value for uint64 (64-bit)
-			expected: uint(18446744073709551615),   // This is an edge case for a 64-bit system
+			name:     "Value within uint range",
+			input:    uint64(math.MaxUint), // 64 位平台上为 uint64 最大值，32 位平台上为 uint32 最大值
+			expected: uint(math.MaxUint),  // 与平台 uint 位宽一致的边界值
 			err:      nil,
 		},
 	}
@@ -176,7 +176,7 @@ func TestToUint32(t *testing.T) {
 		{name: "nil", input: nil, expected: 0, err: nil},
 
 		// 溢出
-		{name: "MaxUint32", input: math.MaxUint32 + 1, expected: 0, err: ErrValOut},
+		{name: "MaxUint32", input: uint64(math.MaxUint32) + 1, expected: 0, err: ErrValOut},
 	}
 
 	for _, tc := range testCases {

@@ -162,8 +162,8 @@ func TestToInt32(t *testing.T) {
 		{name: "nil", input: nil, expected: 0, err: nil},
 
 		// 溢出
-		{name: "MinInt32", input: math.MinInt32 - 1, expected: 0, err: ErrValOut},
-		{name: "MaxInt32", input: math.MaxInt32 + 1, expected: 0, err: ErrValOut},
+		{name: "MinInt32", input: int64(math.MinInt32) - 1, expected: 0, err: ErrValOut},
+		{name: "MaxInt32", input: int64(math.MaxInt32) + 1, expected: 0, err: ErrValOut},
 	}
 
 	for _, test := range testCases {

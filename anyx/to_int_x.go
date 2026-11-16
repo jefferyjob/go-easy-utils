@@ -13,12 +13,8 @@ func ToInt(i any) (int, error) {
 		return 0, err
 	}
 
-	// int 兼容32位和64位系统
-	// if int64(int(v)) != v {
-	//	return 0, ErrValOut
-	// }
-
-	return int(v), nil
+	// int 兼容32位和64位系统，超出范围时返回 ErrValOut 而不是静默截断
+	return intFromInt64(v)
 }
 
 // ToInt8 将给定的值转换为 int8
