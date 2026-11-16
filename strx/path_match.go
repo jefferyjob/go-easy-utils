@@ -81,12 +81,8 @@ func matchSegments(pSegs, rSegs []string) bool {
 	}
 
 	// pattern 和 path 必须同时结束
+	// （若 pattern 剩余 ** 而 path 已耗尽，** 不能匹配 0 层，同样视为不匹配）
 	if i == len(pSegs) && j == len(rSegs) {
-		return true
-	}
-
-	// pattern 剩下的只能是 **，但 ** 不能匹配 0 层
-	if i == len(pSegs)-1 && pSegs[i] == "**" && j < len(rSegs) {
 		return true
 	}
 

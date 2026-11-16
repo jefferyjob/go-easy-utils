@@ -218,11 +218,9 @@ func Test_matchWithStar_noStar(t *testing.T) {
 	require.False(t, ok)
 }
 
-// 本用例用于覆盖 matchSegments 中一个“API 层不可达，但内部逻辑可达”的分支：
-// 当 pattern 只剩最后一个 **，且 path 还有剩余 segment 时，应允许匹配成功
-//
-// 该场景无法通过 MatchPath 黑盒测试触达，
-// 必须直接对白盒方法 matchSegments 进行测试
+// 本用例用于验证「pattern 只剩最后一个 **，且 path 还有剩余 segment」的场景：
+// 该场景由 matchSegments 循环内的 ** 分支（i+1 == len(pSegs) 时
+// 直接返回 j < len(rSegs)）处理，应允许匹配成功
 func Test_matchSegments_lastDoubleStarMatchesRemaining(t *testing.T) {
 	pSegs := []string{"api", "**"}
 	rSegs := []string{"api", "user", "info"}
