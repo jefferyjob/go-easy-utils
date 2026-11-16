@@ -13,12 +13,8 @@ func ToUint(i any) (uint, error) {
 		return 0, err
 	}
 
-	// uint 兼容32位和64位系统
-	// if uint64(uint(v)) != v {
-	//	return 0, ErrValOut
-	// }
-
-	return uint(v), nil
+	// uint 兼容32位和64位系统，超出范围时返回 ErrValOut 而不是静默截断
+	return uintFromUint64(v)
 }
 
 // ToUint8 将给定的值转换为 uint8
