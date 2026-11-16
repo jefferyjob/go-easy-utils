@@ -1,6 +1,8 @@
 package cryptox
 
 import (
+	"crypto/ecdsa"
+	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
@@ -135,6 +137,20 @@ func TestGenerateRSAKeys2(t *testing.T) {
 func TestEncryptRSA(t *testing.T) {
 	_, pubKeyStr, _ := GenerateRSAKeys()
 
+	// 生成一个 ECDSA 公钥（非 RSA），用于测试公钥类型断言失败
+	ecdsaKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		t.Fatalf("failed to generate ECDSA key: %v", err)
+	}
+	ecdsaPubDER, err := x509.MarshalPKIXPublicKey(&ecdsaKey.PublicKey)
+	if err != nil {
+		t.Fatalf("failed to marshal ECDSA public key: %v", err)
+	}
+	ecdsaPubKeyStr := string(pem.EncodeToMemory(&pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: ecdsaPubDER,
+	}))
+
 	testCases := []struct {
 		name         string
 		publicKeyStr string
@@ -157,6 +173,24 @@ func TestEncryptRSA(t *testing.T) {
 			name:         "无效公钥格式",
 			publicKeyStr: "-----BEGIN PUBLIC KEY-----\nInvalidKey\n-----END PUBLIC KEY-----",
 			message:      []byte("test message"),
+			expectedErr:  true,
+		},
+		{
+			name:         "合法PEM但公钥内容非法",
+			publicKeyStr: "-----BEGIN PUBLIC KEY-----\nAAAA\n-----END PUBLIC KEY-----",
+			message:      []byte("test message"),
+			expectedErr:  true,
+		},
+		{
+			name:         "非RSA公钥",
+			publicKeyStr: ecdsaPubKeyStr,
+			message:      []byte("test message"),
+			expectedErr:  true,
+		},
+		{
+			name:         "消息过长",
+			publicKeyStr: pubKeyStr,
+			message:      make([]byte, 500),
 			expectedErr:  true,
 		},
 	}
@@ -228,6 +262,13 @@ func TestDecryptRSA(t *testing.T) {
 			expectedErr:   true,
 		},
 		{
+			name:          "合法PEM但私钥内容非法",
+			privateKeyStr: "-----BEGIN RSA PRIVATE KEY-----\nAAAA\n-----END RSA PRIVATE KEY-----",
+			ciphertext:    ciphertext,
+			expected:      nil,
+			expectedErr:   true,
+		},
+		{
 			name: "不完整的私钥",
 			privateKeyStr: "-----BEGIN RSA PRIVATE KEY-----\n" +
 				"MIICWwIBAAKBgQDEkzKS0u5p6kwl9m0g3g4mMI09S8QOAbW5aBMbDWZ5R0pUtH5h" +
@@ -251,4 +292,13 @@ func TestDecryptRSA(t *testing.T) {
 			}
 		})
 	}
+}
+
+// 测试不支持的公钥类型导致的 PEM 编码失败
+func TestEncodeRSAKeysUnsupportedPublicKey(t *testing.T) {
+	privateKeyPEM, publicKeyPEM, err := encodeRSAKeys(nil, "not a public key")
+
+	assert.Error(t, err)
+	assert.Empty(t, privateKeyPEM)
+	assert.Empty(t, publicKeyPEM)
 }

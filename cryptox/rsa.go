@@ -15,10 +15,15 @@ func GenerateRSAKeys() (string, string, error) {
 		return "", "", err
 	}
 
-	publicKey := &privateKey.PublicKey
+	return encodeRSAKeys(x509.MarshalPKCS1PrivateKey(privateKey), &privateKey.PublicKey)
+}
 
+// encodeRSAKeys 将私钥字节和公钥编码为PEM格式字符串
+//
+// publicKey 使用 any 类型以对齐 x509.MarshalPKIXPublicKey 的签名，
+// 便于对不支持的公钥类型进行错误分支测试
+func encodeRSAKeys(privateKeyBytes []byte, publicKey any) (string, string, error) {
 	// 将私钥转换为PEM格式
-	privateKeyBytes := x509.MarshalPKCS1PrivateKey(privateKey)
 	privateKeyPEM := pem.EncodeToMemory(&pem.Block{
 		Type:  "RSA PRIVATE KEY",
 		Bytes: privateKeyBytes,
