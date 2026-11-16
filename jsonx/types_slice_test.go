@@ -1,0 +1,84 @@
+package jsonx
+
+import (
+	"testing"
+
+	"github.com/stretchr/testify/require"
+)
+
+func TestToStructSlice(t *testing.T) {
+	type friend struct {
+		Name string `json:"name"`
+		Age  int    `json:"age"`
+	}
+
+	type s struct {
+		Mixed   []string `json:"mixed"`
+		Nums    []int    `json:"nums"`
+		Empty   []int    `json:"empty"`
+		Nested  [][]int  `json:"nested"`
+		Friends []friend `json:"friends"`
+		Any     []any    `json:"any"`
+	}
+
+	jsonStr := `{
+		"mixed": ["a", 1, true],
+		"nums": ["10", 20],
+		"empty": [],
+		"nested": [[1, 2], [3]],
+		"friends": [{"name": "Alice", "age": "30"}],
+		"any": [1, "x", null, [2]]
+	}`
+
+	var v s
+	err := ToStruct(jsonStr, &v)
+	require.NoError(t, err)
+	require.Equal(t, []string{"a", "1", "true"}, v.Mixed)
+	require.Equal(t, []int{10, 20}, v.Nums)
+	require.Equal(t, []int{}, v.Empty)
+	require.Equal(t, [][]int{{1, 2}, {3}}, v.Nested)
+	require.Equal(t, []friend{{Name: "Alice", Age: 30}}, v.Friends)
+	require.Equal(t, []any{float64(1), "x", nil, []any{float64(2)}}, v.Any)
+}
+
+func TestToStructSliceError(t *testing.T) {
+	t.Run("值不是数组", func(t *testing.T) {
+		type s struct {
+			Nums []int `json:"nums"`
+		}
+		var v s
+		err := ToStruct(`{"nums": "not-array"}`, &v)
+		require.Error(t, err)
+		require.Contains(t, err.Error(), "不是数组类型")
+	})
+
+	t.Run("数组元素解析失败", func(t *testing.T) {
+		type s struct {
+			Nums []int `json:"nums"`
+		}
+		var v s
+		err := ToStruct(`{"nums": ["1", "abc"]}`, &v)
+		require.ErrorIs(t, err, ErrSyntax)
+		require.Contains(t, err.Error(), "nums[1]")
+	})
+
+	t.Run("嵌套数组元素解析失败", func(t *testing.T) {
+		type s struct {
+			Nested [][]int `json:"nested"`
+		}
+		var v s
+		err := ToStruct(`{"nested": [[1], ["x"]]}`, &v)
+		require.ErrorIs(t, err, ErrSyntax)
+		require.Contains(t, err.Error(), "nested[1][0]")
+	})
+
+	t.Run("结构体数组字段解析失败", func(t *testing.T) {
+		type s struct {
+			Friends []Address `json:"friends"`
+		}
+		var v s
+		err := ToStruct(`{"friends": [{"postcode": "abc"}]}`, &v)
+		require.ErrorIs(t, err, ErrSyntax)
+		require.Contains(t, err.Error(), "friends[0].postcode")
+	})
+}
