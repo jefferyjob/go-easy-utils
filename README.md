@@ -1,9 +1,6 @@
 # go-easy-utils
 <p align="center">
-    <picture>
-        <source media="(prefers-color-scheme: light)" srcset=".github/assets/logo.png">
-        <img src=".github/assets/logo.png" alt="go-easy-utils" width="700">
-    </picture>
+    <img src=".github/assets/logo.png" alt="go-easy-utils" width="700">
 </p>
 
 [![Go](https://img.shields.io/badge/Go->=1.21-green)](https://go.dev)
