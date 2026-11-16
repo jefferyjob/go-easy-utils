@@ -1,0 +1,26 @@
+name: Lint
+
+on:
+  push:
+    branches: [ "main", "v1", "dev" ]
+  pull_request:
+    branches: [ "main", "v1", "dev" ]
+
+jobs:
+  golangci-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      # golangci-lint v2.x 只支持较新的 Go 工具链，故 lint 单独使用 1.24；
+      # 不影响 go.mod 的 go 1.21 要求，语言版本语义以 go.mod 为准
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version: 1.24
+
+      # 静态分析（等价于本地 make lint），徽章展示于 README
+      - name: Lint
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: v2.6.2

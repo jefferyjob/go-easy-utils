@@ -29,12 +29,13 @@ func ToBool(i any) bool {
 		return v.Complex() != 0
 	case reflect.String:
 		val := v.String()
-		if val == "true" {
+		switch val {
+		case "true":
 			return true
-		} else if val == "false" {
+		case "false":
 			return false
 		}
-		return v.String() != ""
+		return val != ""
 	default:
 		return false
 	}

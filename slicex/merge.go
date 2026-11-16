@@ -4,9 +4,7 @@ package slicex
 func Merge[T any](slices ...[]T) []T {
 	var s []T
 	for _, slice := range slices {
-		for _, v := range slice {
-			s = append(s, v)
-		}
+		s = append(s, slice...)
 	}
 	return s
 }
