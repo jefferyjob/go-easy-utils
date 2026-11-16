@@ -1,7 +1,9 @@
 package jsonx
 
 import (
+	"errors"
 	"fmt"
+	"math"
 	"reflect"
 	"strconv"
 )
@@ -21,12 +23,21 @@ func setBool(field reflect.Value, value any, path string) error {
 }
 
 func setInt(field reflect.Value, value any, path string) error {
+	// 按字段实际位宽解析，超出范围时返回错误而不是静默截断
+	bits := field.Type().Bits()
 	switch v := value.(type) {
 	case float64:
+		limit := math.Ldexp(1, bits-1)
+		if v < -limit || v >= limit {
+			return fmt.Errorf("%s: %v 超出 %s 范围: %w", path, v, field.Type(), ErrValOut)
+		}
 		field.SetInt(int64(v))
 	case string:
-		i, err := strconv.ParseInt(v, 10, 64)
+		i, err := strconv.ParseInt(v, 10, bits)
 		if err != nil {
+			if errors.Is(err, strconv.ErrRange) {
+				return fmt.Errorf("%s: %q 超出 %s 范围: %w", path, v, field.Type(), ErrValOut)
+			}
 			return fmt.Errorf("%s: %w", path, err)
 		}
 		field.SetInt(i)
@@ -37,12 +48,20 @@ func setInt(field reflect.Value, value any, path string) error {
 }
 
 func setUint(field reflect.Value, value any, path string) error {
+	// 按字段实际位宽解析，负数或超出范围时返回错误而不是静默绕回
+	bits := field.Type().Bits()
 	switch v := value.(type) {
 	case float64:
+		if v < 0 || v >= math.Ldexp(1, bits) {
+			return fmt.Errorf("%s: %v 超出 %s 范围: %w", path, v, field.Type(), ErrValOut)
+		}
 		field.SetUint(uint64(v))
 	case string:
-		u, err := strconv.ParseUint(v, 10, 64)
+		u, err := strconv.ParseUint(v, 10, bits)
 		if err != nil {
+			if errors.Is(err, strconv.ErrRange) {
+				return fmt.Errorf("%s: %q 超出 %s 范围: %w", path, v, field.Type(), ErrValOut)
+			}
 			return fmt.Errorf("%s: %w", path, err)
 		}
 		field.SetUint(u)
@@ -53,12 +72,21 @@ func setUint(field reflect.Value, value any, path string) error {
 }
 
 func setFloat(field reflect.Value, value any, path string) error {
+	// 按字段实际位宽解析，超出范围时返回错误而不是静默变 Inf 或丢失精度
+	bits := field.Type().Bits()
 	switch v := value.(type) {
 	case float64:
+		// 窄化为 float32 时若溢出会得到 Inf，需显式检查
+		if bits < 64 && math.IsInf(float64(float32(v)), 0) && !math.IsInf(v, 0) {
+			return fmt.Errorf("%s: %v 超出 %s 范围: %w", path, v, field.Type(), ErrValOut)
+		}
 		field.SetFloat(v)
 	case string:
-		f, err := strconv.ParseFloat(v, 64)
+		f, err := strconv.ParseFloat(v, bits)
 		if err != nil {
+			if errors.Is(err, strconv.ErrRange) {
+				return fmt.Errorf("%s: %q 超出 %s 范围: %w", path, v, field.Type(), ErrValOut)
+			}
 			return fmt.Errorf("%s: %w", path, err)
 		}
 		field.SetFloat(f)
@@ -71,7 +99,7 @@ func setFloat(field reflect.Value, value any, path string) error {
 func setSlice(field reflect.Value, value any, path string) error {
 	valSlice, ok := value.([]any)
 	if !ok {
-		return fmt.Errorf("不是数组类型")
+		return fmt.Errorf("%s: 不是数组类型", path)
 	}
 
 	elemType := field.Type().Elem()
@@ -79,7 +107,8 @@ func setSlice(field reflect.Value, value any, path string) error {
 
 	for i, item := range valSlice {
 		elem := reflect.New(elemType).Elem()
-		if err := assignValue(elem, item, fmt.Sprintf("%s[%d]", path, i)); err != nil {
+		// 走 setFieldValue 以支持指针元素（如 []*int）及 null 元素
+		if err := setFieldValue(elem, elemType, item, fmt.Sprintf("%s[%d]", path, i)); err != nil {
 			return err
 		}
 		slice = reflect.Append(slice, elem)
@@ -134,9 +163,9 @@ func setMap(field reflect.Value, value any, path string) error {
 			return err
 		}
 
-		// 递归处理 value
+		// 递归处理 value，走 setFieldValue 以支持指针值（如 map[string]*int）及 null 值
 		elem := reflect.New(elemType).Elem()
-		if err := assignValue(elem, rawVal, fmt.Sprintf("%s[%s]", path, rawKey)); err != nil {
+		if err := setFieldValue(elem, elemType, rawVal, fmt.Sprintf("%s[%s]", path, rawKey)); err != nil {
 			return err
 		}
 
