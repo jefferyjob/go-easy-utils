@@ -1,6 +1,7 @@
 package jsonx
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -38,7 +39,8 @@ func TestToStructSlice(t *testing.T) {
 	require.Equal(t, []int{}, v.Empty)
 	require.Equal(t, [][]int{{1, 2}, {3}}, v.Nested)
 	require.Equal(t, []friend{{Name: "Alice", Age: 30}}, v.Friends)
-	require.Equal(t, []any{float64(1), "x", nil, []any{float64(2)}}, v.Any)
+	// UseNumber 后 any 元素中的数字保留为 json.Number 字面量
+	require.Equal(t, []any{json.Number("1"), "x", nil, []any{json.Number("2")}}, v.Any)
 }
 
 func TestToStructSliceError(t *testing.T) {
@@ -99,9 +101,9 @@ func TestToStructSlicePointerElements(t *testing.T) {
 	}
 
 	type s struct {
-		Nums    []*int     `json:"nums"`
-		Names   []*string  `json:"names"`
-		Friends []*friend  `json:"friends"`
+		Nums    []*int    `json:"nums"`
+		Names   []*string `json:"names"`
+		Friends []*friend `json:"friends"`
 	}
 
 	jsonStr := `{

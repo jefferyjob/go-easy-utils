@@ -35,6 +35,14 @@ func TestToStructInvalidJSON(t *testing.T) {
 			name:    "JSON布尔",
 			jsonStr: `true`,
 		},
+		{
+			name:    "尾随垃圾数据",
+			jsonStr: `{"name": "Bob"} x`,
+		},
+		{
+			name:    "尾随第二个JSON值",
+			jsonStr: `{"name": "Bob"} {"name": "Alice"}`,
+		},
 	}
 
 	for _, tc := range testCases {
@@ -51,6 +59,14 @@ func TestToStructNullJSON(t *testing.T) {
 	err := ToStruct(`null`, &s)
 	require.NoError(t, err)
 	require.Equal(t, tsS1{}, s)
+}
+
+func TestToStructTrailingData(t *testing.T) {
+	// 尾随一个合法的完整 JSON 值时返回明确错误，并可用 ErrSyntax 判断
+	var s tsS1
+	err := ToStruct(`{"name": "Bob"} []`, &s)
+	require.ErrorIs(t, err, ErrSyntax)
+	require.Contains(t, err.Error(), "unexpected data after top-level JSON value")
 }
 
 func TestToStructNotPointer(t *testing.T) {
