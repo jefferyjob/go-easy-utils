@@ -1,12 +1,32 @@
 package jsonx
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math"
 	"reflect"
 	"strconv"
+	"strings"
 )
+
+// normalizeNumber 将 json.Number 归一化为后续可解析的标量：
+// 整数字面量转为 string 以精确解析（避免 float64 丢精度）；
+// 含小数或指数的字面量转为 float64，保持与浮点语义一致。
+func normalizeNumber(value any) (any, error) {
+	n, ok := value.(json.Number)
+	if !ok {
+		return value, nil
+	}
+	if strings.ContainsAny(string(n), ".eE") {
+		f, err := n.Float64()
+		if err != nil {
+			return nil, err
+		}
+		return f, nil
+	}
+	return string(n), nil
+}
 
 func setBool(field reflect.Value, value any, path string) error {
 	switch v := value.(type) {
@@ -23,6 +43,10 @@ func setBool(field reflect.Value, value any, path string) error {
 }
 
 func setInt(field reflect.Value, value any, path string) error {
+	value, err := normalizeNumber(value)
+	if err != nil {
+		return fmt.Errorf("%s: %w", path, err)
+	}
 	// 按字段实际位宽解析，超出范围时返回错误而不是静默截断
 	bits := field.Type().Bits()
 	switch v := value.(type) {
@@ -48,6 +72,10 @@ func setInt(field reflect.Value, value any, path string) error {
 }
 
 func setUint(field reflect.Value, value any, path string) error {
+	value, err := normalizeNumber(value)
+	if err != nil {
+		return fmt.Errorf("%s: %w", path, err)
+	}
 	// 按字段实际位宽解析，负数或超出范围时返回错误而不是静默绕回
 	bits := field.Type().Bits()
 	switch v := value.(type) {
@@ -72,6 +100,10 @@ func setUint(field reflect.Value, value any, path string) error {
 }
 
 func setFloat(field reflect.Value, value any, path string) error {
+	// json.Number 直接按字面量解析，按字段位宽单次舍入，避免双重舍入丢精度
+	if n, ok := value.(json.Number); ok {
+		value = string(n)
+	}
 	// 按字段实际位宽解析，超出范围时返回错误而不是静默变 Inf 或丢失精度
 	bits := field.Type().Bits()
 	switch v := value.(type) {

@@ -1,19 +1,33 @@
 package jsonx
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"reflect"
 	"strings"
 )
 
 // ToStruct JSON转结构体
 func ToStruct(jsonStr string, target any) error {
+	// UseNumber 让数字保留为 json.Number 字面量，避免超过 2^53 的整数精度丢失
+	dec := json.NewDecoder(strings.NewReader(jsonStr))
+	dec.UseNumber()
+
 	// 将 JSON 解成 map[string]any
 	var raw map[string]any
-	if err := json.Unmarshal([]byte(jsonStr), &raw); err != nil {
+	if err := dec.Decode(&raw); err != nil {
 		return err
+	}
+
+	// 与 json.Unmarshal 保持一致：拒绝首个 JSON 值之后的尾随数据
+	if _, err := dec.Token(); err != io.EOF {
+		if err != nil {
+			return err
+		}
+		return fmt.Errorf("unexpected data after top-level JSON value: %w", ErrSyntax)
 	}
 
 	// 判断必须是指针
@@ -124,7 +138,10 @@ func assignValue(field reflect.Value, value any, path string) error {
 				return fmt.Errorf("%s: %w", path, err)
 			}
 			var m map[string]any
-			if err := json.Unmarshal(bs, &m); err != nil {
+			// 与 ToStruct 一致使用 UseNumber，保持数字精度
+			dec := json.NewDecoder(bytes.NewReader(bs))
+			dec.UseNumber()
+			if err := dec.Decode(&m); err != nil {
 				return fmt.Errorf("%s: %w", path, err)
 			}
 			subMap = m

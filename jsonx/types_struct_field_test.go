@@ -1,6 +1,7 @@
 package jsonx
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -58,10 +59,11 @@ func TestToStructAnyField(t *testing.T) {
 	err := ToStruct(`{"nil": null, "num": 1, "str": "x", "bool": true, "arr": [1, "a"], "obj": {"k": "v"}}`, &v)
 	require.NoError(t, err)
 	require.Nil(t, v.Nil)
-	require.Equal(t, float64(1), v.Num)
+	// UseNumber 后 any 字段中的数字保留为 json.Number 字面量
+	require.Equal(t, json.Number("1"), v.Num)
 	require.Equal(t, "x", v.Str)
 	require.Equal(t, true, v.Bool)
-	require.Equal(t, []any{float64(1), "a"}, v.Arr)
+	require.Equal(t, []any{json.Number("1"), "a"}, v.Arr)
 	require.Equal(t, map[string]any{"k": "v"}, v.Obj)
 }
 

@@ -118,3 +118,40 @@ func TestAssignValueInterfaceNotAssignable(t *testing.T) {
 	require.ErrorIs(t, err, ErrUnsupported)
 	require.Contains(t, err.Error(), "string 无法赋值给接口类型")
 }
+
+func TestSetIntInvalidNumberLiteral(t *testing.T) {
+	var i int8
+	f := reflect.ValueOf(&i).Elem()
+	// 含小数点的非法字面量走 float64 归一化，解析失败返回错误
+	err := setInt(f, json.Number("1.5x"), "v")
+	require.Error(t, err)
+	require.ErrorIs(t, err, ErrSyntax)
+	require.Contains(t, err.Error(), "v:")
+}
+
+func TestSetUintInvalidNumberLiteral(t *testing.T) {
+	var u uint
+	f := reflect.ValueOf(&u).Elem()
+	err := setUint(f, json.Number("1.5x"), "v")
+	require.Error(t, err)
+	require.ErrorIs(t, err, ErrSyntax)
+}
+
+func TestSetFloatFromFloat64(t *testing.T) {
+	// float64 值只能来自程序化调用（ToStruct 流中数字均为 json.Number），
+	// 直接赋值 float64 字段走 float64 分支
+	var fl float64
+	f := reflect.ValueOf(&fl).Elem()
+	err := setFloat(f, float64(2.25), "v")
+	require.NoError(t, err)
+	require.Equal(t, 2.25, fl)
+}
+
+func TestSetFloat32OverflowFromFloat64(t *testing.T) {
+	// float64 值窄化为 float32 时溢出应报错而不是静默变 Inf
+	var fl float32
+	f := reflect.ValueOf(&fl).Elem()
+	err := setFloat(f, float64(1e39), "v")
+	require.ErrorIs(t, err, ErrValOut)
+	require.Contains(t, err.Error(), "1e+39 超出 float32 范围")
+}

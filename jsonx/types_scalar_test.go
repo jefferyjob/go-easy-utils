@@ -1,6 +1,7 @@
 package jsonx
 
 import (
+	"math"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -184,7 +185,7 @@ func TestToStructIntOverflow(t *testing.T) {
 		var v s
 		err := ToStruct(`{"a": 300}`, &v)
 		require.ErrorIs(t, err, ErrValOut)
-		require.Contains(t, err.Error(), "300 超出 int8 范围")
+		require.Contains(t, err.Error(), `"300" 超出 int8 范围`)
 		require.Equal(t, int8(0), v.A)
 	})
 
@@ -252,8 +253,8 @@ func TestToStructUintOverflow(t *testing.T) {
 		}
 		var v s
 		err := ToStruct(`{"a": -1}`, &v)
-		require.ErrorIs(t, err, ErrValOut)
-		require.Contains(t, err.Error(), "-1 超出 uint 范围")
+		// 整数字面量按字符串解析，负号对 uint 是语法错误，与字符串来源一致
+		require.ErrorIs(t, err, ErrSyntax)
 		require.Equal(t, uint(0), v.A)
 	})
 
@@ -297,7 +298,7 @@ func TestToStructFloatOverflow(t *testing.T) {
 		var v s
 		err := ToStruct(`{"a": 1e39}`, &v)
 		require.ErrorIs(t, err, ErrValOut)
-		require.Contains(t, err.Error(), "1e+39 超出 float32 范围")
+		require.Contains(t, err.Error(), `"1e39" 超出 float32 范围`)
 	})
 
 	t.Run("字符串超出float32范围", func(t *testing.T) {
@@ -330,20 +331,71 @@ func TestToStructFloatOverflow(t *testing.T) {
 	})
 }
 
+func TestToStructBigNumberPrecision(t *testing.T) {
+	type s struct {
+		ID   int64   `json:"id"`
+		U    uint64  `json:"u"`
+		M    int64   `json:"m"`
+		Big  uint64  `json:"big"`
+		Exp  int     `json:"exp"`
+		UExp uint64  `json:"uexp"`
+		F    float64 `json:"f"`
+		IDs  []int64 `json:"ids"`
+	}
+
+	var v s
+	err := ToStruct(`{
+		"id": 9007199254740993,
+		"u": 18446744073709551615,
+		"m": -9223372036854775808,
+		"big": 18446744073709551616,
+		"exp": 1e2,
+		"uexp": 1e3,
+		"f": 3.14159265358979323846,
+		"ids": [9007199254740993, -9007199254740993]
+	}`, &v)
+	require.ErrorIs(t, err, ErrValOut) // big 超出 uint64 范围
+	// 出错即停止：出错字段之前的字段已填充，出错字段本身保持零值
+	require.Equal(t, int64(9007199254740993), v.ID)
+	require.Equal(t, uint64(18446744073709551615), v.U)
+	require.Equal(t, uint64(0), v.Big)
+
+	// 去掉溢出字段后，大数精度完整保留（不再经过 float64 舍入）
+	var w s
+	err = ToStruct(`{
+		"id": 9007199254740993,
+		"u": 18446744073709551615,
+		"m": -9223372036854775808,
+		"exp": 1e2,
+		"uexp": 1e3,
+		"f": 3.14159265358979323846,
+		"ids": [9007199254740993, -9007199254740993]
+	}`, &w)
+	require.NoError(t, err)
+	require.Equal(t, int64(9007199254740993), w.ID)
+	require.Equal(t, uint64(18446744073709551615), w.U)
+	require.Equal(t, int64(-9223372036854775808), w.M)
+	// 含指数的字面量按 float64 语义处理，与 UseNumber 之前行为一致
+	require.Equal(t, 100, w.Exp)
+	require.Equal(t, uint64(1000), w.UExp)
+	require.Equal(t, math.Pi, w.F)
+	require.Equal(t, []int64{9007199254740993, -9007199254740993}, w.IDs)
+}
+
 func TestToStructNullValues(t *testing.T) {
 	type inner struct {
 		X string `json:"x"`
 	}
 	type s struct {
-		Str    string    `json:"str"`
-		Num    int       `json:"num"`
-		Flt    float64   `json:"flt"`
-		Bl     bool      `json:"bl"`
-		Ptr    *string   `json:"ptr"`
-		PtrNum *int      `json:"ptrNum"`
-		Slice  []string  `json:"slice"`
+		Str    string            `json:"str"`
+		Num    int               `json:"num"`
+		Flt    float64           `json:"flt"`
+		Bl     bool              `json:"bl"`
+		Ptr    *string           `json:"ptr"`
+		PtrNum *int              `json:"ptrNum"`
+		Slice  []string          `json:"slice"`
 		M      map[string]string `json:"m"`
-		Nested *inner    `json:"nested"`
+		Nested *inner            `json:"nested"`
 	}
 
 	var v s
